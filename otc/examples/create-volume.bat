@@ -1,1 +1,0 @@
-..\bin\otc ecs create-volume  --count 1 --volume-name myvolume  --size 100 --volume-type SATA

@@ -1,1 +1,0 @@
-..\bin\otc ecs create-key-pair --key-name aaaaa 

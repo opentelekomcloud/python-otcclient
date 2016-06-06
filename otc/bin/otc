@@ -1,2 +1,0 @@
-#!/bin/bash
-java -cp "../lib/otc-0.0.1-SNAPSHOT.jar:../lib/*" com.tsystems.otc.OtcMain "$@"

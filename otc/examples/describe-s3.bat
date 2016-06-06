@@ -1,3 +1,0 @@
-..\bin\otc s3 ls 
-..\bin\otc s3 ls mybucket
-..\bin\otc s3 ls mybucket/directory

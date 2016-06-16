@@ -1,0 +1,1 @@
+../bin/otc ecs create-snapshot  --volume-id b197b8af-fe63-465f-97b6-5e5b89e2818d

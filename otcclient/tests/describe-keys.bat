@@ -1,0 +1,1 @@
+..\bin\otc ecs describe-key-pairs

@@ -1,3 +1,0 @@
-[console_scripts]
-otc = otcclient.shell:main
-

@@ -22,7 +22,7 @@ __version__ = 0.1
 __date__ = '2016-06-13'
 __updated__ = '2016-06-13'
 
-DEBUG = 1
+DEBUG = 0
 TESTRUN = 0
 PROFILE = 0
 parser = ArgumentParser(prog='otc' ,  formatter_class=RawTextHelpFormatter ) 
@@ -58,7 +58,7 @@ def main(argv=None): # IGNORE:C0111
 # 
 #   Created by NZS on %s.
 #   Copyright 2016 T-systems(c). All rights reserved.
-#   Licensed under the AGPL
+#   Licensed under the MIT
 #   
 # USAGE
 # ''' % (program_shortdesc, str(__date__))

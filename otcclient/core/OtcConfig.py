@@ -86,9 +86,9 @@ class OtcConfig(object):
     VPCID = None
     CIDR = None
     DIRECTION = str()
-    PORTMIN = str()
+    PORTMIN = None
     ETHERTYPE = str()
-    PORTMAX = str()
+    PORTMAX = None
     PROTOCOL = str()
     SECUGROUP = None
     IMAGE_ID = str()
@@ -165,9 +165,9 @@ class OtcConfig(object):
         self.VPCID = parser.VPCID                                               if parser.VPCID else None
         self.CIDR = parser.CIDR                                                  if parser.CIDR else str()
         self.DIRECTION = parser.DIRECTION                                       if parser.DIRECTION else str()
-        self.PORTMIN = parser.PORTMIN                                           if parser.PORTMIN else str()
+        self.PORTMIN = parser.PORTMIN                                           if parser.PORTMIN else None
         self.ETHERTYPE = parser.ETHERTYPE                                       if parser.ETHERTYPE else str()
-        self.PORTMAX = parser.PORTMAX                                           if parser.PORTMAX else str()
+        self.PORTMAX = parser.PORTMAX                                           if parser.PORTMAX else None
         self.PROTOCOL = parser.PROTOCOL                                         if parser.PROTOCOL else str()
         self.SECUGROUP = parser.SECUGROUP                                       if parser.SECUGROUP else None
         self.IMAGE_ID = parser.IMAGE_ID                                         if parser.IMAGE_ID else str()

@@ -145,7 +145,7 @@ def main(argv=None): # IGNORE:C0111
     except (KeyError,AttributeError), e:
         print "Invalid command:" + e.message
         parser.print_help(); 
-        raise
+        #raise
         ### handle keyboard interrupt ###
         return 0
     except ( Exception ) as e:

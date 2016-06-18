@@ -1,1 +1,0 @@
-..\bin\otc ecs describe-flavors --query $.flavors

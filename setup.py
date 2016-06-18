@@ -31,12 +31,12 @@ setup(name='otcclient',
 			   'otcclient.tests': ['*']  #All text files from folder B
 			   },
 			# package_dir={'': 'otcclient'},
-			keywords="otc, openstack, huawei, cloud, devops, t-systems, s3, containers,",
+			keywords="otc, openstack, huawei, cloud, devops, t-systems, s3, obs, containers, docker, rds",
 			classifiers=[
 				"Development Status :: 6 - Mature",
 				"Intended Audience :: Developers",
 				"Intended Audience :: Science/Research",
-				"License :: OSI Approved :: Apache Software License",
+				"License :: OSI Approved :: MIT License",
 				"Programming Language :: Python",
 				"Topic :: Software Development :: Libraries :: Python Modules"
 			],

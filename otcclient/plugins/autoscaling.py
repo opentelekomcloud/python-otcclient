@@ -15,7 +15,7 @@ from time import sleep
 import sys
 import json
     
-class ecs(otcpluginbase):
+class autoscaling(otcpluginbase):
     ar = {}    
     
     @staticmethod
@@ -29,8 +29,8 @@ class ecs(otcpluginbase):
     def delete_launch_configuration():
         raise RuntimeError("NOT IMPLEMENTED!")
         if not (OtcConfig.PUBLICIP is None):
-            ecs.convertPublicIpNameToId()            
-        url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/publicips" + \
+            autoscaling.convertPublicIpNameToId()            
+        url = autoscaling.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/publicips" + \
         "/" + OtcConfig.PUBLICIPID
         ret = utils_http.delete(url)
         print ret

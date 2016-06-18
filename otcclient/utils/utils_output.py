@@ -4,12 +4,15 @@
 # Copyright (C) 2016 T-systems Kurt Garloff, Zsolt Nagy
 
 import json
-import prettytable 
-from objectpath import Tree 
-from objectpath.core import generator, chain
+import prettytable
+import jmespath
+ 
+#from objectpath import Tree 
+#from objectpath.core import generator, chain
 
  
 import sys
+import collections
 
 def defaultprettytable( cols ):    
     p = prettytable.PrettyTable(cols)
@@ -48,18 +51,14 @@ def printLevel2(respjson, outformat, mainkey, listkey, subkey=None):
 
 def handleQuery(result, query):
     parsed = json.loads(result)
-    objp = Tree(parsed)
-    path = objp.execute(query)
-    TYPES=[generator,chain]
-    if sys.version_info.major>2:
-        TYPES+=[map]
-
-    TYPES=tuple(TYPES)    
-    if isinstance(path, TYPES):
-        for object_ in path:
+    sr = jmespath.search(query, parsed)    
+    if isinstance(sr, list):
+        for object_ in sr:
             print object_
     else:        
-        print path
+        print sr
+    
+    
 
 def printJsonTableTransverse(jsonval, outformat, mainkey):    
     parsed = json.loads(jsonval)

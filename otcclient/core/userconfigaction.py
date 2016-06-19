@@ -39,27 +39,29 @@ class userconfigaction(argparse.Action):
 #            print '  %s = %r' % (name, value)
         return
 
-    def __call__(self, parser, namespace, values, option_string=None):        
+    def __call__(self, parser, namespace, values, option_string=None):
+        OtcConfig.MAINCOM = "user"        
         if isinstance(values, list):
-            values = [ v.upper() for v in values ]
-            print values
-        else:
+            values = [ v.lower() for v in values ]
+            OtcConfig.MAINCOM = values
+        elif values:
             values = values.lower()
+            OtcConfig.MAINCOM = values
             print values
-        OtcConfig.MAINCOM = values
+        
         try:                        
             if OtcConfig.MAINCOM == "user":
                 userconfigaction.reSetUserValues()
                 print "configure exit"
-                exit( 1 )        
+                exit( 0 )        
                 
-            if str(OtcConfig.MAINCOM) == "configure-proxy".upper():
+            if OtcConfig.MAINCOM == "configure-proxy".upper():
                 userconfigaction.reSetProxyValues()
                 exit(0)
-
+                
             
         except Exception :
-            print "Configuration file error. \nPlease run following command: \n    otc configure "
+            print "Configuration file error. \nPlease run following command: \n    otc --configure [user | proxy]"
             raise
             exit(1)        
 
@@ -81,7 +83,10 @@ class userconfigaction(argparse.Action):
 
     @staticmethod
     def reSetUserValues():
-        configloader.readUserValues()
+        try:
+            configloader.readUserValues()
+        except Exception, e:
+            print "No Configuration exists! Message:" +  e.message
         userconfigaction.getAuthKeys()
         configloader.persistUserValues()
         
@@ -97,17 +102,21 @@ class userconfigaction(argparse.Action):
         val = None
         while True:        
             try:
-
+                try:
+                    input = raw_input  # @ReservedAssignment
+                except NameError:
+                    pass
                 val = input(title)
                 #  tries to get data. Goes to catch if
-                #  invalid data
-                if val != None and len((val) == length or length <= 0):
+                #  invalid data            
+                
+                if ( (not (val is None) and len(val) == length) or length <= 0):
                     validData = True
                     #  if gets data successfully, sets boolean
                     #  to true
                 else:
                     raise ValueError()
-            except Exception :
+            except Exception:
                 #  executes when this exception occurs
                 print "Input has to be a correct. "
             if not ((validData == False)):

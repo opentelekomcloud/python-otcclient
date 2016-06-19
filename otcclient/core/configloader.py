@@ -9,7 +9,6 @@ from  otcclient.core.OtcConfig import OtcConfig
 import os
 from ConfigParser import NoSectionError
 from otcclient.core.pluginmanager import getplugin
-
  
 class configloader(object):
     """
@@ -17,14 +16,12 @@ class configloader(object):
     """
     @staticmethod
     def loadOtcConfig(jsonFileName):
-        """ generated source for method loadOtcConfig """
         Config = ConfigParser.ConfigParser()
         Config.read(jsonFileName)
         return Config
 
     @staticmethod
     def readProxyValues():
-        """ generated source for method readProxyValues """
         try:            
             Config = ConfigParser.ConfigParser()
             Config.read(OtcConfig.OTC_PROXY_FILE)
@@ -36,8 +33,7 @@ class configloader(object):
             """ No proxy defined"""
  
     @staticmethod
-    def readUserValues():
-        """ generated source for method readuservalues """
+    def readUserValues():                
         OtcConfig.USERNAME = os.getenv("OS_USERNAME", None)
         OtcConfig.PASSWORD = os.getenv("OS_PASSWORD", None)
         OtcConfig.DOMAIN = os.getenv("OS_USER_DOMAIN_NAME", None)
@@ -68,8 +64,6 @@ class configloader(object):
 
     @staticmethod
     def persistProxyValues():
-        """ generated source for method persistProxyValues """
-        
         cfgfile = open(OtcConfig.OTC_PROXY_FILE, 'w')
         Config = ConfigParser.ConfigParser()
         # add the settings to the structure of the file, and lets write it out...
@@ -87,8 +81,6 @@ class configloader(object):
 
     @staticmethod
     def persistUserValues():
-        """ generated source for method persistUserValues """
-
         cfgfile = open(OtcConfig.OTC_PROXY_FILE, 'w')
         Config = ConfigParser.ConfigParser()
         # add the settings to the structure of the file, and lets write it out...
@@ -106,7 +98,6 @@ class configloader(object):
                 
     @staticmethod
     def validateConfig():
-        """ generated source for method validateConfig """
         if OtcConfig.USERNAME != None and len(OtcConfig.USERNAME) == 32 and OtcConfig.PASSWORD != None and len(OtcConfig.PASSWORD) == 32 and OtcConfig.DOMAIN != None and len(OtcConfig.DOMAIN) == 23:
             getplugin("ecs").getIamToken()
             #cls.otcServiceCalls.getIamToken()

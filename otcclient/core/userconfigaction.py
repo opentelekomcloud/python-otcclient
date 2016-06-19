@@ -6,7 +6,8 @@
 
 import argparse
 from configloader import  configloader
-from OtcConfig import OtcConfig
+from  otcclient.core.OtcConfig import OtcConfig
+
 
 class userconfigaction(argparse.Action):
     
@@ -75,7 +76,7 @@ class userconfigaction(argparse.Action):
     def getAuthKeys():
         OtcConfig.USERNAME = userconfigaction.getUserTypedValue("Enter a Username:", 32)
         OtcConfig.PASSWORD = userconfigaction.getUserTypedValue("Enter a API Key:", 32)
-        OtcConfig.DOMAIN = OtcConfig.USERNAME.split(str=" ")[1]
+        OtcConfig.DOMAIN = OtcConfig.USERNAME.split(' ')[1]
         #  OtcConfig.PROJECT_ID = getUserTypedValue("Enter a Project ID:", 32);
         OtcConfig.ak = userconfigaction.getUserTypedValue("Enter a Access Key:", -1)
         OtcConfig.sk = userconfigaction.getUserTypedValue("Enter a Secret Key:", -1)

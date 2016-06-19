@@ -42,10 +42,13 @@ class configloader(object):
         OtcConfig.PROJECT_ID = os.getenv("PROJECT_ID", None)
 
         Config = ConfigParser.ConfigParser()
+        
         Config.read(OtcConfig.OTC_USER_FILE) 
-                            
+        
         if(OtcConfig.USERNAME is None):
             OtcConfig.USERNAME = Config.get("otc", "username") 
+            #OtcConfig.USERNAME = conf["DEFAULT"]["username"]
+            #print OtcConfig.USERNAME
 
         if(OtcConfig.PASSWORD is None):
             OtcConfig.PASSWORD = Config.get("otc", "apikey") 
@@ -81,7 +84,7 @@ class configloader(object):
 
     @staticmethod
     def persistUserValues():
-        cfgfile = open(OtcConfig.OTC_PROXY_FILE, 'w')
+        cfgfile = open(OtcConfig.OTC_USER_FILE, 'w+')
         Config = ConfigParser.ConfigParser()
         # add the settings to the structure of the file, and lets write it out...
         Config.add_section('otc')
@@ -90,7 +93,8 @@ class configloader(object):
         Config.set('otc', "username", OtcConfig.USERNAME)
         Config.set('otc', "apikey", OtcConfig.PASSWORD)
         try:
-            os.makedirs(OtcConfig.OTC_USER_DIR)
+            if not os.path.exists(OtcConfig.OTC_USER_DIR):
+                os.makedirs(OtcConfig.OTC_USER_DIR)
             Config.write(cfgfile)
         except Exception as e:
             print("Error during save keys/date pairs", e)

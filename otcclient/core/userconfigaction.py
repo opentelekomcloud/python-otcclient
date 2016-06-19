@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 # This file is part of OTC Tool released under MIT license.
-# Copyright (C) 2016 T-systems Kurt Garloff, Zsolt Nagy
+# Copyright (C) 2016 T-systems Kurt Gasrloff, Zsolt Nagy
 
 import argparse
 from otcclient.core.configloader import  configloader
 from  otcclient.core.OtcConfig import OtcConfig
-
+import sys
 
 class userconfigaction(argparse.Action):
     
@@ -103,11 +103,12 @@ class userconfigaction(argparse.Action):
         val = None
         while True:        
             try:
-                try:
-                    input = raw_input  # @ReservedAssignment
-                except NameError:
-                    pass
-                val = input(title)
+                
+                if sys.version_info < (3, 0):
+                    val = raw_input(title)
+                else:
+                    from builtins import input
+                    val = eval(input(title))
                 #  tries to get data. Goes to catch if
                 #  invalid data            
                 
@@ -116,10 +117,11 @@ class userconfigaction(argparse.Action):
                     #  if gets data successfully, sets boolean
                     #  to true
                 else:
+                    print ( "ValueError custom exception")
                     raise ValueError()
             except Exception:
                 #  executes when this exception occurs
-                print("Input has to be a correct. ")
+                print("Input has to be a correct. ")                
             if not ((validData == False)):
                 break
         #  loops until validData is true

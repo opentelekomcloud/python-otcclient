@@ -21,7 +21,7 @@ class table(otcpluginbase):
         listkey = kwargs.get('listkey', None)        
         
         if mainkey is None and listkey is None:
-            print respjson
+            print (respjson)
             raise "Output error!"
         if not (OtcConfig.QUERY is None):
             utils_output.handleQuery(respjson, OtcConfig.QUERY)

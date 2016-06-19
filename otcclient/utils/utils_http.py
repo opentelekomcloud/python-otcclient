@@ -13,7 +13,7 @@ def delete( requestUrl):
         response = httpcall(requestUrl,delete=True)                               
         ret = response.text
     except Exception as e:
-        print e
+        print (str(e))
     finally:
         pass        
     return ret
@@ -27,7 +27,7 @@ def get( requestUrl):
             OtcConfig.TOKEN = response.headers.get("X-Subject-Token")            
         ret = response.text
     except Exception as e:
-        print e
+        print (str(e))
     finally:
         pass
     return ret
@@ -41,7 +41,7 @@ def post( requestUrl, postbody):
             OtcConfig.TOKEN = response.headers.get("X-Subject-Token")            
         ret = response.text
     except Exception as e:
-        print e
+        print (str(e))
     finally:
         pass
     return ret

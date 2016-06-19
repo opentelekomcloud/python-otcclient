@@ -5,7 +5,7 @@
 # Copyright (C) 2016 T-systems Kurt Garloff, Zsolt Nagy
 
 import argparse
-from configloader import  configloader
+from otcclient.core.configloader import  configloader
 from  otcclient.core.OtcConfig import OtcConfig
 
 
@@ -48,12 +48,12 @@ class userconfigaction(argparse.Action):
         elif values:
             values = values.lower()
             OtcConfig.MAINCOM = values
-            print values
+            #print values
         
         try:                        
             if OtcConfig.MAINCOM == "user":
                 userconfigaction.reSetUserValues()
-                print "configure exit"
+                print("configure done")
                 exit( 0 )        
                 
             if OtcConfig.MAINCOM == "configure-proxy".upper():
@@ -62,7 +62,7 @@ class userconfigaction(argparse.Action):
                 
             
         except Exception :
-            print "Configuration file error. \nPlease run following command: \n    otc --configure [user | proxy]"
+            print("Configuration file error. \nPlease run following command: \n    otc --configure [user | proxy]")
             raise
             exit(1)        
 
@@ -86,8 +86,8 @@ class userconfigaction(argparse.Action):
     def reSetUserValues():
         try:
             configloader.readUserValues()
-        except Exception, e:
-            print "No Configuration exists! Message:" +  e.message
+        except Exception as e:
+            print("No Configuration exists! Message:" +  e.message)
         userconfigaction.getAuthKeys()
         configloader.persistUserValues()
         
@@ -119,7 +119,7 @@ class userconfigaction(argparse.Action):
                     raise ValueError()
             except Exception:
                 #  executes when this exception occurs
-                print "Input has to be a correct. "
+                print("Input has to be a correct. ")
             if not ((validData == False)):
                 break
         #  loops until validData is true

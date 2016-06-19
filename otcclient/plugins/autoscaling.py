@@ -33,7 +33,7 @@ class autoscaling(otcpluginbase):
         url = autoscaling.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/publicips" + \
         "/" + OtcConfig.PUBLICIPID
         ret = utils_http.delete(url)
-        print ret
+        print(ret)
     
               
     @staticmethod

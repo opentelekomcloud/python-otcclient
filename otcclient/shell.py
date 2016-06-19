@@ -12,15 +12,16 @@ otcclient.otcclient -- Client Tool for Open Telecom Cloud
 import sys
 import os
 from argparse import ArgumentParser, RawTextHelpFormatter
-from core.userconfigaction import userconfigaction
-from core.configloader import configloader
-from core.OtcConfig import OtcConfig
-from core.pluginmanager import getFunc       
+
+from otcclient.core.userconfigaction import userconfigaction
+from otcclient.core.configloader import configloader
+from otcclient.core.OtcConfig import OtcConfig
+from otcclient.core.pluginmanager import getFunc       
 
 __all__ = []
-__version__ = 0.1
-__date__ = '2016-06-13'
-__updated__ = '2016-06-13'
+__version__ = 0.2
+__date__ = '2016-06-19'
+__updated__ = '2016-06-19'
 
 DEBUG = 0
 TESTRUN = 0
@@ -138,12 +139,13 @@ def main(argv=None): # IGNORE:C0111
         handleCommands(argv)
         
         return 0
-    except KeyboardInterrupt,e:
-        print "KeyboardInterrupt" +  str(e)
+    except KeyboardInterrupt as e:
+        print("KeyboardInterrupt" +  str(e))
         ### handle keyboard interrupt ###
         return 0
-    except (KeyError,AttributeError), e:
-        print "Invalid command:" + e.message
+    except (KeyError,AttributeError) as e:
+        #errno, strerror = e.args
+        print("Invalid command:" + str(e))
         parser.print_help(); 
         #raise
         ### handle keyboard interrupt ###
@@ -158,7 +160,7 @@ def main(argv=None): # IGNORE:C0111
         sys.stderr.write(indent + "  for help use --help")
         return 2
     except :
-        print "Other exception"  + "Unexpected error:", sys.exc_info()[0]
+        print("Other exception"  + "Unexpected error:", sys.exc_info()[0])
 
 if __name__ == "__main__":
     main()

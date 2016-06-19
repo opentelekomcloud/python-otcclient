@@ -4,10 +4,17 @@
 # This file is part of OTC Tool released under MIT license.
 # Copyright (C) 2016 T-systems Kurt Garloff, Zsolt Nagy
 
-import ConfigParser
+import sys
+if sys.version_info >= (3, 0):
+    import configparser as ConfigParser
+    from configparser import NoSectionError 
+else:    
+    import ConfigParser
+    from ConfigParser import NoSectionError
+    
 from  otcclient.core.OtcConfig import OtcConfig
 import os
-from ConfigParser import NoSectionError
+
 from otcclient.core.pluginmanager import getplugin
  
 class configloader(object):
@@ -47,8 +54,6 @@ class configloader(object):
         
         if(OtcConfig.USERNAME is None):
             OtcConfig.USERNAME = Config.get("otc", "username") 
-            #OtcConfig.USERNAME = conf["DEFAULT"]["username"]
-            #print OtcConfig.USERNAME
 
         if(OtcConfig.PASSWORD is None):
             OtcConfig.PASSWORD = Config.get("otc", "apikey") 
@@ -106,7 +111,7 @@ class configloader(object):
             getplugin("ecs").getIamToken()
             #cls.otcServiceCalls.getIamToken()
         elif OtcConfig.ak != None and len(OtcConfig.ak) == 32 and OtcConfig.sk != None and len(OtcConfig.sk) == 32:
-            print "TODO: ERROR NOT IMPLEMENTED !!!"
+            raise RuntimeError("TODO: ERROR NOT IMPLEMENTED !!!")
         else:
             raise ValueError()
 

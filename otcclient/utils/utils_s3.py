@@ -29,7 +29,7 @@ def ls_buckets():
     try:           
         buckets = s3client.list_buckets()["Buckets"]    
     except ClientError as e:
-        print e.message
+        print (str(e))
     return buckets
     
 
@@ -39,7 +39,7 @@ def ls_bucket(Bucket = None, Prefix = None):
     try:                                   
         result = s3client.list_objects(Bucket=Bucket, Prefix=Prefix)["Contents"]
     except ClientError as e:
-        print e.message
+        print (str(e))
     return result
         
 
@@ -72,16 +72,16 @@ def upload_dir(client, dist, local='/tmp', bucket='your_bucket'):
             s3_path = os.path.join(dist, relative_path)
         
             # relative_path = os.path.relpath(os.path.join(root, filename))    
-            print 'Searching "%s" in "%s"' % (s3_path, bucket)
+            print ('Searching "%s" in "%s"' % (s3_path, bucket))
             try:
                 client.head_object(Bucket=bucket, Key=s3_path)
-                print "Path found on S3! Skipping %s..." % s3_path    
+                print ("Path found on S3! Skipping %s..." % s3_path)    
                 # try:
                     # client.delete_object(Bucket=bucket, Key=s3_path)
                 # except:
-                    # print "Unable to delete %s..." % s3_path
+                    # print ("Unable to delete %s..." % s3_path)
             except:
-                print "Uploading %s..." % s3_path
+                print ("Uploading %s..." % s3_path)
                 client.upload_file(local_path, bucket, s3_path)    
     
 def create_bucket(Bucket = None, Prefix = None):
@@ -98,7 +98,7 @@ def delete_object(Bucket = None, Prefix = None):
     s3client = s3init()    
     bucket = s3client.Bucket(Bucket)
     for obj in bucket.objects.filter(Prefix=Prefix):
-        print s3client.Object(bucket.name, obj.key).etag[1 :-1]
+        print (s3client.Object(bucket.name, obj.key).etag[1 :-1])
         s3client.Object(bucket.name, obj.key).delete()
     
 def upload_file(File=None,Bucket = None, Prefix = None):

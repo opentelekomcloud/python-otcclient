@@ -7,13 +7,6 @@ import json
 import prettytable
 import jmespath
  
-#from objectpath import Tree 
-#from objectpath.core import generator, chain
-
- 
-import sys
-import collections
-
 def defaultprettytable( cols ):    
     p = prettytable.PrettyTable(cols)
     p.align = 'l'
@@ -27,7 +20,7 @@ def printLevel2(respjson, outformat, mainkey, listkey, subkey=None):
         parsed = json.loads(respjson)
     p=defaultprettytable(listkey)
     if(outformat.startswith("json")) :            
-        print json.dumps(parsed, indent=4, sort_keys=True) 
+        print (json.dumps(parsed, indent=4, sort_keys=True)) 
     else: 
         if(outformat.startswith("text")) :                        
             p.set_style(prettytable.PLAIN_COLUMNS)    
@@ -47,28 +40,28 @@ def printLevel2(respjson, outformat, mainkey, listkey, subkey=None):
                 else:
                     vals.append(" ")
             p.add_row(vals)                
-        print p.get_string()
+        print (p.get_string())
 
 def handleQuery(result, query):
     parsed = json.loads(result)
     sr = jmespath.search(query, parsed)    
     if isinstance(sr, list):
         for object_ in sr:
-            print object_
+            print (object_)
     else:        
-        print sr
+        print (sr)
     
     
 
 def printJsonTableTransverse(jsonval, outformat, mainkey):    
     parsed = json.loads(jsonval)
     if(outformat.startswith("json")) :            
-        print json.dumps(parsed, indent=4, sort_keys=True) 
+        print (json.dumps(parsed, indent=4, sort_keys=True)) 
     else: 
         if(outformat.startswith("text")) :                        
             x.set_style(prettytable.PLAIN_COLUMNS)    
         id_generator(parsed[mainkey], "")    
-        print x.get_string()
+        print (x.get_string())
 
 def id_generator(parsed, headkey):
     for k, v in parsed.items():

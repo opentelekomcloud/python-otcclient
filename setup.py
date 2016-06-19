@@ -17,7 +17,7 @@ long_description = (
     '********\n'
     )
 
-setup(name='otcclient',
+setup(name='python-otcclient',
 			version=read('VER').strip(),
 			description='Open Telecom Client Tool',
 			long_description=long_description,

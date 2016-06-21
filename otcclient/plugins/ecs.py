@@ -234,31 +234,35 @@ class ecs(otcpluginbase):
 
     @staticmethod
     def ECSAction():
-        """ generated source for method ECSAction """        
+        if not OtcConfig.INSTANCE_NAME is None:
+            ecs.convertINSTANCENameToId() 
+        
+        if OtcConfig.INSTANCE_ID is None :
+            raise RuntimeError( "Error. Must be specify the Instance ID!")
+        
         REQ_ECS_ACTION_VM = "{ " + "    \"" + OtcConfig.ECSACTION + "\": " + "    { " + "     \"type\":\"" + OtcConfig.ECSACTIONTYPE + "\", " + "     \"servers\": [ { \"id\": \"" + OtcConfig.INSTANCE_ID + "\" }] " + "     } " + "}"
         url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers/action"
         ret = utils_http.post(url, REQ_ECS_ACTION_VM)
+        print ret
         return ret
 
 
     @staticmethod
     def start_instances():
         OtcConfig.ECSACTION = "os-stop"
-        if OtcConfig.INSTANCE_ID is None :
-            raise "Error. Must be specify the Instance ID!"
         ecs.ECSAction()
 
     @staticmethod
     def stop_instances():
         OtcConfig.ECSACTION = "os-stop"
-        if OtcConfig.INSTANCE_ID is None :
-            raise "Error. Must be specify the Instance ID!"
         ecs.ECSAction()
 
     @staticmethod
     def delete_instances():
         if not OtcConfig.INSTANCE_NAME is None:
             ecs.convertINSTANCENameToId() 
+        if OtcConfig.INSTANCE_ID is None :
+            raise RuntimeError( "Error. Must be specify the Instance ID!")
 
         REQ_ECS_DELETE_VM = "{ \"servers\": [ { \"id\": \"" + OtcConfig.INSTANCE_ID + "\" } ]," + " \"delete_publicip\": \"" + OtcConfig.DELETE_PUBLICIP + "\", \"delete_volume\": \"" + OtcConfig.DELETE_VOLUME + "\" }"
         url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers" + "/delete"
@@ -432,6 +436,7 @@ class ecs(otcpluginbase):
         JSON = utils_http.get(url)        
         parsed  = json.loads(JSON)
         flavors = parsed["flavors"]
+        ret = None
         for flavor in flavors:
             if flavor.get("name") == OtcConfig.INSTANCE_TYPE_NAME:
                 ret = flavor["id"]
@@ -443,6 +448,7 @@ class ecs(otcpluginbase):
         JSON = utils_http.get(url)        
         parsed  = json.loads(JSON)
         publicips = parsed["publicips"]
+        ret = None
         for publicip in publicips:
             if publicip.get("public_ip_address") == OtcConfig.PUBLICIP:
                 ret = publicip["id"]
@@ -454,6 +460,7 @@ class ecs(otcpluginbase):
         JSON = utils_http.get(url)        
         parsed  = json.loads(JSON)
         vpcs = parsed["vpcs"]
+        ret = None
         for vpc in vpcs:
             if vpc.get("name") == OtcConfig.VPCNAME:
                 ret = vpc["id"]
@@ -477,6 +484,7 @@ class ecs(otcpluginbase):
         JSON = utils_http.get(url)
         parsed  = json.loads(JSON)
         images = parsed["images"]
+        ret = None
         for image in images:
             if image.get("name") == OtcConfig.IMAGENAME:
                 ret = image["id"]
@@ -489,6 +497,7 @@ class ecs(otcpluginbase):
         parsed  = json.loads(JSON)
         servers = parsed["servers"]
 
+        ret = None
         for server in servers:
             if server.get("name") == OtcConfig.INSTANCE_NAME:
                 ret = server["id"]

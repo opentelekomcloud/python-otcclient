@@ -108,7 +108,7 @@ class userconfigaction(argparse.Action):
                     val = raw_input(title)
                 else:
                     from builtins import input
-                    val = eval(input(title))
+                    val = input(title)
                 #  tries to get data. Goes to catch if
                 #  invalid data            
                 

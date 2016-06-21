@@ -8,6 +8,7 @@ import argparse
 from otcclient.core.configloader import  configloader
 from  otcclient.core.OtcConfig import OtcConfig
 import sys
+import os
 
 class userconfigaction(argparse.Action):
     
@@ -54,17 +55,17 @@ class userconfigaction(argparse.Action):
             if OtcConfig.MAINCOM == "user":
                 userconfigaction.reSetUserValues()
                 print("configure done")
-                exit( 0 )        
+                os._exit( 0 )        
                 
             if OtcConfig.MAINCOM == "configure-proxy".upper():
                 userconfigaction.reSetProxyValues()
-                exit(0)
+                os._exit(0)
                 
             
         except Exception :
             print("Configuration file error. \nPlease run following command: \n    otc --configure [user | proxy]")
-            raise
-            exit(1)        
+            #raise
+            os._exit(1)        
 
     @classmethod
     def getProxyKeys(cls):        

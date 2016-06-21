@@ -14,6 +14,7 @@ import base64
 from time import sleep
 import sys
 import json
+import os
     
 class ecs(otcpluginbase):
     ar = {}    
@@ -40,7 +41,7 @@ class ecs(otcpluginbase):
             maindata = json.loads(ret)
             if "itemNotFound" in  maindata:
                 raise RuntimeError("Not found!") 
-                exit( 1 )             
+                os._exit( 1 )             
             ecs.otcOutputHandler().print_output(ret,mainkey="server") 
         return ret
 
@@ -133,7 +134,7 @@ class ecs(otcpluginbase):
         maindata = json.loads(ret)
         if "code" in  maindata:            
             print("Can not create:" +maindata["message"])  
-            exit( 1 )             
+            os._exit( 1 )             
                             
         ecs.otcOutputHandler().print_output(ret, mainkey="publicip")
         return ret
@@ -262,6 +263,7 @@ class ecs(otcpluginbase):
         REQ_ECS_DELETE_VM = "{ \"servers\": [ { \"id\": \"" + OtcConfig.INSTANCE_ID + "\" } ]," + " \"delete_publicip\": \"" + OtcConfig.DELETE_PUBLICIP + "\", \"delete_volume\": \"" + OtcConfig.DELETE_VOLUME + "\" }"
         url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers" + "/delete"
         ret = utils_http.post(url, REQ_ECS_DELETE_VM)
+        print ret
         return ret
 
     @staticmethod
@@ -363,23 +365,23 @@ class ecs(otcpluginbase):
         if OtcConfig.IMAGE_ID is None:
             print("Image definition not Correct ! Check images:")
             print("otc ecs describe-images")
-            exit(1)
+            os._exit(1)
         if OtcConfig.INSTANCE_TYPE is None:
             print("Instance Type definition not Correct ! Check flavors:")
             print("otc ecs describe-flavors")
-            exit(1)
+            os._exit(1)
         if OtcConfig.VPCID is None:
             print("VPC definition not Correct ! Check VPCs:")
             print("otc ecs describe-vpcs")
-            exit(1)
+            os._exit(1)
         if OtcConfig.SECUGROUP is None:
             print("Security Group definition not Correct ! Check security groups:")
             print("otc ecs describe-security-groups")
-            exit(1)
+            os._exit(1)
         if OtcConfig.SUBNETID is None:       
             print("Subnet definition not Correct ! Check subnets:")
             print("otc ecs describe-subnets")
-            exit(1)
+            os._exit(1)
                             
         PUBLICIPJSON = ""
         if OtcConfig.CREATE_ECS_WITH_PUBLIC_IP == "true":
@@ -402,7 +404,7 @@ class ecs(otcpluginbase):
                 #sys.stdout.flush()
         
         if "SUCCESS" == OtcConfig.ECSCREATEJOBSTATUS:
-            exit(1)
+            os._exit(1)
             
         print("ECS Creation status: " + OtcConfig.ECSCREATEJOBSTATUS)
         return ret

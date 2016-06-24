@@ -23,7 +23,7 @@ __version__ = 0.2
 __date__ = '2016-06-19'
 __updated__ = '2016-06-19'
 
-DEBUG = 0
+DEBUG = 1
 TESTRUN = 0
 PROFILE = 0
 parser = ArgumentParser(prog='otc' ,  formatter_class=RawTextHelpFormatter ) 
@@ -80,6 +80,15 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--admin-pass", dest="ADMINPASS", help="Admin password of the started VM")
         parser.add_argument( "--instance-name", dest="INSTANCE_NAME", help="Instance name of the VM")
         parser.add_argument( "--instance-ids", dest="INSTANCE_ID", help="Instance Id of the VM")
+
+        parser.add_argument( "--load-balancer-name", dest="LOADBALANCER_NAME", help="Loadbalancer name of the VM")
+        parser.add_argument( "--load-balancer-id", dest="LOADBALANCER_ID", help="Loadbalancer Id of the VM")
+        parser.add_argument( "--listener-name", dest="LISTENER_NAME", help="Listener name of the VM")
+        parser.add_argument( "--listener-id", dest="LISTENER_ID", help="Listener Id of the VM")
+        parser.add_argument( "--alarm-name", dest="ALARM_NAME", help="Alarm name")
+        parser.add_argument( "--alarm-id", dest="ALARM_ID", help="Alarm Id ")
+        
+        
         parser.add_argument( "--volume-id", dest="VOLUME_ID", help="Volume Id of the EVS volume")
         parser.add_argument( "--attachment-id", dest="ATTACHMENT_ID", help="Attachment Id of the EVS volume")
         parser.add_argument( "--device", dest="EVS_DEVICE", help="Device of the EVS volume")

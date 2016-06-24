@@ -1,1 +1,0 @@
-..\bin\otc ecs associate-address --public-ip 46.29.96.246 --network-interface-id b197b8af-fe63-465f-97b6-5e5b89exxx

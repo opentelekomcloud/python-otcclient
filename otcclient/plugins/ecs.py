@@ -62,6 +62,36 @@ class ecs(otcpluginbase):
         ecs.otcOutputHandler().print_output(ret, mainkey="publicips", listkey={"id", "status", "public_ip_address", "private_ip_address", "type", "create_time", "bandwidth_size"})
         return ret
 
+    @staticmethod 
+    def describe_bandwiths():
+        url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/bandwidths"        
+        ret = utils_http.get(url)
+        ecs.otcOutputHandler().print_output(ret, mainkey="bandwidths", listkey={"id", "name", "publicip_info", "size"})
+        return ret
+
+    @staticmethod 
+    def describe_private_addresses():
+        if not (OtcConfig.VPCNAME is None):
+            ecs.convertVPCNameToId()
+        
+        if not OtcConfig.SUBNETNAME is None:
+            ecs.convertSUBNETNameToId()
+
+        if OtcConfig.VPCID is None:
+            print("VPC definition not Correct ! Check VPCs:")
+            print("otc ecs describe-vpcs")
+            os._exit(1)
+        if OtcConfig.SUBNETID is None:       
+            print("Subnet definition not Correct ! Check subnets:")
+            print("otc ecs describe-subnets")
+            os._exit(1)
+            
+        url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/subnets/" + OtcConfig.SUBNETID + "/privateips"          
+        ret = utils_http.get(url)        
+        ecs.otcOutputHandler().print_output(ret, mainkey="privateips", listkey={"id", "status", "ip_address", "device_owner", "subnet_id"})
+        return ret
+
+
 
     @staticmethod 
     def describe_security_groups():
@@ -86,20 +116,31 @@ class ecs(otcpluginbase):
         ecs.otcOutputHandler().print_output(ret, mainkey="subnets", listkey={"id", "name", "cidr", "status", "vpc_id", "gateway_ip", "primary_dns", "availability_zone"})
         return ret
 
+    @staticmethod 
+    def describe_network_interfaces(): 
+        if not OtcConfig.INSTANCE_NAME is None:
+            ecs.convertINSTANCENameToId() 
+        
+        url = ecs.baseurl+ "/v2/" + OtcConfig.PROJECT_ID + "/servers/" + OtcConfig.INSTANCE_ID + "/os-interface"
+        
+        ret = utils_http.get(url)
+#        print ret
+        ecs.otcOutputHandler().print_output(ret, mainkey="interfaceAttachments", listkey={"port_state", "fixed_ips", "port_id", "net_id", "mac_addr"})
+        return ret
+
+
+
+
     @staticmethod       
     def describe_images():
-        """ generated source for method getIMAGEList """
         url = ecs.baseurl+ "/v2/images"
         ret = utils_http.get(url)
         ecs.otcOutputHandler().print_output(ret, mainkey="images", listkey={"id", "name", "__os_type", "updated_at", "deleted"})
         return ret
 
 
-    #      * @see com.tsystems.otc.IOtcServiceCalls#getFLAVORList()
-    #      
     @staticmethod 
     def describe_flavors():
-        """ generated source for method getFLAVORList """        
         url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers/flavors"
         ret = utils_http.get(url)
         ecs.otcOutputHandler().print_output(ret, mainkey="flavors", listkey= {"id", "name", "vcpus", "ram", "disk", "swap"})
@@ -107,7 +148,6 @@ class ecs(otcpluginbase):
 
     @staticmethod 
     def describe_key_pairs():
-        """ generated source for method getKEYPAIRList """
         url = ecs.baseurl+ "/v2/" + OtcConfig.PROJECT_ID + "/os-keypairs"
         ret = utils_http.get( url )
         ecs.otcOutputHandler().print_output(ret, mainkey="keypairs", subkey="keypair", listkey={"name", "fingerprint", "public_key"})        
@@ -116,17 +156,20 @@ class ecs(otcpluginbase):
 
     @staticmethod 
     def create_key_pair():
-        """ generated source for method KEYPAIRCreate """
         REQ_CREATE_KEYPAIR = "{ \"keypair\": { \"name\": \"" + OtcConfig.KEYNAME + "\", " + "\"public_key\": \"" + OtcConfig.PUBLICKEY + "\" } }"
         url = ecs.baseurl+ "/v2/" + OtcConfig.PROJECT_ID + "/os-keypairs"
-        ret = utils_http.post(url, REQ_CREATE_KEYPAIR)        
+        ret = utils_http.post(url, REQ_CREATE_KEYPAIR)
+        parsed = json.loads(ret) 
+        if "keypair" not in  parsed:            
+            print("Can not create:" +ret)  
+            os._exit( 1 )             
+  
         ecs.otcOutputHandler().print_output(ret, mainkey="keypair")
         return ret
 
 
     @staticmethod 
     def allocate_address():
-        """ generated source for method PUBLICIPSAllocate """
         REQ_CREATE_PUBLICIP = "{\"publicip\":{\"type\":\"5_bgp\"},\"bandwidth\":{\"name\":\"apiTest\",\"size\":5,\"share_type\":\"PER\",\"charge_mode\":\"traffic\"}}"
         url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/publicips"
         ret = utils_http.post(url, REQ_CREATE_PUBLICIP)
@@ -151,15 +194,14 @@ class ecs(otcpluginbase):
 
 
     @staticmethod 
-    def associate_address():
-        """ generated source for method PUBLICIPSAssociate """
+    def associate_address():        
         REQ_ASSOCIATE_PUBLICIP = "{ \"publicip\": { \"port_id\": \"" + OtcConfig.NETWORKINTERFACEID + "\" } }"
         #print REQ_ASSOCIATE_PUBLICIP
         if not (OtcConfig.PUBLICIP is None):
             ecs.convertPublicIpNameToId()
 
         url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/publicips" + "/" + OtcConfig.PUBLICIPID        
-        ret = utils_http.post(url, REQ_ASSOCIATE_PUBLICIP)
+        ret = utils_http.put(url, REQ_ASSOCIATE_PUBLICIP)
         print(ret)
         return ret
 
@@ -243,7 +285,7 @@ class ecs(otcpluginbase):
         REQ_ECS_ACTION_VM = "{ " + "    \"" + OtcConfig.ECSACTION + "\": " + "    { " + "     \"type\":\"" + OtcConfig.ECSACTIONTYPE + "\", " + "     \"servers\": [ { \"id\": \"" + OtcConfig.INSTANCE_ID + "\" }] " + "     } " + "}"
         url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers/action"
         ret = utils_http.post(url, REQ_ECS_ACTION_VM)
-        print ret
+        print(ret)
         return ret
 
 
@@ -267,7 +309,7 @@ class ecs(otcpluginbase):
         REQ_ECS_DELETE_VM = "{ \"servers\": [ { \"id\": \"" + OtcConfig.INSTANCE_ID + "\" } ]," + " \"delete_publicip\": \"" + OtcConfig.DELETE_PUBLICIP + "\", \"delete_volume\": \"" + OtcConfig.DELETE_VOLUME + "\" }"
         url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers" + "/delete"
         ret = utils_http.post(url, REQ_ECS_DELETE_VM)
-        print ret
+        print(ret)
         return ret
 
     @staticmethod
@@ -467,6 +509,20 @@ class ecs(otcpluginbase):
         OtcConfig.VPCID = ret
 
     @staticmethod
+    def convertVOLUMENameToId():
+        url = ecs.baseurl+ "/v2/" + OtcConfig.PROJECT_ID + "/cloudvolumes"
+        JSON = utils_http.get(url)        
+        parsed  = json.loads(JSON)
+        #print JSON
+        cloudvolumes = parsed["volumes"]
+        ret = None
+        for cloudvolume in cloudvolumes:
+            if cloudvolume.get("name") == OtcConfig.VOLUME_NAME:
+                ret = cloudvolume["id"]
+        OtcConfig.VOLUME_ID = ret
+
+
+    @staticmethod
     def convertSUBNETNameToId():
         url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/subnets"
         JSON = utils_http.get(url)
@@ -524,16 +580,14 @@ class ecs(otcpluginbase):
 
     @staticmethod
     def describe_volumes():
-        """ generated source for method getVolumeList """
         url = ecs.baseurl+ "/v2/" + OtcConfig.PROJECT_ID + "/cloudvolumes"+ "/detail"
         ret = utils_http.get( url )
-        ecs.otcOutputHandler().printLevel2(ret, "volumes", {"id", "name", "volume_type", "size", "status", "bootable", "availability_zone", "limit", "attachments", "source_volid", "snapshot_id", "description", "created_at"})
+        ecs.otcOutputHandler().print_output(ret,  mainkey = "volumes", listkey= {"id", "name", "volume_type", "size", "status", "bootable", "availability_zone", "limit", "attachments", "source_volid", "snapshot_id", "description", "created_at"})
         return ret
 
 
     @staticmethod
-    def create_volume():
-        """ generated source for method CreateVolume """        
+    def create_volume():        
         REQ_CREATE_CLOUDVOLUMES = "{ \"volume\": { \"backup_id\": " + OtcConfig.SNAPSHOTID + ", " + "\"count\": " + OtcConfig.NUMCOUNT + ", \"availability_zone\": \"" + OtcConfig.AZ + "\",\"description\": \"" + OtcConfig.VOLUME_NAME + "\", \"size\": " + OtcConfig.VOLUME_SIZE + ", \"name\": \"" + OtcConfig.VOLUME_NAME + "\", \"imageRef\": " + "null" + ", \"volume_type\": \"" + OtcConfig.VOLUME_TYPE + "\" } }"
         #print REQ_CREATE_CLOUDVOLUMES
         url = ecs.baseurl+ "/v2/" + OtcConfig.PROJECT_ID + "/cloudvolumes"
@@ -562,7 +616,9 @@ class ecs(otcpluginbase):
 
     @staticmethod
     def delete_volume():
-        url = ecs.baseurl+ "/v2/" + OtcConfig.PROJECT_ID + "/cloudvolumes" + "/" + OtcConfig.VOLUME_ID
+        if not OtcConfig.VOLUME_NAME is None:
+            ecs.convertVOLUMENameToId() 
+        url = ecs.baseurl+ "/v2/" + OtcConfig.PROJECT_ID + "/cloudvolumes" + "/" + OtcConfig.VOLUME_ID    
         ret = utils_http.delete(url)
         print(ret)
         return ret
@@ -577,21 +633,28 @@ class ecs(otcpluginbase):
 
  
     @staticmethod
-    def describe_snapshots():
-        """ vm backup list """
+    def describe_snapshots():    
         url = ecs.baseurl+ "/v2/" + OtcConfig.PROJECT_ID + "/backups/detail"
-        ret = utils_http.get(url)        
-        ecs.otcOutputHandler().printJsonTableTransverse(ret)
+        ret = utils_http.get(url)               
+        ecs.otcOutputHandler().print_output(ret, mainkey = "backups", listkey={"name","id","size","status","description","created_at", "created_at"} )
         return ret
 
 
     @staticmethod
-    #TODO: restore backup disk this is a create volume action
-    def RestoreBackupDisk():
+
+    def restore_snapshot():
+        if not OtcConfig.VOLUME_NAME is None:
+            ecs.convertVOLUMENameToId() 
+
+        if OtcConfig.VOLUME_ID is None or OtcConfig.SNAPSHOTID is None:
+            print("Image definition not Correct ! Check images:")
+            print("otc ecs describe-backups")
+            os._exit(1)
+
         REQ_RESTORE_BACKUP = "{ \"restore\":{ \"volume_id\":\"" + OtcConfig.VOLUME_ID + "\" } }"
         #print REQ_RESTORE_BACKUP
         url = ecs.baseurl+ "/v2/" + OtcConfig.PROJECT_ID + "/cloudbackups" +"/" + OtcConfig.SNAPSHOTID + "/restore"
-        ret = utils_http.post(url + "/" + OtcConfig.SNAPSHOTID + "/restore", REQ_RESTORE_BACKUP)
+        ret = utils_http.post(url, REQ_RESTORE_BACKUP)
         print(ret)
         return ret
 
@@ -606,6 +669,14 @@ class ecs(otcpluginbase):
 
     @staticmethod
     def create_snapshot():
+        if not OtcConfig.VOLUME_NAME is None:
+            ecs.convertVOLUMENameToId() 
+
+        if not OtcConfig.DESCRIPTION is None:
+            OtcConfig.DESCRIPTION = OtcConfig.VOLUME_ID
+            if not OtcConfig.VOLUME_NAME is None:
+                OtcConfig.DESCRIPTION = OtcConfig.VOLUME_NAME
+                 
         REQ_CREATE_BACKUP = "{ \"backup\":{ \"" + "volume_id\":\"" + OtcConfig.VOLUME_ID + "\", " + "\"name\":\"" + OtcConfig.DESCRIPTION + "\", \"description\":\"" + OtcConfig.DESCRIPTION + "\" } }"
         #print REQ_CREATE_BACKUP
         url = ecs.baseurl+ "/v2/" + OtcConfig.PROJECT_ID + "/cloudbackups"

@@ -54,6 +54,16 @@ class OtcConfig(object):
     INSTANCE_TYPE_NAME = None
     INSTANCE_NAME = None
     INSTANCE_ID = None
+
+    LOADBALANCER_NAME = None
+    LOADBALANCER_ID = None
+
+    LISTENER_NAME = None
+    LISTENER_ID = None
+    
+    ALARM_NAME = None 
+    ALARM_ID = None 
+            
     ADMINPASS = None
     CREATE_ECS_WITH_PUBLIC_IP = False
     ECSACTIONTYPE = "HARD"
@@ -62,8 +72,8 @@ class OtcConfig(object):
     PUBLICKEY = ""
     VOLUME_SIZE = int()
     VOLUME_TYPE = str()
-    VOLUME_NAME = str()
-    VOLUME_ID = str()
+    VOLUME_NAME = None
+    VOLUME_ID = None
     ATTACHMENT_ID = str()
     EVS_DEVICE = str()
     # main commands
@@ -92,7 +102,7 @@ class OtcConfig(object):
     PROTOCOL = str()
     SECUGROUP = None
     IMAGE_ID = str()
-    SUBNETID = str()
+    SUBNETID = None
     NETWORKINTERFACEID = str()
     ECSCREATEJOBSTATUS = str()
     TOKEN = str()
@@ -129,13 +139,22 @@ class OtcConfig(object):
     def copyfromparser(self, parser):
         self.SECUGROUPNAME = parser.SECUGROUPNAME                               if parser.SECUGROUPNAME else None
         self.VPCNAME = parser.VPCNAME                                           if parser.VPCNAME else None
-        self.SUBNETNAME = parser.SUBNETNAME                                     if parser.SUBNETNAME else str()
+        self.SUBNETNAME = parser.SUBNETNAME                                     if parser.SUBNETNAME else None
         self.IMAGENAME = parser.IMAGENAME                                       if parser.IMAGENAME else str()
         self.NUMCOUNT = parser.NUMCOUNT                                         if parser.NUMCOUNT else str()
         # self.INSTANCE_TYPE_ = parser.INSTANCE_TYPE                               if parser.INSTANCE_TYPE else str()
         self.INSTANCE_TYPE_NAME = parser.INSTANCE_TYPE_NAME                     if parser.INSTANCE_TYPE_NAME else str()
         self.INSTANCE_NAME = parser.INSTANCE_NAME                               if parser.INSTANCE_NAME else None
         self.INSTANCE_ID = parser.INSTANCE_ID                                   if parser.INSTANCE_ID else None
+        self.LOADBALANCER_NAME = parser.LOADBALANCER_NAME                               if parser.LOADBALANCER_NAME else None
+        self.LOADBALANCER_ID = parser.LOADBALANCER_ID                                   if parser.LOADBALANCER_ID else None
+        self.LISTENER_NAME = parser.LISTENER_NAME                               if parser.LISTENER_NAME else None
+        self.LISTENER_ID = parser.LISTENER_ID                                   if parser.LISTENER_ID else None
+        
+        self.ALARM_NAME = parser.ALARM_NAME                               if parser.ALARM_NAME else None
+        self.ALARM_ID = parser.ALARM_ID                                   if parser.ALARM_ID else None
+
+        
         self.ADMINPASS = parser.ADMINPASS                                        if parser.ADMINPASS else str()
         self.CREATE_ECS_WITH_PUBLIC_IP = parser.CREATE_ECS_WITH_PUBLIC_IP        if parser.CREATE_ECS_WITH_PUBLIC_IP else str()
         # self.ECSACTIONTYPE = parser.ECSACTIONTYPE                               if parser.ECSACTIONTYPE else str()
@@ -144,8 +163,8 @@ class OtcConfig(object):
         self.PUBLICKEY = parser.PUBLICKEY                                       if parser.PUBLICKEY else str()
         self.VOLUME_SIZE = parser.VOLUME_SIZE                                   if parser.VOLUME_SIZE else str()
         self.VOLUME_TYPE = parser.VOLUME_TYPE                                   if parser.VOLUME_TYPE else str()
-        self.VOLUME_NAME = parser.VOLUME_NAME                                   if parser.VOLUME_NAME else str()
-        self.VOLUME_ID = parser.VOLUME_ID                                       if parser.VOLUME_ID else str()
+        self.VOLUME_NAME = parser.VOLUME_NAME                                   if parser.VOLUME_NAME else None
+        self.VOLUME_ID = parser.VOLUME_ID                                       if parser.VOLUME_ID else None
         self.ATTACHMENT_ID = parser.ATTACHMENT_ID                               if parser.ATTACHMENT_ID else str()
         self.EVS_DEVICE = parser.EVS_DEVICE                                     if parser.EVS_DEVICE else str()
         self.MAINCOM = parser.MAINCOM                                           if parser.MAINCOM else None
@@ -171,7 +190,7 @@ class OtcConfig(object):
         self.PROTOCOL = parser.PROTOCOL                                         if parser.PROTOCOL else str()
         self.SECUGROUP = parser.SECUGROUP                                       if parser.SECUGROUP else None
         self.IMAGE_ID = parser.IMAGE_ID                                         if parser.IMAGE_ID else str()
-        self.SUBNETID = parser.SUBNETID                                         if parser.SUBNETID else str()
+        self.SUBNETID = parser.SUBNETID                                         if parser.SUBNETID else None
         self.NETWORKINTERFACEID = parser.NETWORKINTERFACEID                     if parser.NETWORKINTERFACEID else str()
         self.S3BUCKET = parser.S3BUCKET                                         if parser.S3BUCKET else str()
         self.S3OBJECT = parser.S3OBJECT                                         if parser.S3OBJECT else str()

@@ -44,9 +44,6 @@ class autoscaling(otcpluginbase):
     def attach_instances():
         raise RuntimeError("NOT IMPLEMENTED!")
 
-    @staticmethod
-    def attach_load_balancers():
-        raise RuntimeError("NOT IMPLEMENTED!")
 
 
     @staticmethod

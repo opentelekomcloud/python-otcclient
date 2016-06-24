@@ -1,0 +1,148 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# This file is part of OTC Tool released under MIT license.
+# Copyright (C) 2016 T-systems Kurt Garloff, Zsolt Nagy
+
+
+from otcclient.core.OtcConfig import OtcConfig 
+from otcclient.utils import utils_http
+
+from otcclient.core.otcpluginbase import otcpluginbase
+from otcclient.core.pluginmanager import getplugin
+import base64
+from time import sleep
+import sys
+import json
+from otcclient.plugins.ecs import ecs
+import os
+    
+class elb(otcpluginbase):
+    ar = {}    
+    
+    @staticmethod
+    def otcOutputHandler(): 
+        return getplugin(OtcConfig.OUTPUT_FORMAT)
+ 
+    def otctype(self):
+        return "func" 
+
+    @staticmethod
+    def attach_load_balancers():
+        pass
+              
+    @staticmethod
+    def create_launch_configuration():
+        raise RuntimeError("NOT IMPLEMENTED!")
+
+    @staticmethod
+    def delete_load_balancers():        
+        if not (OtcConfig.LOADBALANCER_NAME is None):
+            elb.convertELBNameToId()            
+        if not (OtcConfig.VPCNAME is None):
+            ecs.convertVPCNameToId()   
+        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers" + "/" + OtcConfig.LOADBALANCER_ID              
+
+        ret = utils_http.delete(url)
+        print(ret)
+        return ret
+
+    @staticmethod
+    def describe_listeners():
+        if not (OtcConfig.LOADBALANCER_NAME is None):
+            elb.convertELBNameToId()
+
+        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners" + "?loadbalancer_id=" + OtcConfig.LOADBALANCER_ID       
+               
+        ret = utils_http.get(url)
+        print ret
+        #elb.otcOutputHandler().print_output(ret, mainkey="") 
+        #listkey={"id", "name", "status", "vip_address","update_time","bandwidth","type"}
+        return ret
+
+
+
+    @staticmethod
+    def describe_load_balancers():
+        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers"        
+        if not (OtcConfig.LOADBALANCER_NAME is None):
+            elb.convertELBNameToId()
+            url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers" + "/" + OtcConfig.LOADBALANCER_ID        
+               
+        ret = utils_http.get(url)
+        print ret
+        #elb.otcOutputHandler().print_output(ret, mainkey="") 
+        #listkey={"id", "name", "status", "vip_address","update_time","bandwidth","type"}
+        return ret
+
+
+    @staticmethod
+    def convertELBNameToId():
+        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers"        
+        JSON = utils_http.get(url)        
+        parsed  = json.loads(JSON)
+        loadbalancers = parsed["loadbalancers"]        
+        ret = None
+        for loadbalancer in loadbalancers:
+            if loadbalancer.get("name") == OtcConfig.LOADBALANCER_NAME: # and ( loadbalancer.get("vpc_id") == OtcConfig.VPCID or OtcConfig.VPCID is None ) :
+                OtcConfig.LOADBALANCER_ID = loadbalancer["id"]
+                ret = OtcConfig.LOADBALANCER_ID
+        return ret               
+
+    @staticmethod
+    def convertLISTENERNameToId():
+        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners"        
+        JSON = utils_http.get(url)        
+        parsed  = json.loads(JSON)
+        listeners = parsed["listeners"]        
+        ret = None
+        for listener in listeners:
+            if listener.get("name") == OtcConfig.LISTENER_NAME: # and ( loadbalancer.get("vpc_id") == OtcConfig.VPCID or OtcConfig.VPCID is None ) :
+                OtcConfig.LISTENER_ID = listener["id"]
+                ret = OtcConfig.LISTENER_ID
+        return ret               
+
+
+    @staticmethod 
+    def create_load_balancers():
+        if not (OtcConfig.LOADBALANCER_NAME is None):
+            elb.convertELBNameToId()
+        if not (OtcConfig.VPCNAME is None):
+            ecs.convertVPCNameToId()        
+         
+        REQ_CREATE_ELB = "{ \"name\": \"" + OtcConfig.LOADBALANCER_NAME + "\", \"description\": \"" + OtcConfig.LOADBALANCER_NAME+ "\", \"vpc_id\": \"" + OtcConfig.VPCID +"\", \"bandwidth\": 10, \"type\": \"External\", \"admin_state_up\": true }" 
+        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers"
+        ret = utils_http.post(url, REQ_CREATE_ELB)
+        print( ret )
+        maindata = json.loads(ret)
+        if "code" in  maindata:            
+            print("Can not create:" +maindata["message"])  
+            os._exit( 1 )             
+                            
+        #ecs.otcOutputHandler().print_output(ret, mainkey="loadbalancer")
+        return ret
+
+
+
+    @staticmethod 
+    def create_listeners():
+        # NOT TESTED YET!!!!
+        if not (OtcConfig.LOADBALANCER_NAME is None):
+            elb.convertELBNameToId()
+        if not (OtcConfig.VPCNAME is None):
+            ecs.convertVPCNameToId()                
+         
+        #REQ_CREATE_ELB = "{ \"name\": \"" + OtcConfig.LOADBALANCER_NAME + "\", \"description\": \"" + OtcConfig.LOADBALANCER_NAME+ "\", \"vpc_id\": \"" + OtcConfig.VPCID +"\", \"bandwidth\": 10, \"type\": \"External\", \"admin_state_up\": true }"
+        REQ_CREATE_LISTENER = "{ \"name\":\"listener1\", \"description\":\"\", \"loadbalancer_id\":\"0b07acf06d243925bc24a0ac7445267a\", \"protocol\":\"HTTP\", \"port\":88, \"backend_protocol\":\"HTTP\", \"backend_port\":80, \"lb_algorithm\":\"roundrobin\", \"session_sticky\":true, \"sticky_session_type\":\"insert\", \"cookie_timeout\":100 }"         
+        #print( REQ_CREATE_ELB )        
+        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners"
+        ret = utils_http.post(url, REQ_CREATE_LISTENER)
+        print( ret )
+        maindata = json.loads(ret)
+        if "code" in  maindata:            
+            print("Can not create:" +maindata["message"])  
+            os._exit( 1 )             
+                            
+        #ecs.otcOutputHandler().print_output(ret, mainkey="loadbalancer")
+        return ret
+

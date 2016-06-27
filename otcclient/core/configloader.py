@@ -58,9 +58,9 @@ class configloader(object):
         if(OtcConfig.PASSWORD is None):
             OtcConfig.PASSWORD = Config.get("otc", "apikey") 
 
-        if(OtcConfig.ak  is None):
+        if(OtcConfig.ak  is None and Config.has_option("otc", "otc_access_key_id")):
             OtcConfig.ak = Config.get("otc", "otc_access_key_id") 
-        if(OtcConfig.sk  is None):
+        if(OtcConfig.sk  and Config.has_option("otc", "otc_secret_access_key")):
             OtcConfig.sk = Config.get("otc", "otc_secret_access_key") 
 
         if(OtcConfig.PROJECT_ID  is None and Config.has_option("otc", "project_id")):
@@ -106,7 +106,7 @@ class configloader(object):
         cfgfile.close()
                 
     @staticmethod
-    def validateConfig():
+    def validateConfig():        
         if OtcConfig.USERNAME != None and len(OtcConfig.USERNAME) == 32 and OtcConfig.PASSWORD != None and len(OtcConfig.PASSWORD) == 32 and OtcConfig.DOMAIN != None and len(OtcConfig.DOMAIN) == 23:
             getplugin("ecs").getIamToken()
             #cls.otcServiceCalls.getIamToken()

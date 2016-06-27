@@ -117,6 +117,11 @@ def main(argv=None): # IGNORE:C0111
         
         parser.add_argument( "--source-group-id",dest="SOURCE_GROUP_ID", help="Id of Source security group")
         parser.add_argument( "--source-group",dest="SOURCE_GROUP", help="Name of Source security group")
+
+        parser.add_argument( "--auto-scaling-group-name",dest="SCALINGGROUP_NAME", help="Name of Auto Scaling group")
+        parser.add_argument( "--auto-scaling-group-id",dest="SCALINGGROUP_ID", help="Id of Auto Scaling group")
+        
+        
         
         parser.add_argument("-p", "--associate-public-ip-address", dest="CREATE_ECS_WITH_PUBLIC_IP", action='store_true',help="VM will get EIP public IP")
         parser.add_argument( "--public-ip",dest="PUBLICIP", help="Public IP for association")
@@ -155,6 +160,7 @@ def main(argv=None): # IGNORE:C0111
     except (KeyError,AttributeError) as e:
         #errno, strerror = e.args
         print("Invalid command:" + str(e))
+        raise
         parser.print_help(); 
         #raise
         ### handle keyboard interrupt ###

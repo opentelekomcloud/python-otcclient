@@ -149,7 +149,7 @@ class ecs(otcpluginbase):
     @staticmethod 
     def describe_key_pairs():
         url = ecs.baseurl+ "/v2/" + OtcConfig.PROJECT_ID + "/os-keypairs"
-        ret = utils_http.get( url )
+        ret = utils_http.get( url )    
         ecs.otcOutputHandler().print_output(ret, mainkey="keypairs", subkey="keypair", listkey={"name", "fingerprint", "public_key"})        
         return ret
 
@@ -184,6 +184,16 @@ class ecs(otcpluginbase):
 
     @staticmethod       
     def release_address():
+        if not (OtcConfig.PUBLICIP is None):
+            ecs.convertPublicIpNameToId()            
+        url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/publicips" + \
+        "/" + OtcConfig.PUBLICIPID
+        ret = utils_http.delete(url)
+        print(ret)
+        return ret
+
+    @staticmethod       
+    def release_private_address():
         if not (OtcConfig.PUBLICIP is None):
             ecs.convertPublicIpNameToId()            
         url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/publicips" + \

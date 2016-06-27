@@ -1,1 +1,1 @@
-..\bin\otc ecs describe-subnets --output Json
+..\bin\otc ecs describe-subnets

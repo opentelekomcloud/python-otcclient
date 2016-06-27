@@ -57,6 +57,19 @@ class s3(otcpluginbase):
 
 
     @staticmethod
+    def get_bucket_versioning():
+        s3bucket, s3dir = s3.parse_bucket_uri(OtcConfig.SUBCOM_P1)            # @UnusedVariable
+        ver = utils_s3.get_bucket_versioning(Bucket=s3bucket,Prefix=s3dir)
+        print ver
+        s3.otcOutputHandler().print_output(ver, mainkey = "", listkey={"Key","Size","LastModified"}) 
+
+    @staticmethod
+    def list_object_versions():
+        s3bucket, s3dir = s3.parse_bucket_uri(OtcConfig.SUBCOM_P1)            # @UnusedVariable
+        ver = utils_s3.list_object_versions(Bucket=s3bucket,Prefix=s3dir)
+        s3.otcOutputHandler().print_output(ver, mainkey = "", listkey={"Key","Size","LastModified"}) 
+
+    @staticmethod
     def cp():        
         if( OtcConfig.SUBCOM_P1 is None or OtcConfig.SUBCOM_P2 is None):         
             raise RuntimeError("S3 Copy error. Please add s3 params correctly.");

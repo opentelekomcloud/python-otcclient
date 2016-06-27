@@ -39,9 +39,7 @@ class elb(otcpluginbase):
     def delete_load_balancers():        
         if not (OtcConfig.LOADBALANCER_NAME is None):
             elb.convertELBNameToId()            
-        if not (OtcConfig.VPCNAME is None):
-            ecs.convertVPCNameToId()   
-        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers" + "/" + OtcConfig.LOADBALANCER_ID              
+        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers" + "/" + OtcConfig.LOADBALANCER_ID
 
         ret = utils_http.delete(url)
         print(ret)
@@ -55,9 +53,35 @@ class elb(otcpluginbase):
         url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners" + "?loadbalancer_id=" + OtcConfig.LOADBALANCER_ID       
                
         ret = utils_http.get(url)
-        print ret
-        #elb.otcOutputHandler().print_output(ret, mainkey="") 
-        #listkey={"id", "name", "status", "vip_address","update_time","bandwidth","type"}
+        mod =  ret.replace("[","").replace("]","")        
+        ecs.otcOutputHandler().print_output(mod,mainkey="")
+        return ret
+
+    @staticmethod
+    def describe_members():
+        if not (OtcConfig.LISTENER_NAME is None):
+            elb.convertLISTENERNameToId()
+
+        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners/" + OtcConfig.LISTENER_ID + "/members"       
+               
+        ret = utils_http.get(url)
+        mod =  "{ \"members\": " + ret + " }" 
+    
+        
+        elb.otcOutputHandler().print_output(mod, mainkey="members", listkey={"server_address","server_id","server_name","update_time","create_time","id","name","status","health_status","address" } )
+        return ret
+
+
+    @staticmethod
+    def describe_health_check():
+        if not (OtcConfig.LOADBALANCER_NAME is None):
+            elb.convertELBNameToId()
+        
+        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/healthcheck/" + OtcConfig.HEALTCHECK_ID        
+               
+        ret = utils_http.get(url)
+        
+        ecs.otcOutputHandler().print_output(ret,mainkey="")
         return ret
 
 
@@ -67,12 +91,16 @@ class elb(otcpluginbase):
         url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers"        
         if not (OtcConfig.LOADBALANCER_NAME is None):
             elb.convertELBNameToId()
-            url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers" + "/" + OtcConfig.LOADBALANCER_ID        
-               
-        ret = utils_http.get(url)
-        print ret
-        #elb.otcOutputHandler().print_output(ret, mainkey="") 
-        #listkey={"id", "name", "status", "vip_address","update_time","bandwidth","type"}
+        
+        if OtcConfig.LOADBALANCER_ID:
+            url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers" + "/" + OtcConfig.LOADBALANCER_ID
+            ret = utils_http.get(url)                       
+            ecs.otcOutputHandler().print_output(ret,mainkey="")
+        else:
+            url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers"
+            ret = utils_http.get(url) 
+            elb.otcOutputHandler().print_output(ret, mainkey="loadbalancers", listkey={"vip_address","update_time","create_time","id","name","status","bandwidth","admin_state_up","type","description" } )
+                         
         return ret
 
 
@@ -93,8 +121,10 @@ class elb(otcpluginbase):
     def convertLISTENERNameToId():
         url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners"        
         JSON = utils_http.get(url)        
+        print JSON # TODO
+        
         parsed  = json.loads(JSON)
-        listeners = parsed["listeners"]        
+        listeners = parsed        
         ret = None
         for listener in listeners:
             if listener.get("name") == OtcConfig.LISTENER_NAME: # and ( loadbalancer.get("vpc_id") == OtcConfig.VPCID or OtcConfig.VPCID is None ) :
@@ -113,20 +143,19 @@ class elb(otcpluginbase):
         REQ_CREATE_ELB = "{ \"name\": \"" + OtcConfig.LOADBALANCER_NAME + "\", \"description\": \"" + OtcConfig.LOADBALANCER_NAME+ "\", \"vpc_id\": \"" + OtcConfig.VPCID +"\", \"bandwidth\": 10, \"type\": \"External\", \"admin_state_up\": true }" 
         url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers"
         ret = utils_http.post(url, REQ_CREATE_ELB)
-        print( ret )
+        print(ret)         
         maindata = json.loads(ret)
         if "code" in  maindata:            
             print("Can not create:" +maindata["message"])  
             os._exit( 1 )             
-                            
-        #ecs.otcOutputHandler().print_output(ret, mainkey="loadbalancer")
+        print("created")        
         return ret
 
 
 
     @staticmethod 
     def create_listeners():
-        # NOT TESTED YET!!!!
+        raise RuntimeError('NOT TESTED YET!!!!')
         if not (OtcConfig.LOADBALANCER_NAME is None):
             elb.convertELBNameToId()
         if not (OtcConfig.VPCNAME is None):
@@ -142,7 +171,16 @@ class elb(otcpluginbase):
         if "code" in  maindata:            
             print("Can not create:" +maindata["message"])  
             os._exit( 1 )             
-                            
+        
+        print( ret )
         #ecs.otcOutputHandler().print_output(ret, mainkey="loadbalancer")
         return ret
 
+    @staticmethod
+    def describe_quotas():
+        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/quotas"                           
+        ret = utils_http.get(url)
+        print( ret )
+        ecs.otcOutputHandler().print_output(ret,mainkey="")
+        #print (json.dumps(json.loads(ret), indent=4, sort_keys=True))
+        return ret

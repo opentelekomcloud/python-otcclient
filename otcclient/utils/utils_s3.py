@@ -94,6 +94,20 @@ def delete_bucket(Bucket = None, Prefix = None):
     s3client.delete_bucket(Bucket=Bucket) 
 
 
+
+def get_bucket_versioning(Bucket = None, Prefix = None):
+    s3client = s3init()
+    print Bucket    
+    ver = s3client.get_bucket_versioning(Bucket=Bucket)[Versions]
+#    ver = s3client.BucketVersioning(Bucket=Bucket).get_available_subresources()
+    print ver
+    return ver 
+
+def list_object_versions(Bucket = None, Prefix = None):
+    s3client = s3init()    
+    ver = s3client.get_bucket_versioning(Bucket=Bucket)["Contents"]
+    return ver
+
 def delete_object(Bucket = None, Prefix = None):
     s3client = s3init()    
     bucket = s3client.Bucket(Bucket)

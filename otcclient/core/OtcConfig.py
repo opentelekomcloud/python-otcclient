@@ -57,12 +57,17 @@ class OtcConfig(object):
 
     LOADBALANCER_NAME = None
     LOADBALANCER_ID = None
+    HEALTCHECK_ID = None
 
     LISTENER_NAME = None
     LISTENER_ID = None
     
     ALARM_NAME = None 
     ALARM_ID = None 
+
+    SCALINGGROUP_NAME = None
+    SCALINGGROUP_ID = None
+
             
     ADMINPASS = None
     CREATE_ECS_WITH_PUBLIC_IP = False
@@ -154,6 +159,9 @@ class OtcConfig(object):
         self.ALARM_NAME = parser.ALARM_NAME                               if parser.ALARM_NAME else None
         self.ALARM_ID = parser.ALARM_ID                                   if parser.ALARM_ID else None
 
+        self.SCALINGGROUP_NAME = parser.SCALINGGROUP_NAME                 if parser.SCALINGGROUP_NAME else None
+        self.SCALINGGROUP_ID = parser.SCALINGGROUP_ID                     if parser.SCALINGGROUP_ID else None
+        
         
         self.ADMINPASS = parser.ADMINPASS                                        if parser.ADMINPASS else str()
         self.CREATE_ECS_WITH_PUBLIC_IP = parser.CREATE_ECS_WITH_PUBLIC_IP        if parser.CREATE_ECS_WITH_PUBLIC_IP else str()

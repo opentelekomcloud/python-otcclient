@@ -25,7 +25,7 @@ def printLevel2(respjson, outformat, mainkey, listkey, subkey=None):
         if(outformat.startswith("text")) :                        
             p.set_style(prettytable.PLAIN_COLUMNS)    
         mainId = respjson
-        if mainkey:
+        if mainkey and len(mainkey) > 0:
             mainId = parsed[mainkey]
     
         for n in range(len(mainId)):
@@ -60,7 +60,10 @@ def printJsonTableTransverse(jsonval, outformat, mainkey):
     else: 
         if(outformat.startswith("text")) :                        
             x.set_style(prettytable.PLAIN_COLUMNS)    
-        id_generator(parsed[mainkey], "")    
+        if mainkey:
+            id_generator(parsed[mainkey], "")
+        else:
+            id_generator(parsed, "")
         print (x.get_string())
 
 def id_generator(parsed, headkey):

@@ -121,7 +121,6 @@ class elb(otcpluginbase):
     def convertLISTENERNameToId():
         url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners"        
         JSON = utils_http.get(url)        
-        print JSON # TODO
         
         parsed  = json.loads(JSON)
         listeners = parsed        
@@ -182,5 +181,4 @@ class elb(otcpluginbase):
         ret = utils_http.get(url)
         print( ret )
         ecs.otcOutputHandler().print_output(ret,mainkey="")
-        #print (json.dumps(json.loads(ret), indent=4, sort_keys=True))
         return ret

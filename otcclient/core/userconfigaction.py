@@ -63,8 +63,7 @@ class userconfigaction(argparse.Action):
                 
             
         except Exception :
-            print("Configuration file error. \nPlease run following command: \n    otc --configure [user | proxy]")
-            #raise
+            print("Configuration error. \nDefine ENV variables or run following command: \n    otc --configure [user | proxy]")            #raise
             os._exit(1)        
 
     @classmethod

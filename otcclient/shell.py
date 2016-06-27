@@ -3,6 +3,7 @@
 # This file is part of OTC Tool released under MIT license.
 # otcclient.otcclient -- Client Tool for Open Telecom Cloud
 # Copyright (C) 2016 T-systems Kurt Garloff, Zsolt Nagy
+from ConfigParser import NoSectionError
 '''
 otcclient.otcclient -- Client Tool for Open Telecom Cloud 
 @copyright:  2016 T-systems(c). All rights reserved.
@@ -23,7 +24,7 @@ __version__ = 0.2
 __date__ = '2016-06-19'
 __updated__ = '2016-06-19'
 
-DEBUG = 1
+DEBUG = 0
 TESTRUN = 0
 PROFILE = 0
 parser = ArgumentParser(prog='otc' ,  formatter_class=RawTextHelpFormatter ) 
@@ -156,11 +157,14 @@ def main(argv=None): # IGNORE:C0111
     except KeyboardInterrupt as e:
         print("KeyboardInterrupt" +  str(e))
         ### handle keyboard interrupt ###
-        return 0
+        return 1
+
+    except NoSectionError as e:
+            print("Configuration error. \nDefine ENV variables or run following command: \n    otc --configure [user | proxy]")
+            return 1
     except (KeyError,AttributeError) as e:
         #errno, strerror = e.args
         print("Invalid command:" + str(e))
-        raise
         parser.print_help(); 
         #raise
         ### handle keyboard interrupt ###

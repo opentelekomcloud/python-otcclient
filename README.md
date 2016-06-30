@@ -1,9 +1,7 @@
 Otcclient
 ==========
 
-[![Downloads](https://pypip.in/download/otcclient/badge.svg)](https://pypi.python.org/pypi/otcclient/)
-[![License](https://pypip.in/license/otcclient/badge.svg)](https://pypi.python.org/pypi/otcclient/)
-
+[![PyPI version](https://badge.fury.io/py/python-otcclient.png)](https://badge.fury.io/py/python-otcclient)
 
 Open Telecom Cloud API tool 
 -----------------------------------------------

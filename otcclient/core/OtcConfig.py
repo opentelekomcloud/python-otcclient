@@ -7,6 +7,7 @@
 import os
 
 class OtcConfig(object):
+
     instance_ = None
 
     #  for singleton instances
@@ -27,17 +28,17 @@ class OtcConfig(object):
     OTC_PROXY_FILE = OTC_USER_DIR + "/common"
 
     #  replace real AK
-    ak = str()
+    ak = None
 
     #  replace real SK
-    sk = str()
+    sk = None
 
     #  default region definition
     region = "eu-de"
 
     #  replace real service name
     serviceName = "serviceName"
-    PROJECT_ID = str()
+    PROJECT_ID = None
     PROJECT_NAME = "eu-de"
 
     # public static String SERVER_ID;
@@ -49,6 +50,19 @@ class OtcConfig(object):
     VPCNAME = None
     SUBNETNAME = None
     IMAGENAME = None
+
+    IMAGE_URL = None
+    TAG_LIST = None
+    PROTECTED = None
+    OS_VERSION = None
+    MIN_RAM = None
+    MIN_DISK = None
+    IMAGE_VISIBILITY = None
+    DISK_FORMAT = None
+    CONTAINTER_FORMAT = None
+    
+    
+    
     NUMCOUNT = "1"
     INSTANCE_TYPE = None
     INSTANCE_TYPE_NAME = None
@@ -145,7 +159,18 @@ class OtcConfig(object):
         self.SECUGROUPNAME = parser.SECUGROUPNAME                               if parser.SECUGROUPNAME else None
         self.VPCNAME = parser.VPCNAME                                           if parser.VPCNAME else None
         self.SUBNETNAME = parser.SUBNETNAME                                     if parser.SUBNETNAME else None
-        self.IMAGENAME = parser.IMAGENAME                                       if parser.IMAGENAME else str()
+        self.IMAGENAME = parser.IMAGENAME                                       if parser.IMAGENAME else None
+        self.IMAGE_URL = parser.IMAGE_URL                                       if parser.IMAGE_URL else None
+                
+        self.TAG_LIST = parser.TAG_LIST                                         if parser.TAG_LIST else None
+        self.PROTECTED = parser.PROTECTED                                       if parser.PROTECTED else None
+        self.OS_VERSION = parser.OS_VERSION                                     if parser.OS_VERSION else None
+        self.MIN_RAM = parser.MIN_RAM                                           if parser.MIN_RAM else None
+        self.MIN_DISK = parser.MIN_DISK                                         if parser.MIN_DISK else None
+        self.IMAGE_VISIBILITY = parser.IMAGE_VISIBILITY                         if parser.IMAGE_VISIBILITY else None
+        self.DISK_FORMAT = parser.DISK_FORMAT                                   if parser.DISK_FORMAT else None
+        self.CONTAINTER_FORMAT = parser.CONTAINTER_FORMAT                       if parser.CONTAINTER_FORMAT else None
+        
         self.NUMCOUNT = parser.NUMCOUNT                                         if parser.NUMCOUNT else str()
         # self.INSTANCE_TYPE_ = parser.INSTANCE_TYPE                               if parser.INSTANCE_TYPE else str()
         self.INSTANCE_TYPE_NAME = parser.INSTANCE_TYPE_NAME                     if parser.INSTANCE_TYPE_NAME else str()

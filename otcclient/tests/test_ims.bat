@@ -1,0 +1,3 @@
+rem ..\bin\otc ims create_image_metadata  --image-name testimagenzs --os-version "Ubuntu 14.04 server 64bit" --container-format bare --disk-format raw --min-disk 1 --min-ram 1024 --tags "test,image" --visibility private --protected false
+rem ..\bin\otc ims register_image --image-url nzs2:c.qcow2  --image-name testimagenzs 
+..\bin\otc ims create_image --image-url nzs2:c.qcow2 --image-name testimagenzs9 --os-version "Ubuntu 14.04 server 64bit" --container-format bare --disk-format raw --min-disk 1 --min-ram 1024 --tags "test,image" --visibility private --protected false

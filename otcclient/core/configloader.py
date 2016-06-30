@@ -60,7 +60,7 @@ class configloader(object):
 
         if(OtcConfig.ak  is None and Config.has_option("otc", "otc_access_key_id")):
             OtcConfig.ak = Config.get("otc", "otc_access_key_id") 
-        if(OtcConfig.sk  and Config.has_option("otc", "otc_secret_access_key")):
+        if(OtcConfig.sk  is None and Config.has_option("otc", "otc_secret_access_key")):
             OtcConfig.sk = Config.get("otc", "otc_secret_access_key") 
 
         if(OtcConfig.PROJECT_ID  is None and Config.has_option("otc", "project_id")):

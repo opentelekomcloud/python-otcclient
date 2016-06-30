@@ -101,7 +101,19 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--instance-type",dest="INSTANCE_TYPE_NAME", help="Flavor type of the VM")
         parser.add_argument( "--image-name",dest="IMAGENAME", help="Name of the image reference will used during VM creation")
         parser.add_argument( "--image-id",dest="IMAGE_ID", help="Id of the image reference will use during VM creation")
-        parser.add_argument("-n", "--count",dest="NUMCOUNT", help="Number of VM will be created")
+        
+        
+        parser.add_argument( "--image-url",dest="IMAGE_URL", help="Url of the image used during Image creation")
+        parser.add_argument( "--tags",dest="TAG_LIST", help="Tags of the image will used during Image creation")
+        parser.add_argument( "--protected",dest="PROTECTED", help="Protected status of  image used during VM creation")
+        parser.add_argument( "--os-version",dest="OS_VERSION", help="Os version of image")
+        parser.add_argument( "--min-ram",dest="MIN_RAM", help="Min ram used during image creation")
+        parser.add_argument( "--min-disk",dest="MIN_DISK", help="Min ram used during image creation")
+        parser.add_argument( "--visibility",dest="IMAGE_VISIBILITY", help="Image visibility used during image creation")
+        parser.add_argument( "--disk-format",dest="DISK_FORMAT", help="Disk format used during image creation")
+        parser.add_argument( "--container-format",dest="CONTAINTER_FORMAT", help="Container format used during image creation")
+                
+        parser.add_argument("-n", "--count",dest="NUMCOUNT", help="Number of VM will be created")                
         parser.add_argument( "--subnet-name",dest="SUBNETNAME", help="Name of the subnet reference will use during VM creation")
         parser.add_argument( "--subnet-id",dest="SUBNETID", help="Id of the subnet will use during VM creation")
         parser.add_argument( "--network-interface-id",dest="NETWORKINTERFACEID", help="Network interface Id of NIC")

@@ -3,7 +3,7 @@
 # This file is part of OTC Tool released under MIT license.
 # otcclient.otcclient -- Client Tool for Open Telecom Cloud
 # Copyright (C) 2016 T-systems Kurt Garloff, Zsolt Nagy
-from ConfigParser import NoSectionError
+
 '''
 otcclient.otcclient -- Client Tool for Open Telecom Cloud 
 @copyright:  2016 T-systems(c). All rights reserved.
@@ -13,6 +13,11 @@ otcclient.otcclient -- Client Tool for Open Telecom Cloud
 import sys
 import os
 from argparse import ArgumentParser, RawTextHelpFormatter
+
+if sys.version_info >= (3, 0):
+    from configparser import NoSectionError
+else:
+    from ConfigParser import NoSectionError
 
 from otcclient.core.userconfigaction import userconfigaction
 from otcclient.core.configloader import configloader

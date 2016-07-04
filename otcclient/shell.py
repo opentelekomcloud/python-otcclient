@@ -29,7 +29,6 @@ __version__ = 0.2
 __date__ = '2016-06-19'
 __updated__ = '2016-06-19'
 
-DEBUG = 0
 TESTRUN = 0
 PROFILE = 0
 parser = ArgumentParser(prog='otc' ,  formatter_class=RawTextHelpFormatter ) 
@@ -73,6 +72,7 @@ def main(argv=None): # IGNORE:C0111
     try:
         # Setup argument parser        
         parser.add_argument('-V', '--version', action='version', version=program_version_message)        
+        parser.add_argument('-d', '--debug', help='Debug mode', dest='DEBUG', action='store_true')
         parser.add_argument('--configure', nargs='?',action=userconfigaction,choices=['user', 'proxy'], default = "user")
         #parser.add_argument('--configure-proxy', nargs='+',action=userconfigaction , required = False)
         parser.add_argument(dest="MAINCOM", help="OTC Component Selector",  nargs='?', default='ecs', metavar="OtcComponent") #choices=['ecs', 's3']s
@@ -189,7 +189,7 @@ def main(argv=None): # IGNORE:C0111
     except ( Exception ) as e:
     #    sys.exit()    
     
-        if DEBUG or TESTRUN:
+        if OtcConfig.DEBUG or TESTRUN:
             raise 
         indent = len(program_name) * " "
         sys.stderr.write(program_name + ": " + repr(e) + "\n")

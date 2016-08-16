@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # This file is part of OTC Tool released under MIT license.
-# Copyright (C) 2016 T-systems Kurt Garloff, Zsolt Nagy
+# Copyright (C) 2016 T-systems Kurt Garloff, Zsolt Nagy 
 
 from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.argmanager import params
@@ -42,17 +42,17 @@ class s3(otcpluginbase):
                 
     @staticmethod
     def mb():
-        s3bucket, s3dir = s3.parse_bucket_uri(OtcConfig.SUBCOM_P1)            # @UnusedVariable
+        s3bucket= s3.parse_bucket_uri(OtcConfig.SUBCOM_P1)[0]
         utils_s3.create_bucket(Bucket=s3bucket)
 
     @staticmethod
     def rb():
-        s3bucket, s3dir = s3.parse_bucket_uri(OtcConfig.SUBCOM_P1)            # @UnusedVariable
+        s3bucket = s3.parse_bucket_uri(OtcConfig.SUBCOM_P1)[0]
         utils_s3.delete_bucket(Bucket=s3bucket) 
 
     @staticmethod
     def rm():
-        s3bucket, s3dir = s3.parse_bucket_uri(OtcConfig.SUBCOM_P1)            # @UnusedVariable
+        s3bucket, s3dir = s3.parse_bucket_uri(OtcConfig.SUBCOM_P1)
         utils_s3.delete_object(Bucket=s3bucket,Prefix=s3dir) 
 
 
@@ -72,8 +72,7 @@ class s3(otcpluginbase):
     @staticmethod
     def cp():        
         if( OtcConfig.SUBCOM_P1 is None or OtcConfig.SUBCOM_P2 is None):         
-            raise RuntimeError("S3 Copy error. Please add s3 params correctly.");
-            exit(1);        
+            raise RuntimeError("S3 Copy error. Please add s3 params correctly.")
         elif( str(OtcConfig.SUBCOM_P1).startswith("s3://") and OtcConfig.S3RECURSIVE):
             # directory download
             s3bucket, s3dir = s3.parse_bucket_uri(OtcConfig.SUBCOM_P1)            
@@ -81,7 +80,7 @@ class s3(otcpluginbase):
         elif( str(OtcConfig.SUBCOM_P2).startswith("s3://") and OtcConfig.S3RECURSIVE):
             # directory upload
             s3bucket, s3dir = s3.parse_bucket_uri(OtcConfig.SUBCOM_P2)                        
-            utils_s3.upload_dir(File=OtcConfig.SUBCOM_P1,Bucket=s3bucket, Prefix=s3dir )        
+            utils_s3.upload_dir(Local=OtcConfig.SUBCOM_P1,Bucket=s3bucket, Prefix=s3dir )         
         elif( str(OtcConfig.SUBCOM_P1).startswith("s3://") ):
             # file upload 
             s3bucket, s3dir = s3.parse_bucket_uri(OtcConfig.SUBCOM_P1)            

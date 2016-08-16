@@ -4,15 +4,11 @@
 # This file is part of OTC Tool released under MIT license.
 # Copyright (C) 2016 T-systems Kurt Garloff, Zsolt Nagy
 
-
 from otcclient.core.OtcConfig import OtcConfig 
 from otcclient.utils import utils_http
 
 from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.pluginmanager import getplugin
-import base64
-from time import sleep
-import sys
 import json
 from otcclient.plugins.ecs import ecs
 import os

@@ -4,7 +4,6 @@
 # This file is part of OTC Tool released under MIT license.
 # Copyright (C) 2016 T-systems Kurt Garloff, Zsolt Nagy
 
-
 from otcclient.core.OtcConfig import OtcConfig 
 from otcclient.utils import utils_http
 
@@ -40,8 +39,7 @@ class ecs(otcpluginbase):
             ret = utils_http.get(url + '/' + OtcConfig.INSTANCE_ID )        
             maindata = json.loads(ret)
             if "itemNotFound" in  maindata:
-                raise RuntimeError("Not found!") 
-                os._exit( 1 )             
+                raise RuntimeError("Not found!")                      
             ecs.otcOutputHandler().print_output(ret,mainkey="server") 
         return ret
 
@@ -383,12 +381,12 @@ class ecs(otcpluginbase):
         if not (OtcConfig.SECUGROUPNAME is None):
             ecs.convertSECUGROUPNameToId()
                     
-        sourceIp = "";
+        sourceIp = ""
         if not OtcConfig.CIDR is None:
-            sourceIp = "\", \"remote_ip_prefix\":\"" + OtcConfig.CIDR; 
-        remoteGroup = "";
+            sourceIp = "\", \"remote_ip_prefix\":\"" + OtcConfig.CIDR
+        remoteGroup = ""
         if not OtcConfig.SOURCE_GROUP_ID is None:
-            remoteGroup =  "\", \"remote_group_id\":\"" + OtcConfig.SOURCE_GROUP_ID ;     
+            remoteGroup =  "\", \"remote_group_id\":\"" + OtcConfig.SOURCE_GROUP_ID    
 
         portrange = ""
         if not OtcConfig.PORTMIN is None and not OtcConfig.PORTMAX is None:
@@ -474,7 +472,7 @@ class ecs(otcpluginbase):
             project = "\"id\": \"" + OtcConfig.PROJECT_ID + "\""
             
         REQ_IAM = "    {" + "        \"auth\": {       " + "        \"identity\": {   " + "            \"methods\": [" + "                \"password\"                             " + "            ],            " + "            \"password\": {                              " + "                \"user\": {                              " + "                    \"name\": \"" + OtcConfig.USERNAME + "\",    " + "                    \"password\": \"" + OtcConfig.PASSWORD + "\"," + "                    \"domain\": {                        " + "                        \"name\": \"" + OtcConfig.DOMAIN + "\"            " + "                    }     " + "                }         " + "            }             " + "        },                " + "        \"scope\": {      " + "            \"project\": {" + project + "            }             " + "        }                 " + "        }                 " + "    }"
-        url = "https://"+ OtcConfig.DEFAULT_HOST +":443/v3/auth/tokens";
+        url = "https://"+ OtcConfig.DEFAULT_HOST +":443/v3/auth/tokens"
         ret = utils_http.post(url, REQ_IAM)
         maindata = json.loads(ret)
         OtcConfig.PROJECT_ID = maindata['token']['project']['id'] 

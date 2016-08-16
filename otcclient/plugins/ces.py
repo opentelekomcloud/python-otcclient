@@ -7,16 +7,14 @@
 
 from otcclient.core.OtcConfig import OtcConfig 
 from otcclient.utils import utils_http
+#from otcclient.plugins.ces.ces import convertALARMNameToId   
+# @UnresolvedImport
+#import otcclient.plugins.ces.ces. as StaticCes2 
 
 from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.pluginmanager import getplugin
-import base64
-from time import sleep
-import sys
 import json
-from otcclient.plugins.ecs import ecs
-import os
-    
+
 class ces(otcpluginbase):
     ar = {}    
     
@@ -32,7 +30,7 @@ class ces(otcpluginbase):
     def describe_alarms():
         url = ces.baseurl+ "/V1.0/" + OtcConfig.PROJECT_ID + "/alarms"
         if not (OtcConfig.ALARM_NAME is None):
-            ces.convertALALMNameToId()
+            ces.convertALARMNameToId()
             url = ces.baseurl+ "/V1.0/" + OtcConfig.PROJECT_ID + "/alarms?start=" + OtcConfig.ALARM_ID       
                            
         ret = utils_http.get(url)
@@ -83,18 +81,18 @@ class ces(otcpluginbase):
 #         return ret
 # 
 # 
-#     @staticmethod
-#     def convertALARMNameToId():
-#         url = ces.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/alarms"        
-#         JSON = utils_http.get(url)        
-#         parsed  = json.loads(JSON)
-#         alarms = parsed["alarms"]        
-#         ret = None
-#         for alarm in alarms:
-#             if alarm.get("name") == OtcConfig.ALARM_NAME: # and ( loadbalancer.get("vpc_id") == OtcConfig.VPCID or OtcConfig.VPCID is None ) :
-#                 OtcConfig.ALARM_ID = alarm["id"]
-#                 ret = OtcConfig.ALARM_ID
-#         return ret               
+    @staticmethod
+    def convertALARMNameToId():
+        url = ces.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/alarms"        
+        JSON = utils_http.get(url)        
+        parsed  = json.loads(JSON)
+        alarms = parsed["alarms"]        
+        ret = None
+        for alarm in alarms:
+            if alarm.get("name") == OtcConfig.ALARM_NAME: # and ( loadbalancer.get("vpc_id") == OtcConfig.VPCID or OtcConfig.VPCID is None ) :
+                OtcConfig.ALARM_ID = alarm["id"]
+                ret = OtcConfig.ALARM_ID
+        return ret               
 # 
 # 
 #     @staticmethod 

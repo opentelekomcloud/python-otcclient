@@ -64,6 +64,23 @@ class ims(otcpluginbase):
             print ("Image registration error!" + ret) 
         return ret
 
+    @staticmethod
+    def get_image():
+        if not (OtcConfig.IMAGENAME is None):
+            ecs.convertIMAGENameToId()
+        
+        if OtcConfig.IMAGE_ID is None:
+            # error handling 
+            raise RuntimeError("Please define image id!")
+         
+        # image id filled until now 
+        url = ims.baseurl + "/v2/images/" + OtcConfig.IMAGE_ID + "/file"
+        REQ_REG_IMAGE = "{\"image_url\":\"" + OtcConfig.IMAGE_URL + "\" }"
+        ret = utils_http.post(url, REQ_REG_IMAGE)
+        if len(ret) != 0: 
+            print ("Image registration error!" + ret) 
+        return ret
+
 
     @staticmethod
     def create_image():        

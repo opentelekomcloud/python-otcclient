@@ -3,6 +3,7 @@
 # This file is part of OTC Tool released under MIT license.
 # otcclient.otcclient -- Client Tool for Open Telecom Cloud
 # Copyright (C) 2016 T-systems Kurt Garloff, Zsolt Nagy
+
 from ConfigParser import NoSectionError
 '''
 otcclient.otcclient -- Client Tool for Open Telecom Cloud 
@@ -13,7 +14,6 @@ otcclient.otcclient -- Client Tool for Open Telecom Cloud
 import sys
 import os
 from argparse import ArgumentParser, RawTextHelpFormatter
-
 from otcclient.core.userconfigaction import userconfigaction
 from otcclient.core.configloader import configloader
 from otcclient.core.OtcConfig import OtcConfig
@@ -39,9 +39,10 @@ class CLIError(Exception):
     def __unicode__(self):
         return self.msg
 
-def handleCommands(args):    
+def handleCommands(args):  # @DontTrace
+    if args:
+        pass
     func = getFunc(command=OtcConfig.MAINCOM, subcommand=OtcConfig.SUBCOM)
-
     # call the function
     (func)()  
 
@@ -172,12 +173,12 @@ def main(argv=None): # IGNORE:C0111
         return 1
 
     except NoSectionError as e:
-            print("Configuration error. \nDefine ENV variables or run following command: \n    otc --configure [user | proxy]")
-            return 1
+        print("Configuration error. \nDefine ENV variables or run following command: \n    otc --configure [user | proxy]")
+        return 1
     except (KeyError,AttributeError) as e:
         #errno, strerror = e.args
         print("Invalid command:" + str(e))
-        parser.print_help(); 
+        parser.print_help()
         #raise
         ### handle keyboard interrupt ###
         return 0

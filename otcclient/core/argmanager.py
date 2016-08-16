@@ -3,7 +3,7 @@
 
 # This file is part of OTC Tool released under MIT license.
 # Copyright (C) 2016 T-systems Kurt Garloff, Zsolt Nagy
-# NOT used currently (later could change the autentication and plugin tech base on this )
+# NOT used currently (later could change the autentication and plugin tech base on this)
 
 import os
 from argparse import ArgumentParser, RawTextHelpFormatter

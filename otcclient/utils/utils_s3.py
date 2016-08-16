@@ -7,6 +7,7 @@ import boto3
 from botocore.exceptions import ClientError
 from otcclient.core.OtcConfig import OtcConfig 
 import os
+
     
 def createclient( ak , sk, region ):
     otcsession = boto3.session.Session()
@@ -43,24 +44,27 @@ def ls_bucket(Bucket = None, Prefix = None):
     return result
         
 
-def download_dir(client, dist, local='/tmp', bucket='your_bucket'):
+def __download_dir(client, dist=None, local='/tmp', bucket='your_bucket'):
     paginator = client.get_paginator('list_objects')
     for result in paginator.paginate(Bucket=bucket, Delimiter='/', Prefix=dist):
         if result.get('CommonPrefixes') is not None:
             for subdir in result.get('CommonPrefixes'):
-                download_dir(client,  subdir.get('Prefix'), local)
+                __download_dir(client,  subdir.get('Prefix'), local)
         if result.get('Contents') is not None:
             for dfile in result.get('Contents'): 
                 if not os.path.exists(os.path.dirname(local + os.sep + dfile.get('Key'))):
                     os.makedirs(os.path.dirname(local + os.sep + dfile.get('Key')))
                 boto3.resource('s3').meta.client.download_file(bucket, dfile.get('Key'), local + os.sep + dfile.get('Key'))
 
-def _start():
-    client = boto3.client('s3')
-    resource = boto3.resource('s3')
-    download_dir(client, resource, 'clientconf/', '/tmp')
+def download_dir(Bucket = None, Prefix = None, Local=None):
+    s3client = s3init()    
+    __download_dir(s3client, Prefix,Local, Bucket)
 
-def upload_dir(client, dist, local='/tmp', bucket='your_bucket'):    
+def upload_dir(Bucket = None, Prefix = None, Local=None):
+    s3client = s3init()    
+    __download_dir(s3client, Prefix,Local, Bucket)
+
+def __upload_dir(client, dist, local='/tmp', bucket='your_bucket'):    
     # enumerate local files recursively
     for root, dirs, files in os.walk(local):    # @UnusedVariable
         for filename in files:    
@@ -84,12 +88,12 @@ def upload_dir(client, dist, local='/tmp', bucket='your_bucket'):
                 print ("Uploading %s..." % s3_path)
                 client.upload_file(local_path, bucket, s3_path)    
     
-def create_bucket(Bucket = None, Prefix = None):
+def create_bucket(Bucket = None):
     s3client = s3init()    
     s3client.create_bucket(Bucket=Bucket) 
     
 
-def delete_bucket(Bucket = None, Prefix = None):
+def delete_bucket(Bucket = None):
     s3client = s3init()    
     s3client.delete_bucket(Bucket=Bucket) 
 
@@ -120,6 +124,6 @@ def download_file(Bucket = None, Prefix = None, File=None):
     s3client = s3init()         
     s3client.download_file(Bucket, Prefix,File)
 
-def sync(cls):
+def sync():
     raise RuntimeError( "not implemented yet")
 

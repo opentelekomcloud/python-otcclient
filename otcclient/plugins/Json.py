@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # This file is part of OTC Tool released under MIT license.
-# Copyright (C) 2016 T-systems Kurt Garloff, Zsolt Nagy
+# Copyright (C) 2016 T-systems Kurt Garloff, Zsolt Nagy 
 
 from otcclient.core.OtcConfig import OtcConfig 
 from otcclient.core.otcpluginbase import otcpluginbase

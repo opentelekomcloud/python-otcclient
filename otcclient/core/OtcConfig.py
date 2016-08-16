@@ -27,6 +27,8 @@ class OtcConfig(object):
     OTC_USER_FILE = OTC_USER_DIR + "/config"
     OTC_PROXY_FILE = OTC_USER_DIR + "/common"
 
+    DEBUG = None
+
     #  replace real AK
     ak = None
 
@@ -156,6 +158,8 @@ class OtcConfig(object):
     
     @classmethod
     def copyfromparser(self, parser):
+        self.DEBUG = parser.DEBUG                                               if parser.DEBUG else None
+        
         self.SECUGROUPNAME = parser.SECUGROUPNAME                               if parser.SECUGROUPNAME else None
         self.VPCNAME = parser.VPCNAME                                           if parser.VPCNAME else None
         self.SUBNETNAME = parser.SUBNETNAME                                     if parser.SUBNETNAME else None

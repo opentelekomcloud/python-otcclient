@@ -1,0 +1,1 @@
+for i in `ls -v tests/[0-9]*.sh`; do ./$i; done

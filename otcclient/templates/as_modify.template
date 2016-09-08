@@ -1,0 +1,1 @@
+{ "scaling_group_name":{{AS_GROUP}}, "scaling_configuration_id":"{{AS_CONFIG_ID}}", "desire_instance_number":1, "min_instance_number":1, "max_instance_number":3, "cool_down_time":200 }

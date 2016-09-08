@@ -140,7 +140,12 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--auto-scaling-group-name",dest="SCALINGGROUP_NAME", help="Name of Auto Scaling group")
         parser.add_argument( "--auto-scaling-group-id",dest="SCALINGGROUP_ID", help="Id of Auto Scaling group")
         
-        
+        parser.add_argument( "--dim",dest="DIM", nargs='*', help="CES Dim definition")
+        parser.add_argument( "--metric-name",dest="METRIC-NAME", help="CES Metric Name")
+        parser.add_argument( "--ñamespace",dest="NAMESPACE", help="CES Namespace")
+        parser.add_argument( "--period",dest="PERIOD", help="CES Period")
+        parser.add_argument( "--filter",dest="FILTER", help="CES Filter")
+
         
         parser.add_argument("-p", "--associate-public-ip-address", dest="CREATE_ECS_WITH_PUBLIC_IP", action='store_true',help="VM will get EIP public IP")
         parser.add_argument( "--public-ip",dest="PUBLICIP", help="Public IP for association")
@@ -163,6 +168,8 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--wait-instance-running", dest="WAIT_CREATE", action='store_true' , help="Wait instance running (only for run-instance command)")
         # Process arguments
         args = parser.parse_args()
+        #args = parser.parse_known_args()
+        
         OtcConfig.copyfromparser( args )
         
         configloader.readUserValues() 

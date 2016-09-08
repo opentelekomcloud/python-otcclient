@@ -55,10 +55,21 @@ class ces(otcpluginbase):
 
     @staticmethod
     def list_metric_data():
-        url = ces.baseurl+ "/V1.0/" + OtcConfig.PROJECT_ID + "/metric-data"                           
+        url = ces.baseurl+ "/V1.0/" + OtcConfig.PROJECT_ID + "/metric-data?namespace=SYS.ECS&metric_name=cpu_util&dim.0=instance_id,092cebda-839b-42f5-8819-8b440a48cac2&from=1442347449274&to=1442390649274&period=1200&filter=min"                           
         ret = utils_http.get(url)
         print (json.dumps(json.loads(ret), indent=4, sort_keys=True))
         return ret
+
+
+    @staticmethod
+    def describe_metric():
+        url = ces.baseurl+ "/V1.0/" + OtcConfig.PROJECT_ID + "/metrics?namespace=SYS.ECS&metric_name=cpu_util&dim.0=instance_id,fc1a4d7f-44ea-4035-9e55-e29743252617&limit=10&order=desc"                           
+        ret = utils_http.get(url)
+        print (json.dumps(json.loads(ret), indent=4, sort_keys=True))
+        return ret
+
+
+
 
     @staticmethod
     def describe_quotas():

@@ -23,6 +23,16 @@ class rds(otcpluginbase):
     def otctype(self):
         return "func" 
 
+    @staticmethod
+    def add():
+        print utils_templates.create_request("index")
+               
+#        print ret
+
+        url = rds.baseurl + "/rds/v1/"+ OtcConfig.PROJECT_ID + "/instances"
+        ret = utils_http.get(url)
+        return ret
+
 
     #print utils_templates.create_request("index")
 #        print url       

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-vm_filter=""
+vm_filter="$1"
 
 subnet_detail=$(otc ecs describe-subnets --output text)
 vpc_detail=$(otc ecs describe-vpcs --output text)

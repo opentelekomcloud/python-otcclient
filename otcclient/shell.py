@@ -191,11 +191,11 @@ def main(argv=None): # IGNORE:C0111
         #errno, strerror = e.args
         print("Invalid command:" + str(e))
         parser.print_help()
-        #raise
+        if OtcConfig.DEBUG or TESTRUN:        
+            raise
         ### handle keyboard interrupt ###
         return 0
     except ( Exception ) as e:
-    #    sys.exit()    
     
         if OtcConfig.DEBUG or TESTRUN:
             raise 

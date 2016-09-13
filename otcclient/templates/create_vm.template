@@ -12,9 +12,17 @@
         "security_groups": [{
             "id": "{{SECUGROUP}}"
         }],
-        "nics": [{
-            "subnet_id": "{{SUBNETID}}"
-        }],        
+        "nics": [
+        {% set subnetlist = SUBNETID.split(',') %}
+        {% for SUBNET in subnetlist %}
+        {
+            "subnet_id": "{{SUBNET}}"
+        }
+        {% if not loop.last %}
+        ,
+        {% endif %}
+        {% endfor %}
+        ],        
         {% if CREATE_ECS_WITH_PUBLIC_IP %}
             "publicip": { "eip": { "iptype": "5_bgp", "bandwidth": { "size": 5, "sharetype": "PER", "chargemode": "traffic" } } },
         {% endif %}                

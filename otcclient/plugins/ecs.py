@@ -468,11 +468,8 @@ class ecs(otcpluginbase):
 #        REQ_CREATE_VM = "    {                 " + "        \"server\": { " + "        \"availability_zone\": \"" + OtcConfig.AZ + "\",         " + "        \"name\": \"" + OtcConfig.INSTANCE_NAME + "\",            " + "        \"imageRef\": \"" + OtcConfig.IMAGE_ID + "\",             " + "        \"root_volume\": {      " + "            \"volumetype\": \"SATA\"            " + "        }, " + "        \"flavorRef\": \"" + OtcConfig.INSTANCE_TYPE + "\"," + PERSONALIZATION + "        \"vpcid\": \"" + OtcConfig.VPCID + "\",           " + "        \"security_groups\": [         " + "            { " + "                \"id\": \"" + OtcConfig.SECUGROUP + "\"   " + "            }    " + "        ],        " + "        \"nics\": [           " + "            {            " + "                \"subnet_id\": \"" + OtcConfig.SUBNETID + "\"        " + "            }         " + "        ],       " + PUBLICIPJSON + "        \"key_name\": \"" + OtcConfig.KEYNAME + "\",    " + "        \"adminPass\": \"" + OtcConfig.ADMINPASS + "\",   " + "        \"count\": \"" + OtcConfig.NUMCOUNT + "\",   " + "        \"},\": {      " + "            \"__vnc_keymap\": \"de\"    " + "        }   " + "        }   " + "    }       " + "    "
         
         REQ_CREATE_VM=utils_templates.create_request("create_vm")        
-        print REQ_CREATE_VM
-        
         url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers"
         ret = utils_http.post(url, REQ_CREATE_VM)
-#        ecs.otcOutputHandler().print_output(json.loads(ret),mainkey = "",listkey={"job_id"} )
         print ret 
 
         OtcConfig.ECSTASKID  = json.loads(ret)["job_id"]

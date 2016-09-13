@@ -1,1 +1,0 @@
-..\bin\otc ecs create-volume  --availability-zone eu-de-01 --count 1 --volume-name myvolume58  --size 100 --volume-type SATA

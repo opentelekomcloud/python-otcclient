@@ -1,1 +1,0 @@
-..\bin\otc ecs create-vpc --vpc-name myvpc2 --cidr 10.0.0.0/10

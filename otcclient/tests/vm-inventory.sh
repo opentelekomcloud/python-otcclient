@@ -7,7 +7,7 @@ vpc_detail=$(otc ecs describe-vpcs --output text)
 publicip_detail=$(otc ecs describe-addresses --output text)
 flavor_detail=$(otc ecs describe-flavors --output text)
 
-echo "tenantid,vm,id,Networks([VPC;Subnet;EIP[bandwith];Private IP]),status,flavor_id,secgroup,keyname,az,flavor,cpu,mem,image_name,os_version,size"
+echo 'tenantid,vm,id,"networks([VPC;Subnet;EIP[bandwith];Private IP])",status,flavor_id,secgroup,keyname,az,flavor,cpu,mem,image_name,os_version,size'
  
 for vm in $(otc ecs describe-instances --query "servers[*].name")
 do 
@@ -62,5 +62,6 @@ do
  done
  
  echo "$tenantid,$(echo $vm),$id,$otcnetinfo,$status,$flavor_id,$secgroup,$keyname,$az,$flavor,$cpu,$mem,$image_name,$os_version,$size"
+ echo "$tenantid,$(echo $vm),$id,\"$otcnetinfo\",$status,$flavor_id,$secgroup,$keyname,$az,$flavor,$cpu,$mem,$image_name,$os_version,$size"
   
 done 

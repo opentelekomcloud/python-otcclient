@@ -25,10 +25,11 @@ setup(name='python-otcclient',
 			author='Zsolt Nagy',
 			author_email='Z.Nagy@t-systems.com',
 			license='MIT License',
-			packages=['otcclient','otcclient.utils','otcclient.core','otcclient.plugins','otcclient.bin','otcclient.tests'],
+			packages=['otcclient','otcclient.utils','otcclient.core','otcclient.plugins','otcclient.bin','otcclient.tests','otcclient.templates'],
 			package_data={
 			   'otcclient.bin': ['*'],     # All files from folder A
-			   'otcclient.tests': ['*']  #All text files from folder B
+			   'otcclient.tests': ['*'],  #All text files from folder B
+			   'otcclient.templates': ['*']  #All text files from folder B
 			   },
 			# package_dir={'': 'otcclient'},
 			keywords="otc, openstack, huawei, cloud, devops, t-systems, s3, obs, containers, docker, rds",

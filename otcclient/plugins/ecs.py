@@ -6,6 +6,7 @@
 
 from otcclient.core.OtcConfig import OtcConfig 
 from otcclient.utils import utils_http
+from otcclient.utils import utils_http, utils_templates
 
 from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.pluginmanager import getplugin
@@ -341,6 +342,26 @@ class ecs(otcpluginbase):
         return ret
 
     @staticmethod
+    def create_network_interface():
+        if not (OtcConfig.VPCNAME is None):
+            ecs.convertVPCNameToId()
+        if not OtcConfig.SUBNETNAME is None:
+            ecs.convertSUBNETNameToId()
+        if not OtcConfig.SECUGROUPNAME is None:
+            ecs.convertSECUGROUPNameToId()
+        if not OtcConfig.INSTANCE_NAME is None:
+            ecs.convertINSTANCENameToId() 
+                    
+        url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers/" + OtcConfig.INSTANCE_ID + "/nics"
+        
+        req = utils_templates.create_request("add_nics")
+        print req
+        
+        ret = utils_http.post(url, req)
+        print(ret)
+        return ret
+
+    @staticmethod
     def create_security_group():
         if not (OtcConfig.VPCNAME is None):
             ecs.convertVPCNameToId()
@@ -438,11 +459,17 @@ class ecs(otcpluginbase):
             os._exit(1)
                             
         PUBLICIPJSON = ""
-        if OtcConfig.CREATE_ECS_WITH_PUBLIC_IP == "true":
-            PUBLICIPJSON = "\"publicip\": { \"eip\": { \"iptype\": \"5_bgp\", \"bandwidth\": { \"size\": 5, \"sharetype\": \"PER\", \"chargemode\": \"traffic\" } } },"
+#        if OtcConfig.CREATE_ECS_WITH_PUBLIC_IP:
+#            PUBLICIPJSON = "\"publicip\": { \"eip\": { \"iptype\": \"5_bgp\", \"bandwidth\": { \"size\": 5, \"sharetype\": \"PER\", \"chargemode\": \"traffic\" } } },"
         PERSONALIZATION = ecs.getPersonalizationJSON()
-        REQ_CREATE_VM = "    {                 " + "        \"server\": { " + "        \"availability_zone\": \"" + OtcConfig.AZ + "\",         " + "        \"name\": \"" + OtcConfig.INSTANCE_NAME + "\",            " + "        \"imageRef\": \"" + OtcConfig.IMAGE_ID + "\",             " + "        \"root_volume\": {      " + "            \"volumetype\": \"SATA\"            " + "        }, " + "        \"flavorRef\": \"" + OtcConfig.INSTANCE_TYPE + "\"," + PERSONALIZATION + "        \"vpcid\": \"" + OtcConfig.VPCID + "\",           " + "        \"security_groups\": [         " + "            { " + "                \"id\": \"" + OtcConfig.SECUGROUP + "\"   " + "            }    " + "        ],        " + "        \"nics\": [           " + "            {            " + "                \"subnet_id\": \"" + OtcConfig.SUBNETID + "\"        " + "            }         " + "        ],       " + PUBLICIPJSON + "        \"key_name\": \"" + OtcConfig.KEYNAME + "\",    " + "        \"adminPass\": \"" + OtcConfig.ADMINPASS + "\",   " + "        \"count\": \"" + OtcConfig.NUMCOUNT + "\",   " + "        \"},\": {      " + "            \"__vnc_keymap\": \"de\"    " + "        }   " + "        }   " + "    }       " + "    "
-        #print (REQ_CREATE_VM)
+        
+#        OtcConfig.PUBLICIPJSON = PUBLICIPJSON
+        OtcConfig.PERSONALIZATION = PERSONALIZATION
+#        REQ_CREATE_VM = "    {                 " + "        \"server\": { " + "        \"availability_zone\": \"" + OtcConfig.AZ + "\",         " + "        \"name\": \"" + OtcConfig.INSTANCE_NAME + "\",            " + "        \"imageRef\": \"" + OtcConfig.IMAGE_ID + "\",             " + "        \"root_volume\": {      " + "            \"volumetype\": \"SATA\"            " + "        }, " + "        \"flavorRef\": \"" + OtcConfig.INSTANCE_TYPE + "\"," + PERSONALIZATION + "        \"vpcid\": \"" + OtcConfig.VPCID + "\",           " + "        \"security_groups\": [         " + "            { " + "                \"id\": \"" + OtcConfig.SECUGROUP + "\"   " + "            }    " + "        ],        " + "        \"nics\": [           " + "            {            " + "                \"subnet_id\": \"" + OtcConfig.SUBNETID + "\"        " + "            }         " + "        ],       " + PUBLICIPJSON + "        \"key_name\": \"" + OtcConfig.KEYNAME + "\",    " + "        \"adminPass\": \"" + OtcConfig.ADMINPASS + "\",   " + "        \"count\": \"" + OtcConfig.NUMCOUNT + "\",   " + "        \"},\": {      " + "            \"__vnc_keymap\": \"de\"    " + "        }   " + "        }   " + "    }       " + "    "
+        
+        REQ_CREATE_VM=utils_templates.create_request("create_vm")        
+
+        
         url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers"
         ret = utils_http.post(url, REQ_CREATE_VM)
 #        ecs.otcOutputHandler().print_output(json.loads(ret),mainkey = "",listkey={"job_id"} )

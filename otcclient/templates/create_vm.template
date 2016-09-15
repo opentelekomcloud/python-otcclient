@@ -6,6 +6,9 @@
         "root_volume": {
             "volumetype": "{{VOLUME_TYPE}}"
         },
+        {% if USER_DATA %}
+        "user_data": "{{USER_DATA}}",
+        {% endif %}
         "flavorRef": "{{INSTANCE_TYPE}}",
         {{PERSONALIZATION}}
         "vpcid": "{{VPCID}}",

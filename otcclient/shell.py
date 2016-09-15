@@ -107,6 +107,7 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--instance-type",dest="INSTANCE_TYPE_NAME", help="Flavor type of the VM")
         parser.add_argument( "--image-name",dest="IMAGENAME", help="Name of the image reference will used during VM creation")
         parser.add_argument( "--image-id",dest="IMAGE_ID", help="Id of the image reference will use during VM creation")
+        parser.add_argument( "--user-data",dest="USER_DATA_PATH", help="Path to user-data file which will be used for cloud-init")
         
         
         parser.add_argument( "--image-url",dest="IMAGE_URL", help="Url of the image used during Image creation")

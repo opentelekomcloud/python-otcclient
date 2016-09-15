@@ -255,6 +255,12 @@ class ecs(otcpluginbase):
         FILE_TEMPLATE = "{ \"path\": \"" + aTarget + "\", \"contents\": \"" + FILECONTENT + "\" }"
         return FILE_TEMPLATE
 
+    @staticmethod
+    def getUserDataContent(aSource):
+        USER_DATA = ""
+        with open(aSource, "rb") as _file:
+            USER_DATA = base64.b64encode(_file.read())
+        return USER_DATA
 
     @staticmethod
     def getPersonalizationJSON():
@@ -474,6 +480,9 @@ class ecs(otcpluginbase):
 #        if OtcConfig.CREATE_ECS_WITH_PUBLIC_IP:
 #            PUBLICIPJSON = "\"publicip\": { \"eip\": { \"iptype\": \"5_bgp\", \"bandwidth\": { \"size\": 5, \"sharetype\": \"PER\", \"chargemode\": \"traffic\" } } },"
         PERSONALIZATION = ecs.getPersonalizationJSON()
+        if not OtcConfig.USER_DATA_PATH is None:
+            USER_DATA = ecs.getUserDataContent(OtcConfig.USER_DATA_PATH)
+            OtcConfig.USER_DATA = USER_DATA
         
 #        OtcConfig.PUBLICIPJSON = PUBLICIPJSON
         OtcConfig.PERSONALIZATION = PERSONALIZATION

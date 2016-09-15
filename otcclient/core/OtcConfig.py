@@ -64,7 +64,6 @@ class OtcConfig(object):
     CONTAINTER_FORMAT = None
     
     
-    
     NUMCOUNT = "1"
     INSTANCE_TYPE = None
     INSTANCE_TYPE_NAME = None
@@ -105,6 +104,8 @@ class OtcConfig(object):
     ECSACTION = None
     DEFAULT_HOST = "46.29.103.37"
     S3_HOSTNAME = str()
+    USER_DATA = None
+    USER_DATA_PATH = None
     FILE1 = None
     FILE2 = None
     FILE3 = None
@@ -209,6 +210,7 @@ class OtcConfig(object):
         self.SUBCOM_P1 = parser.SUBCOM_P1                                        if parser.SUBCOM_P1 else None
         self.SUBCOM_P2 = parser.SUBCOM_P2                                        if parser.SUBCOM_P2 else None        
         # self.ECSACTION= parser.ECSACTION                                        if parser.ECSACTION else str()
+        self.USER_DATA_PATH = parser.USER_DATA_PATH                              if parser.USER_DATA_PATH else None
         self.FILE1 = parser.FILE1                                                if parser.FILE1 else None
         self.FILE2 = parser.FILE2                                                if parser.FILE2 else None
         self.FILE3 = parser.FILE3                                                if parser.FILE3 else None

@@ -214,6 +214,20 @@ class ecs(otcpluginbase):
         print(ret)
         return ret
 
+    @staticmethod 
+    def resize_instance():        
+        if not OtcConfig.INSTANCE_NAME is None:
+            ecs.convertINSTANCENameToId() 
+        
+        if OtcConfig.INSTANCE_ID is None :
+            raise RuntimeError( "Error. Must be specify the Instance Name or ID!")
+     
+        url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers/" + OtcConfig.INSTANCE_ID + "/resize"
+        req = utils_templates.create_request("ecs_resize")
+        ret = utils_http.post(url, req)
+        print(ret)
+        return ret
+
 
     @staticmethod       
     def delete_key_pair():
@@ -352,13 +366,11 @@ class ecs(otcpluginbase):
         if not OtcConfig.INSTANCE_NAME is None:
             ecs.convertINSTANCENameToId() 
                     
-        url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers/" + OtcConfig.INSTANCE_ID + "/nics"
-        
+        url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers/" + OtcConfig.INSTANCE_ID + "/nics"        
         req = utils_templates.create_request("add_nics")
-        print req
-        
+                
         ret = utils_http.post(url, req)
-        print(ret)
+        
         return ret
 
     @staticmethod

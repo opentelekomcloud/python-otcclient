@@ -1,0 +1,7 @@
+{
+"name":"{{LISTENER_NAME}}",
+"description":"{{LISTENER_DESCRIPTION}}",
+"port":{{LISTENER_PORT}},
+"backend_port":{{BACKEND_PORT}},
+"lb_algorithm":"{{LB_ALGORITHM}}"
+}

@@ -1,0 +1,9 @@
+{
+"healthcheck_connect_port":{{HEALTHCHECK_CONNECT_PORT}},
+"healthcheck_interval":{{HEALTHCHECK_INTERVAL}},
+"healthcheck_protocol":"{{HEALTHCHECK_PROTOCOL}}",
+"healthcheck_timeout":{{HEALTHCHECK_TIMEOUT}},
+"healthcheck_uri":"{{HEALTHCHECK_URI}}",
+"healthy_threshold":{{HEALTHY_THREAHOLD}},
+"unhealthy_threshold":{{UNHEALTHY_THRESHOLD}}
+}

@@ -1,0 +1,7 @@
+{
+"vpc":
+{
+"name": "{{VPCNAME}}",
+"cidr": "{{CIDR}}"
+}
+}

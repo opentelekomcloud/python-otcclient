@@ -1,0 +1,12 @@
+{
+"privateips":
+[
+{
+"subnet_id": "{{SUBNETID}}"
+},
+{
+"subnet_id": "{{SUBNETID}}",
+"ip_address": "{{IP_ADDRESS}}"
+}
+]
+}

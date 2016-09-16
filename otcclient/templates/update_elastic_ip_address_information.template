@@ -1,0 +1,5 @@
+{
+"publicip": {
+"port_id": "{{PUBLICIP_PORT_ID}}"
+}
+}

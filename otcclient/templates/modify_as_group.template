@@ -1,0 +1,8 @@
+{
+"scaling_group_name":"{{SCALINGGROUP_NAME}}",
+"scaling_configuration_id":"{{SCALING_CONFIGURATION_ID}}",
+"desire_instance_number":{{DESIRE_INSTANCE_NUMBER}},
+"min_instance_number":{{MIN_INSTANCE_NUMBER}},
+"max_instance_number":{{MAX_INSTANCE_NUMBER}},
+"cool_down_time":{{COOL_DOWN_TIME}}
+}

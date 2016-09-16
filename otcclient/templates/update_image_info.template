@@ -1,0 +1,5 @@
+{
+	"op": "{{IMAGE_OP}}",
+	"path": "{{IMAGE_PATH}}",
+	"value": "{{IMAGE_VALUE}}"
+}

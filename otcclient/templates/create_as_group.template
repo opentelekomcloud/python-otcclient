@@ -19,7 +19,7 @@
 ],
 "security_groups": [
 {
-"id": "SECURITY_GROUPS_ID"
+"id": "{{SECURITY_GROUPS_ID}}"
 }
 ]
 }

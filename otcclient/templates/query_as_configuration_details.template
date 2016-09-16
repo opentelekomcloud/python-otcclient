@@ -1,0 +1,31 @@
+{
+"scaling_configuration": {
+"tenant": "{{TENANT}}",
+"scaling_configuration_id": "{{SCALING_CONFIGURATION_ID}}",
+"scaling_configuration_name": "{{SCALING_CONFIGURATION_NAME}}",
+"instance_config": {
+"disk": [
+{
+"size": {{DISK_SIZE}},
+"volume_type": "{{VOLUME_TYPE}}",
+"disk_type": "{{DISK_TYPE}}"
+},
+{
+"size": {{DISK_SIZE}},
+"volume_type": "{{VOLUME_TYPE}}",
+"disk_type": "{{DISK_TYPE}}"
+}
+],
+"adminPass": "{{ADMINPASS}}",
+"personality": {{PERSONALITY}},
+"instance_name": {{INSTANCE_NAME}},
+"instance_id": {{INSTANCE_ID}},
+"flavorRef": "{{FLAVOR_REF}}",
+"imageRef": "{{IMAGE_REF}}",
+"key_name": {{KEYNAME}},
+"public_ip": {{PUBLICIP}},
+"user_data": {{USER_DATA}}
+},
+"create_time": "{{CREATE_TIME}}"
+}
+}

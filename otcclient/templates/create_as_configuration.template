@@ -1,0 +1,14 @@
+{
+"scaling_configuration_name": "{{SCALINGGROUP_NAME}}",
+"instance_config": {
+"flavorRef": "{{FLAVOR_REF}}",
+"imageRef": "{{IMAGE_REF}}",
+"disk": [{
+"size": {{DISK_SIZE}},
+"volume_type": "{{VOLUME_TYPE}}",
+"disk_type": "{{DISK_TYPE}}"
+}],
+"personality": [],
+"key_name": "{{KEYNAME}}"
+}
+}

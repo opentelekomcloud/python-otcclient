@@ -1,1 +1,0 @@
-../bin/otc ecs create-security-group --group-name test2 --vpc-name default-vpc

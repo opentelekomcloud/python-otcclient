@@ -1,1 +1,0 @@
-call ..\bin\otc rds describe-db-instances

@@ -1,1 +1,0 @@
-..\bin\otc ecs attach-volume  --instance-ids 94fe497d-90c2-4311-8b0e-10ed759089d3 --volume-id b21845e8-fc1e-45fa-a947-e378a08b1765   --device /dev/sdb

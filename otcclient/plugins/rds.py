@@ -25,12 +25,12 @@ class rds(otcpluginbase):
 
     @staticmethod
     def add():
-        print utils_templates.create_request("index")
-               
+        ret = utils_templates.create_request("as_modify")
+        print ret
 #        print ret
 
-        url = rds.baseurl + "/rds/v1/"+ OtcConfig.PROJECT_ID + "/instances"
-        ret = utils_http.get(url)
+        #url = rds.baseurl + "/rds/v1/"+ OtcConfig.PROJECT_ID + "/instances"
+        #ret = utils_http.get(url)
         return ret
 
 

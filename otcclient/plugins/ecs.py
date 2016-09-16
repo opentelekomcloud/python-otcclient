@@ -6,6 +6,7 @@
 
 from otcclient.core.OtcConfig import OtcConfig 
 from otcclient.utils import utils_http
+from otcclient.utils import utils_http, utils_templates
 
 from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.pluginmanager import getplugin
@@ -213,6 +214,20 @@ class ecs(otcpluginbase):
         print(ret)
         return ret
 
+    @staticmethod 
+    def resize_instance():        
+        if not OtcConfig.INSTANCE_NAME is None:
+            ecs.convertINSTANCENameToId() 
+        
+        if OtcConfig.INSTANCE_ID is None :
+            raise RuntimeError( "Error. Must be specify the Instance Name or ID!")
+     
+        url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers/" + OtcConfig.INSTANCE_ID + "/resize"
+        req = utils_templates.create_request("ecs_resize")
+        ret = utils_http.post(url, req)
+        print(ret)
+        return ret
+
 
     @staticmethod       
     def delete_key_pair():
@@ -240,6 +255,12 @@ class ecs(otcpluginbase):
         FILE_TEMPLATE = "{ \"path\": \"" + aTarget + "\", \"contents\": \"" + FILECONTENT + "\" }"
         return FILE_TEMPLATE
 
+    @staticmethod
+    def getUserDataContent(aSource):
+        USER_DATA = ""
+        with open(aSource, "rb") as _file:
+            USER_DATA = base64.b64encode(_file.read())
+        return USER_DATA
 
     @staticmethod
     def getPersonalizationJSON():
@@ -288,7 +309,7 @@ class ecs(otcpluginbase):
             ecs.convertINSTANCENameToId() 
         
         if OtcConfig.INSTANCE_ID is None :
-            raise RuntimeError( "Error. Must be specify the Instance ID!")
+            raise RuntimeError( "Error. Must be specify the Instance Name or ID!")
         
         REQ_ECS_ACTION_VM = "{ " + "    \"" + OtcConfig.ECSACTION + "\": " + "    { " + "     \"type\":\"" + OtcConfig.ECSACTIONTYPE + "\", " + "     \"servers\": [ { \"id\": \"" + OtcConfig.INSTANCE_ID + "\" }] " + "     } " + "}"
         url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers/action"
@@ -299,7 +320,7 @@ class ecs(otcpluginbase):
 
     @staticmethod
     def start_instances():
-        OtcConfig.ECSACTION = "os-stop"
+        OtcConfig.ECSACTION = "os-start"
         ecs.ECSAction()
 
     @staticmethod
@@ -338,6 +359,24 @@ class ecs(otcpluginbase):
         url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/subnets"
         ret = utils_http.post(url, REQ_CREATE_SUBNET)
         print(ret)
+        return ret
+
+    @staticmethod
+    def create_network_interface():
+        if not (OtcConfig.VPCNAME is None):
+            ecs.convertVPCNameToId()
+        if not OtcConfig.SUBNETNAME is None:
+            ecs.convertSUBNETNameToId()
+        if not OtcConfig.SECUGROUPNAME is None:
+            ecs.convertSECUGROUPNameToId()
+        if not OtcConfig.INSTANCE_NAME is None:
+            ecs.convertINSTANCENameToId() 
+                    
+        url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers/" + OtcConfig.INSTANCE_ID + "/nics"        
+        req = utils_templates.create_request("add_nics")
+                
+        ret = utils_http.post(url, req)
+        
         return ret
 
     @staticmethod
@@ -438,14 +477,21 @@ class ecs(otcpluginbase):
             os._exit(1)
                             
         PUBLICIPJSON = ""
-        if OtcConfig.CREATE_ECS_WITH_PUBLIC_IP == "true":
-            PUBLICIPJSON = "\"publicip\": { \"eip\": { \"iptype\": \"5_bgp\", \"bandwidth\": { \"size\": 5, \"sharetype\": \"PER\", \"chargemode\": \"traffic\" } } },"
+#        if OtcConfig.CREATE_ECS_WITH_PUBLIC_IP:
+#            PUBLICIPJSON = "\"publicip\": { \"eip\": { \"iptype\": \"5_bgp\", \"bandwidth\": { \"size\": 5, \"sharetype\": \"PER\", \"chargemode\": \"traffic\" } } },"
         PERSONALIZATION = ecs.getPersonalizationJSON()
-        REQ_CREATE_VM = "    {                 " + "        \"server\": { " + "        \"availability_zone\": \"" + OtcConfig.AZ + "\",         " + "        \"name\": \"" + OtcConfig.INSTANCE_NAME + "\",            " + "        \"imageRef\": \"" + OtcConfig.IMAGE_ID + "\",             " + "        \"root_volume\": {      " + "            \"volumetype\": \"SATA\"            " + "        }, " + "        \"flavorRef\": \"" + OtcConfig.INSTANCE_TYPE + "\"," + PERSONALIZATION + "        \"vpcid\": \"" + OtcConfig.VPCID + "\",           " + "        \"security_groups\": [         " + "            { " + "                \"id\": \"" + OtcConfig.SECUGROUP + "\"   " + "            }    " + "        ],        " + "        \"nics\": [           " + "            {            " + "                \"subnet_id\": \"" + OtcConfig.SUBNETID + "\"        " + "            }         " + "        ],       " + PUBLICIPJSON + "        \"key_name\": \"" + OtcConfig.KEYNAME + "\",    " + "        \"adminPass\": \"" + OtcConfig.ADMINPASS + "\",   " + "        \"count\": \"" + OtcConfig.NUMCOUNT + "\",   " + "        \"},\": {      " + "            \"__vnc_keymap\": \"de\"    " + "        }   " + "        }   " + "    }       " + "    "
-        #print (REQ_CREATE_VM)
+        if not OtcConfig.USER_DATA_PATH is None:
+            USER_DATA = ecs.getUserDataContent(OtcConfig.USER_DATA_PATH)
+            OtcConfig.USER_DATA = USER_DATA
+        
+#        OtcConfig.PUBLICIPJSON = PUBLICIPJSON
+        OtcConfig.PERSONALIZATION = PERSONALIZATION
+#        REQ_CREATE_VM = "    {                 " + "        \"server\": { " + "        \"availability_zone\": \"" + OtcConfig.AZ + "\",         " + "        \"name\": \"" + OtcConfig.INSTANCE_NAME + "\",            " + "        \"imageRef\": \"" + OtcConfig.IMAGE_ID + "\",             " + "        \"root_volume\": {      " + "            \"volumetype\": \"SATA\"            " + "        }, " + "        \"flavorRef\": \"" + OtcConfig.INSTANCE_TYPE + "\"," + PERSONALIZATION + "        \"vpcid\": \"" + OtcConfig.VPCID + "\",           " + "        \"security_groups\": [         " + "            { " + "                \"id\": \"" + OtcConfig.SECUGROUP + "\"   " + "            }    " + "        ],        " + "        \"nics\": [           " + "            {            " + "                \"subnet_id\": \"" + OtcConfig.SUBNETID + "\"        " + "            }         " + "        ],       " + PUBLICIPJSON + "        \"key_name\": \"" + OtcConfig.KEYNAME + "\",    " + "        \"adminPass\": \"" + OtcConfig.ADMINPASS + "\",   " + "        \"count\": \"" + OtcConfig.NUMCOUNT + "\",   " + "        \"},\": {      " + "            \"__vnc_keymap\": \"de\"    " + "        }   " + "        }   " + "    }       " + "    "
+        
+        REQ_CREATE_VM=utils_templates.create_request("create_vm")        
         url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers"
         ret = utils_http.post(url, REQ_CREATE_VM)
-#        ecs.otcOutputHandler().print_output(json.loads(ret),mainkey = "",listkey={"job_id"} )
+        print ret 
 
         OtcConfig.ECSTASKID  = json.loads(ret)["job_id"]
 
@@ -458,7 +504,7 @@ class ecs(otcpluginbase):
                 #sys.stdout.flush()
         
         if "SUCCESS" == OtcConfig.ECSCREATEJOBSTATUS:
-            os._exit(1)
+            return OtcConfig.ECSCREATEJOBSTATUS
             
         print("ECS Creation status: " + OtcConfig.ECSCREATEJOBSTATUS)
         return ret
@@ -533,13 +579,22 @@ class ecs(otcpluginbase):
     @staticmethod
     def convertSUBNETNameToId():
         url = ecs.baseurl+ "/v1/" + OtcConfig.PROJECT_ID + "/subnets"
+        ar = []
+        print OtcConfig.SUBNETNAME
+        ar.append(OtcConfig.SUBNETNAME)
+        if "," in OtcConfig.SUBNETNAME:             
+            ar=str(OtcConfig.SUBNETNAME).split(",")
+                        
         JSON = utils_http.get(url)
         parsed  = json.loads(JSON)
         subnets = parsed["subnets"]        
-        ret = None
-        for subnet in subnets:
-            if subnet.get("name") == OtcConfig.SUBNETNAME and subnet.get("vpc_id") == OtcConfig.VPCID:
-                ret = subnet["id"]
+        ret = ""
+        for item in ar: 
+            for subnet in subnets:
+                if subnet.get("name") == item and subnet.get("vpc_id") == OtcConfig.VPCID:
+                    if len(ret) > 0:
+                        ret = ret + ","
+                    ret = ret + subnet["id"]
         OtcConfig.SUBNETID = ret        
 
     @staticmethod

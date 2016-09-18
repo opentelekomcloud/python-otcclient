@@ -1,0 +1,7 @@
+{
+	"nics": [
+		{
+			"id": "{{NETWORKINTERFACEID}}"
+		}
+	]
+}

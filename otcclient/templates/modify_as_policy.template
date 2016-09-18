@@ -1,0 +1,16 @@
+{
+	"scaling_policy_action": {
+		"instance_number": {{INSTANCE_NUMBER}},
+		"operation": "{{OPERATION_AS_POLICY}}"
+	},
+	"scaling_policy_name": "{{SCALING_POLICY_NAME}}",
+	"scheduled_policy": {
+		"recurrence_value": "{{RECURRENCE_VALUE}}",
+		"start_time": "{{START_TIME}}",
+		"launch_time": "{{LAUNCH_TIME}}",
+		"end_time": "{{END_TIME}}",
+		"recurrence_type": "{{RECURRENCE_TYPE}}"
+	},
+	"scaling_policy_type": "{{SCALING_POLICY_TYPE}}",
+	"cool_down_time": {{COOL_DOWN_TIME}
+}

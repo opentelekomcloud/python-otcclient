@@ -1,0 +1,12 @@
+{
+	"nics": [
+		{
+			"subnet_id": "{{SUBNETID}}",
+			"security_groups": [
+				{
+					"id": "{{SECURITY_GROUP_ID}}"
+				}
+			]
+		}
+	]
+}

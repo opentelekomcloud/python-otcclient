@@ -1,0 +1,8 @@
+{
+	"action": "{{INSTANCE_ACTION_ADD_REMOVE_BATCH}}",
+	"instances_id": [
+		"{{INSTANCE_ID_1}}",
+		"{{INSTANCE_ID_2}}"
+	],
+	"instance_delete": "{{INSTANCE_DELETE}}"
+}

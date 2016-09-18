@@ -1,0 +1,6 @@
+{
+	"volume": {
+		"name": "{{VOLUME_NAME}}",
+		"description": "{{DESCRIPTION}}"
+	}
+}

@@ -1,0 +1,26 @@
+{
+"scaling_group_name": "{{SCALINGGROUP_NAME}}",
+"scaling_configuration_id": "{{SCALING_CONFIGURATION_ID}}",
+"desire_instance_number": {{DESIRE_INSTANCE_NUMBER}},
+"min_instance_number": {{MIN_INSTANCE_NUMBER}},
+"max_instance_number": {{MAX_INSTANCE_NUMBER}},
+"cool_down_time": {{COOL_DOWN_TIME}},
+"health_periodic_audit_method": "{{HEALTH_PERIODIC_AUDIT_METHOD}}",
+"health_periodic_audit_time": "{{HEALTH_PERIODIC_AUDIT_TIME}}",
+"instance_terminate_policy": "{{INSTANCE_TERMINATE_POLICY}}",
+"vpc_id": "{{VPCID}}",
+"networks": [
+{
+"id": "{{NETWORKS_ID}}"
+}
+],
+"notifications":[
+"{{NOTIFICATIONS}}"
+],
+"security_groups": [
+{
+"id": "{{SECURITY_GROUPS_ID}}"
+}
+]
+}
+

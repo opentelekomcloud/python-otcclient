@@ -1,0 +1,6 @@
+{
+"description":"{{LISTENER_DESCRIPTION}}",
+"name":"{{LISTENER_NAME}}",
+"bandwidth": {{BANDWIDTH}},
+"admin_state_up": {{ADMIN_STATE_UP}}
+}

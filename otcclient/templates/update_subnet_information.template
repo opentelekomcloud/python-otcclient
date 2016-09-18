@@ -1,0 +1,9 @@
+{
+"subnet":
+{
+"name": "{{SUBNETNAME}}",
+"dhcp_enable": "{{DHCP_ENABLE}}",
+"primary_dns": "{{PRIMARYDNS}}",
+"secondary_dns": "{{SECDNS}}"
+}
+}

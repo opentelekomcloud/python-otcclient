@@ -1,0 +1,6 @@
+{
+"bandwidth":
+{"name": "{{BANDWIDTH_NAME}}",
+"size": {{BANDWIDTH_SIZE}}
+}
+}

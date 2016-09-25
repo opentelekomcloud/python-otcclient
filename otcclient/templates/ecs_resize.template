@@ -1,0 +1,1 @@
+{ "resize": { "flavorRef": "{{INSTANCE_TYPE}}" } }

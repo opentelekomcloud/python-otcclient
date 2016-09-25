@@ -25,7 +25,7 @@ from otcclient.core.OtcConfig import OtcConfig
 from otcclient.core.pluginmanager import getFunc       
 
 __all__ = []
-__version__ = 0.2
+__version__ = 1.1
 __date__ = '2016-08-16'
 __updated__ = '2016-08-16'
 

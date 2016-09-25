@@ -25,21 +25,13 @@ class rds(otcpluginbase):
 
     @staticmethod
     def add():
+        # TODO: NOT implemented         
         ret = utils_templates.create_request("as_modify")
-        print ret
-#        print ret
-
-        #url = rds.baseurl + "/rds/v1/"+ OtcConfig.PROJECT_ID + "/instances"
-        #ret = utils_http.get(url)
         return ret
 
 
-    #print utils_templates.create_request("index")
-#        print url       
-#        print ret
-
     @staticmethod
     def describe_db_instances():
-        url = rds.baseurl + "/rds/v1/"+ OtcConfig.PROJECT_ID + "/instances"
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/rds/v1/"+ OtcConfig.PROJECT_ID + "/instances"
         ret = utils_http.get(url)
         return ret

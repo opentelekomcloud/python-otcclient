@@ -7,12 +7,14 @@
 from abc import abstractmethod, ABCMeta
 from otcclient.core.OtcConfig import OtcConfig
 
+
+def converter(astr):    
+    return "https://" + OtcConfig.DEFAULT_HOST
+
 class otcpluginbase:    
     def __init__(self,*args,**kwargs):
         pass
-        
-    baseurl = "https://" + OtcConfig.DEFAULT_HOST
-    
+            
     __metaclass__ = ABCMeta
 
     @abstractmethod

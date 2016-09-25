@@ -35,7 +35,7 @@ class ims(otcpluginbase):
     def create_image_metadata():
                 
         # image id filled until now 
-        url = ims.baseurl + "/v2/images" 
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/v2/images" 
         REQ_CREATE_META_IMAGE = "{    \"__os_version\": \"" + OtcConfig.OS_VERSION + "\",\"container_format\": \"" + OtcConfig.CONTAINTER_FORMAT +  "\",\"disk_format\": \"" + OtcConfig.DISK_FORMAT + "\",    \"min_disk\": " +  OtcConfig.MIN_DISK + ",\"min_ram\": " + OtcConfig.MIN_RAM + ",\"name\": \"" + OtcConfig.IMAGENAME + "\",\"tags\": [\"" + OtcConfig.TAG_LIST + "\",\"image\"],\"visibility\": \"" + OtcConfig.IMAGE_VISIBILITY + "\",\"protected\": " + OtcConfig.PROTECTED + "}"    
         ret = utils_http.post(url, REQ_CREATE_META_IMAGE)        
         ims.otcOutputHandler().print_output(ret, mainkey="") 
@@ -57,7 +57,7 @@ class ims(otcpluginbase):
             raise RuntimeError("Please define image id!")
         
         # image id filled until now 
-        url = ims.baseurl + "/v2/images/" + OtcConfig.IMAGE_ID + "/file"
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/v2/images/" + OtcConfig.IMAGE_ID + "/file"
         REQ_REG_IMAGE = "{\"image_url\":\"" + OtcConfig.IMAGE_URL + "\" }"
         ret = utils_http.put(url, REQ_REG_IMAGE)
         if len(ret) != 0: 
@@ -74,7 +74,7 @@ class ims(otcpluginbase):
             raise RuntimeError("Please define image id!")
          
         # image id filled until now 
-        url = ims.baseurl + "/v2/images/" + OtcConfig.IMAGE_ID + "/file"
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/v2/images/" + OtcConfig.IMAGE_ID + "/file"
         REQ_REG_IMAGE = "{\"image_url\":\"" + OtcConfig.IMAGE_URL + "\" }"
         ret = utils_http.post(url, REQ_REG_IMAGE)
         if len(ret) != 0: 

@@ -103,6 +103,7 @@ class OtcConfig(object):
     SUBCOM_P2 = None
     ECSACTION = None
     DEFAULT_HOST = "46.29.103.37"
+    
     S3_HOSTNAME = str()
     USER_DATA = None
     USER_DATA_PATH = None

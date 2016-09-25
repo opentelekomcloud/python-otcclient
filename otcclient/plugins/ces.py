@@ -28,10 +28,10 @@ class ces(otcpluginbase):
 
     @staticmethod
     def describe_alarms():
-        url = ces.baseurl+ "/V1.0/" + OtcConfig.PROJECT_ID + "/alarms"
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/V1.0/" + OtcConfig.PROJECT_ID + "/alarms"
         if not (OtcConfig.ALARM_NAME is None):
             ces.convertALARMNameToId()
-            url = ces.baseurl+ "/V1.0/" + OtcConfig.PROJECT_ID + "/alarms?start=" + OtcConfig.ALARM_ID       
+            url = "https://" + OtcConfig.DEFAULT_HOST+ "/V1.0/" + OtcConfig.PROJECT_ID + "/alarms?start=" + OtcConfig.ALARM_ID       
                            
         ret = utils_http.get(url)
         print (json.dumps(json.loads(ret), indent=4, sort_keys=True))
@@ -41,21 +41,21 @@ class ces(otcpluginbase):
 
     @staticmethod
     def list_metrics():
-        url = ces.baseurl+ "/V1.0/" + OtcConfig.PROJECT_ID + "/metrics"                           
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/V1.0/" + OtcConfig.PROJECT_ID + "/metrics"                           
         ret = utils_http.get(url)
         print (json.dumps(json.loads(ret), indent=4, sort_keys=True))
         return ret
 
     @staticmethod
     def list_favorite_metrics():
-        url = ces.baseurl+ "/V1.0/" + OtcConfig.PROJECT_ID + "/favorite-metrics"                           
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/V1.0/" + OtcConfig.PROJECT_ID + "/favorite-metrics"                           
         ret = utils_http.get(url)
         print (json.dumps(json.loads(ret), indent=4, sort_keys=True))
         return ret
 
     @staticmethod
     def list_metric_data():
-        url = ces.baseurl+ "/V1.0/" + OtcConfig.PROJECT_ID + "/metric-data?namespace=SYS.ECS&metric_name=cpu_util&dim.0=instance_id,092cebda-839b-42f5-8819-8b440a48cac2&from=1442347449274&to=1442390649274&period=1200&filter=min"                           
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/V1.0/" + OtcConfig.PROJECT_ID + "/metric-data?namespace=SYS.ECS&metric_name=cpu_util&dim.0=instance_id,092cebda-839b-42f5-8819-8b440a48cac2&from=1442347449274&to=1442390649274&period=1200&filter=min"                           
         ret = utils_http.get(url)
         print (json.dumps(json.loads(ret), indent=4, sort_keys=True))
         return ret
@@ -63,7 +63,7 @@ class ces(otcpluginbase):
 
     @staticmethod
     def describe_metric():
-        url = ces.baseurl+ "/V1.0/" + OtcConfig.PROJECT_ID + "/metrics?namespace=SYS.ECS&metric_name=cpu_util&dim.0=instance_id,fc1a4d7f-44ea-4035-9e55-e29743252617&limit=10&order=desc"                           
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/V1.0/" + OtcConfig.PROJECT_ID + "/metrics?namespace=SYS.ECS&metric_name=cpu_util&dim.0=instance_id,fc1a4d7f-44ea-4035-9e55-e29743252617&limit=10&order=desc"                           
         ret = utils_http.get(url)
         print (json.dumps(json.loads(ret), indent=4, sort_keys=True))
         return ret
@@ -73,7 +73,7 @@ class ces(otcpluginbase):
 
     @staticmethod
     def describe_quotas():
-        url = ces.baseurl+ "/V1.0/" + OtcConfig.PROJECT_ID + "/quotas"                           
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/V1.0/" + OtcConfig.PROJECT_ID + "/quotas"                           
         ret = utils_http.get(url)
         print (json.dumps(json.loads(ret), indent=4, sort_keys=True))
         return ret
@@ -85,7 +85,7 @@ class ces(otcpluginbase):
 #             ces.convertALARMNameToId()            
 #         if not (OtcConfig.VPCNAME is None):
 #             ecs.convertVPCNameToId()   
-#         url = ces.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/alarms" + "?start=" + OtcConfig.ALARM_ID              
+#         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/alarms" + "?start=" + OtcConfig.ALARM_ID              
 # 
 #         ret = utils_http.delete(url)
 #         print(ret)
@@ -94,7 +94,7 @@ class ces(otcpluginbase):
 # 
     @staticmethod
     def convertALARMNameToId():
-        url = ces.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/alarms"        
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/alarms"        
         JSON = utils_http.get(url)        
         parsed  = json.loads(JSON)
         alarms = parsed["alarms"]        
@@ -115,7 +115,7 @@ class ces(otcpluginbase):
 #         
 #          
 #         REQ_CREATE_ALARM = "{ \"name\": \"" + OtcConfig.LOADBALANCER_NAME + "\", \"description\": \"" + OtcConfig.LOADBALANCER_NAME+ "\", \"vpc_id\": \"" + OtcConfig.VPCID +"\", \"bandwidth\": 10, \"type\": \"External\", \"admin_state_up\": true }" 
-#         url = ces.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/alarms"
+#         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/alarms"
 #         ret = utils_http.post(url, REQ_CREATE_ALARM)
 #         print( ret )
 #         maindata = json.loads(ret)

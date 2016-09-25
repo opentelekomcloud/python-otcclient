@@ -16,6 +16,7 @@ from  otcclient.core.OtcConfig import OtcConfig
 import os
 
 from otcclient.core.pluginmanager import getplugin
+from urlparse import urlparse
  
 class configloader(object):
     """
@@ -47,10 +48,20 @@ class configloader(object):
         OtcConfig.ak = os.getenv("S3_ACCESS_KEY_ID", None)
         OtcConfig.sk = os.getenv("S3_SECRET_ACCESS_KEY", None)
         OtcConfig.PROJECT_ID = os.getenv("PROJECT_ID", None)
+        host = os.getenv("OS_AUTH_URL", None)
+        
+        if( host ):
+            p = urlparse(host)
+            host = p.hostname
+            OtcConfig.DEFAULT_HOST = host
+        
 
         Config = ConfigParser.ConfigParser()
         
         Config.read(OtcConfig.OTC_USER_FILE) 
+                 
+        if( Config.has_option("otc", "host") ):
+            OtcConfig.DEFAULT_HOST = Config.get("otc", "host", "")
         
         if(OtcConfig.USERNAME is None):
             OtcConfig.USERNAME = Config.get("otc", "username") 

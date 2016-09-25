@@ -35,7 +35,7 @@ class elb(otcpluginbase):
     def delete_load_balancers():        
         if not (OtcConfig.LOADBALANCER_NAME is None):
             elb.convertELBNameToId()            
-        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers" + "/" + OtcConfig.LOADBALANCER_ID
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers" + "/" + OtcConfig.LOADBALANCER_ID
 
         ret = utils_http.delete(url)
         print(ret)
@@ -46,7 +46,7 @@ class elb(otcpluginbase):
         if not (OtcConfig.LOADBALANCER_NAME is None):
             elb.convertELBNameToId()
 
-        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners" + "?loadbalancer_id=" + OtcConfig.LOADBALANCER_ID       
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners" + "?loadbalancer_id=" + OtcConfig.LOADBALANCER_ID       
                
         ret = utils_http.get(url)
         mod =  ret.replace("[","").replace("]","")        
@@ -58,7 +58,7 @@ class elb(otcpluginbase):
         if not (OtcConfig.LISTENER_NAME is None):
             elb.convertLISTENERNameToId()
 
-        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners/" + OtcConfig.LISTENER_ID + "/members"       
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners/" + OtcConfig.LISTENER_ID + "/members"       
                
         ret = utils_http.get(url)
         mod =  "{ \"members\": " + ret + " }" 
@@ -73,7 +73,7 @@ class elb(otcpluginbase):
         if not (OtcConfig.LOADBALANCER_NAME is None):
             elb.convertELBNameToId()
         
-        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/healthcheck/" + OtcConfig.HEALTCHECK_ID        
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/healthcheck/" + OtcConfig.HEALTCHECK_ID        
                
         ret = utils_http.get(url)
         
@@ -84,16 +84,16 @@ class elb(otcpluginbase):
 
     @staticmethod
     def describe_load_balancers():
-        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers"        
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers"        
         if not (OtcConfig.LOADBALANCER_NAME is None):
             elb.convertELBNameToId()
         
         if OtcConfig.LOADBALANCER_ID:
-            url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers" + "/" + OtcConfig.LOADBALANCER_ID
+            url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers" + "/" + OtcConfig.LOADBALANCER_ID
             ret = utils_http.get(url)                       
             ecs.otcOutputHandler().print_output(ret,mainkey="")
         else:
-            url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers"
+            url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers"
             ret = utils_http.get(url) 
             elb.otcOutputHandler().print_output(ret, mainkey="loadbalancers", listkey={"vip_address","update_time","create_time","id","name","status","bandwidth","admin_state_up","type","description" } )
                          
@@ -102,7 +102,7 @@ class elb(otcpluginbase):
 
     @staticmethod
     def convertELBNameToId():
-        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers"        
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers"        
         JSON = utils_http.get(url)        
         parsed  = json.loads(JSON)
         loadbalancers = parsed["loadbalancers"]        
@@ -115,7 +115,7 @@ class elb(otcpluginbase):
 
     @staticmethod
     def convertLISTENERNameToId():
-        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners"        
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners"        
         JSON = utils_http.get(url)        
         
         parsed  = json.loads(JSON)
@@ -136,7 +136,7 @@ class elb(otcpluginbase):
             ecs.convertVPCNameToId()        
          
         REQ_CREATE_ELB = "{ \"name\": \"" + OtcConfig.LOADBALANCER_NAME + "\", \"description\": \"" + OtcConfig.LOADBALANCER_NAME+ "\", \"vpc_id\": \"" + OtcConfig.VPCID +"\", \"bandwidth\": 10, \"type\": \"External\", \"admin_state_up\": true }" 
-        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers"
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers"
         ret = utils_http.post(url, REQ_CREATE_ELB)
         print(ret)         
         maindata = json.loads(ret)
@@ -159,7 +159,7 @@ class elb(otcpluginbase):
         #REQ_CREATE_ELB = "{ \"name\": \"" + OtcConfig.LOADBALANCER_NAME + "\", \"description\": \"" + OtcConfig.LOADBALANCER_NAME+ "\", \"vpc_id\": \"" + OtcConfig.VPCID +"\", \"bandwidth\": 10, \"type\": \"External\", \"admin_state_up\": true }"
         REQ_CREATE_LISTENER = "{ \"name\":\"listener1\", \"description\":\"\", \"loadbalancer_id\":\"0b07acf06d243925bc24a0ac7445267a\", \"protocol\":\"HTTP\", \"port\":88, \"backend_protocol\":\"HTTP\", \"backend_port\":80, \"lb_algorithm\":\"roundrobin\", \"session_sticky\":true, \"sticky_session_type\":\"insert\", \"cookie_timeout\":100 }"         
         #print( REQ_CREATE_ELB )        
-        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners"
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners"
         ret = utils_http.post(url, REQ_CREATE_LISTENER)
         print( ret )
         maindata = json.loads(ret)
@@ -173,7 +173,7 @@ class elb(otcpluginbase):
 
     @staticmethod
     def describe_quotas():
-        url = elb.baseurl+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/quotas"                           
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/quotas"                           
         ret = utils_http.get(url)
         print( ret )
         ecs.otcOutputHandler().print_output(ret,mainkey="")

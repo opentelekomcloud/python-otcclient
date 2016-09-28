@@ -43,9 +43,9 @@ otc version                                                          Print OTC C
 S3 Commands:
 otc s3 ls                                                            List Buckets
 otc s3 ls mybucket                                                   List Bucket files
-otc s3api create-bucket --bucket mybucket                                      Create New Bucket
-otc.bat s3 cp s3://bucketname/filename.txt /localdir/filename.txt    Download from bucket to local
-otc.bat s3 cp /localdir/filename.txt s3://bucketname/filename.txt    Upload file / directory to bucket
+otc s3 mb mybucket                                                   Create New Bucket
+otc s3 cp s3://bucketname/filename.txt /localdir/filename.txt        Download from bucket to local
+otc s3 cp /localdir/filename.txt s3://bucketname/filename.txt        Upload file / directory to bucket
 ECS Flavor & Image Commands:
 otc ecs describe-flavors                                             List avaliable flavors (VM templates)
 otc ecs describe-images                                              List image templates

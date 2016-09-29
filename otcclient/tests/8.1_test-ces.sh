@@ -1,5 +1,7 @@
-otc ces describe-alarms 
-otc ces list-metrics 
-otc ces list-favorite-metrics 
-otc ces list-metric-data
-otc ces describe-quotas
+source ./otcclient/tests/otcfunc.sh 
+
+apitest otc ces describe-alarms 
+apitest otc ces list-metrics 
+apitest otc ces list-favorite-metrics 
+apitest otc ces list-metric-data
+apitest otc ces describe-quotas

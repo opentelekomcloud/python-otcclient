@@ -62,6 +62,10 @@ class configloader(object):
                  
         if( Config.has_option("otc", "host") ):
             OtcConfig.DEFAULT_HOST = Config.get("otc", "host", "")
+
+        if( Config.has_option("otc", "obs_host") ):
+            OtcConfig.DEFAULT_OBS_HOST = Config.get("otc", "obs_host", "")
+
         
         if(OtcConfig.USERNAME is None):
             OtcConfig.USERNAME = Config.get("otc", "username") 

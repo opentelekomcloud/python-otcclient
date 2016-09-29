@@ -103,6 +103,7 @@ class OtcConfig(object):
     SUBCOM_P2 = None
     ECSACTION = None
     DEFAULT_HOST = "46.29.103.37"
+    DEFAULT_OBS_HOST = "obs.otc.t-systems.com"
     
     S3_HOSTNAME = str()
     USER_DATA = None
@@ -147,6 +148,9 @@ class OtcConfig(object):
     QUERY = None
     SOURCE_GROUP_ID = None
     SOURCE_GROUP = None
+
+    CLUSTER_ID = None
+    CLUSTER = None
 
 
     

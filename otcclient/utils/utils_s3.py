@@ -11,11 +11,11 @@ import os
     
 def createclient( ak , sk, region ):
     otcsession = boto3.session.Session()
-    s3client = otcsession.client('s3', region, \
-                               config=boto3.session.Config(signature_version='s3v4'), \
-                               endpoint_url='https://obs.otc.t-systems.com', \
-                               aws_access_key_id=ak, \
-                               aws_secret_access_key=sk \
+    s3client = otcsession.client('s3', region, 
+                               config=boto3.session.Config(signature_version='s3v4'),                                
+                               endpoint_url="https://"+ OtcConfig.DEFAULT_OBS_HOST,                                
+                               aws_access_key_id=ak, 
+                               aws_secret_access_key=sk 
                                )
     
     return s3client

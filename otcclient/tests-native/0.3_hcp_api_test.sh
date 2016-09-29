@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source ./nativefunc.sh 
+source ../tests/otcfunc.sh 
 
 apitest neutron --insecure net-list
 apitest neutron --insecure net-create apitestnet

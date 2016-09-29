@@ -195,7 +195,7 @@ def main(argv=None): # IGNORE:C0111
         if OtcConfig.DEBUG or TESTRUN:        
             raise
         ### handle keyboard interrupt ###
-        return 0
+        return 1
     except ( Exception ) as e:
     
         if OtcConfig.DEBUG or TESTRUN:

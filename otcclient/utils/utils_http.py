@@ -68,6 +68,10 @@ def httpcall( url, datastr=None, delete=None, put=None):
     if len(OtcConfig.TOKEN) > 0:
         headers['X-Auth-Token'] = OtcConfig.TOKEN
 
+    if OtcConfig.CLUSTER_ID:
+        headers['X-Cluster-Uuid'] = OtcConfig.CLUSTER_ID
+
+
     if put:
         data = datastr        
         response=s.put(url, data, headers=headers, verify=False)

@@ -196,6 +196,9 @@ class OtcConfig(object):
 
         self.SCALINGGROUP_NAME = parser.SCALINGGROUP_NAME                 if parser.SCALINGGROUP_NAME else None
         self.SCALINGGROUP_ID = parser.SCALINGGROUP_ID                     if parser.SCALINGGROUP_ID else None
+
+        self.CLUSTER = parser.CLUSTER                 if parser.CLUSTER else None
+        self.CLUSTER_ID = parser.CLUSTER_ID                     if parser.CLUSTER_ID else None
         
         
         self.ADMINPASS = parser.ADMINPASS                                        if parser.ADMINPASS else str()

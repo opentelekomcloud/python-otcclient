@@ -152,6 +152,9 @@ class OtcConfig(object):
     CLUSTER_ID = None
     CLUSTER = None
 
+    NAMESPACE_ID = None
+    NAMESPACE = None
+
 
     
     @classmethod
@@ -199,6 +202,8 @@ class OtcConfig(object):
 
         self.CLUSTER = parser.CLUSTER                 if parser.CLUSTER else None
         self.CLUSTER_ID = parser.CLUSTER_ID                     if parser.CLUSTER_ID else None
+
+        self.NAMESPACE = parser.NAMESPACE                 if parser.NAMESPACE else None
         
         
         self.ADMINPASS = parser.ADMINPASS                                        if parser.ADMINPASS else str()

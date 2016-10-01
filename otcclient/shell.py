@@ -109,6 +109,8 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--image-id",dest="IMAGE_ID", help="Id of the image reference will use during VM creation")
         parser.add_argument( "--cluster-name",dest="CLUSTER", help="Name of the cluster")
         parser.add_argument( "--cluster-id",dest="CLUSTER_ID", help="Id of the cluster")
+        parser.add_argument( "--namespace-id",dest="NAMESPACE_ID", help="Namespace Id of the cluster")
+
 
         
         parser.add_argument( "--user-data",dest="USER_DATA_PATH", help="Path to user-data file which will be used for cloud-init")
@@ -147,7 +149,7 @@ def main(argv=None): # IGNORE:C0111
         
         parser.add_argument( "--dim",dest="DIM", nargs='*', help="CES Dim definition")
         parser.add_argument( "--metric-name",dest="METRIC-NAME", help="CES Metric Name")
-        parser.add_argument( "--ñamespace",dest="NAMESPACE", help="CES Namespace")
+        parser.add_argument( "--namespace",dest="NAMESPACE", help="CES/CCE Namespace")
         parser.add_argument( "--period",dest="PERIOD", help="CES Period")
         parser.add_argument( "--filter",dest="FILTER", help="CES Filter")
 

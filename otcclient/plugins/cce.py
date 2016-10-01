@@ -63,6 +63,9 @@ class cce(otcpluginbase):
 
     @staticmethod
     def list_container_instances():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()
+
         if OtcConfig.INSTANCE_NAME:
             ecs.convertINSTANCENameToId()
         
@@ -88,12 +91,39 @@ class cce(otcpluginbase):
 
 
     @staticmethod
-    def list_namespaces():
+    def create_namespace():
         if OtcConfig.CLUSTER:
             cce.convertClusterNameToId()         
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces"
-        ret = utils_http.get(url)
+        req = utils_templates.create_request("create_namespace")
+        print req
+        print OtcConfig.NAMESPACE
+        ret = utils_http.post(url, req)
+        print ret
+        #ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        return ret
+
+
+    @staticmethod
+    def describe_namespaces():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()
+            
+        if OtcConfig.NAMESPACE:
+            url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE
+        else:          
+            url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces"    
+        ret = utils_http.post(url)        
         ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        return ret
+
+    @staticmethod       
+    def delete_namespaces():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE
+        ret = utils_http.delete(url)
+        print(ret)
         return ret
 
 

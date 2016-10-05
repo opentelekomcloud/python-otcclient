@@ -1,0 +1,24 @@
+{ 
+    "kind": "PodTemplate", 
+    "apiVersion": "v1", 
+    "metadata": { 
+        "name": "{{POD}}",
+        "labels":{
+            "cce/appgroup": "{{POD}}"
+        }
+    }, 
+    "template": { 
+        "spec": { 
+            "containers": [{ 
+                "name": "{{CONTAINER_NAME}}", 
+                "image": "{{IMAGENAME}}", 
+                "ports": [{ 
+                    "containerPort": {{PORTMIN}}, 
+                    "protocol": "TCP" 
+                }], 
+                "imagePullPolicy": "Always" 
+            }], 
+            "restartPolicy": "Always"
+        } 
+    } 
+}

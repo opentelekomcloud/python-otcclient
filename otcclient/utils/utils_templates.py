@@ -21,6 +21,11 @@ def render_template(template_filename, context):
 
 def create_request(template):
     template_file_name = template+ '.template'
-    req = render_template(template_file_name, OtcConfig.__dict__)
+    if OtcConfig.CLIINPUTJSONFILE: 
+        with open(OtcConfig.CLIINPUTJSONFILE, "rb") as _file:
+            req= _file.read()        
+        #req = render_template(OtcConfig.CLIINPUTJSONFILE, OtcConfig.__dict__)
+    else:        
+        req = render_template(template_file_name, OtcConfig.__dict__)
     return req
 

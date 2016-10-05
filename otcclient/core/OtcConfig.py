@@ -62,7 +62,7 @@ class OtcConfig(object):
     IMAGE_VISIBILITY = None
     DISK_FORMAT = None
     CONTAINTER_FORMAT = None
-    
+    CONTAINTER_FORMAT
     
     NUMCOUNT = "1"
     INSTANCE_TYPE = None
@@ -154,7 +154,11 @@ class OtcConfig(object):
 
     NAMESPACE_ID = None
     NAMESPACE = None
-
+    POD = None
+    CONTAINER_NAME = None    
+    SERVICE_NAME = None
+    ENDPOINT_NAME = None
+    CLIINPUTJSONFILE = None
 
     
     @classmethod
@@ -184,6 +188,8 @@ class OtcConfig(object):
         self.DISK_FORMAT = parser.DISK_FORMAT                                   if parser.DISK_FORMAT else None
         self.CONTAINTER_FORMAT = parser.CONTAINTER_FORMAT                       if parser.CONTAINTER_FORMAT else None
         
+        
+        
         self.NUMCOUNT = parser.NUMCOUNT                                         if parser.NUMCOUNT else str()
         # self.INSTANCE_TYPE_ = parser.INSTANCE_TYPE                               if parser.INSTANCE_TYPE else str()
         self.INSTANCE_TYPE_NAME = parser.INSTANCE_TYPE_NAME                     if parser.INSTANCE_TYPE_NAME else str()
@@ -202,10 +208,13 @@ class OtcConfig(object):
 
         self.CLUSTER = parser.CLUSTER                 if parser.CLUSTER else None
         self.CLUSTER_ID = parser.CLUSTER_ID                     if parser.CLUSTER_ID else None
-
         self.NAMESPACE = parser.NAMESPACE                 if parser.NAMESPACE else None
+        self.POD = parser.POD                             if parser.POD else None
+        self.CONTAINER_NAME = parser.CONTAINER_NAME                             if parser.CONTAINER_NAME else None
+        self.SERVICE_NAME = parser.SERVICE_NAME                                 if parser.SERVICE_NAME else None
+        self.ENDPOINT_NAME = parser.ENDPOINT_NAME                                 if parser.ENDPOINT_NAME else None
         
-        
+                
         self.ADMINPASS = parser.ADMINPASS                                        if parser.ADMINPASS else str()
         self.CREATE_ECS_WITH_PUBLIC_IP = parser.CREATE_ECS_WITH_PUBLIC_IP        if parser.CREATE_ECS_WITH_PUBLIC_IP else str()
         # self.ECSACTIONTYPE = parser.ECSACTIONTYPE                               if parser.ECSACTIONTYPE else str()
@@ -257,4 +266,6 @@ class OtcConfig(object):
         self.QUERY = parser.QUERY                                               if parser.QUERY else None
         self.SOURCE_GROUP = parser.SOURCE_GROUP                                  if parser.SOURCE_GROUP else None
         self.SOURCE_GROUP_ID = parser.SOURCE_GROUP_ID                           if parser.SOURCE_GROUP_ID else None
+        self.CLIINPUTJSONFILE = parser.CLIINPUTJSONFILE                           if parser.CLIINPUTJSONFILE else None
+        
         

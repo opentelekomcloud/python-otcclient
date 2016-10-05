@@ -1,0 +1,17 @@
+{
+    "kind": "Service",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "{{SERVICE_NAME}}"
+    },
+    "spec": {
+        "selector": { 
+            "name": "{{SERVICE_NAME}}"
+        }, 
+        "ports": [{
+            "protocol": "TCP",
+            "port": {{PORTMIN}},
+            "targetPort": {{PORTMAX}}
+        }]
+    }
+}

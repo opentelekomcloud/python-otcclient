@@ -86,6 +86,19 @@ class cce(otcpluginbase):
             cce.convertClusterNameToId()
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/services"
         ret = utils_http.get(url)
+        
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
+        return ret
+
+
+    @staticmethod
+    def create_service():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()
+                 
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/services"
+        req = utils_templates.create_request("cce_create_service")
+        ret = utils_http.post(url, req)
         ecs.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
 
@@ -96,11 +109,21 @@ class cce(otcpluginbase):
             cce.convertClusterNameToId()         
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces"
         req = utils_templates.create_request("create_namespace")
-        print req
-        print OtcConfig.NAMESPACE
+        #print req
+        #print OtcConfig.NAMESPACE
         ret = utils_http.post(url, req)
-        print ret
-        #ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        #print ret
+        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        return ret
+
+    @staticmethod
+    def rename_namespace():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()         
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces"
+        req = utils_templates.create_request("cce_rename_namespace")        
+        ret = utils_http.post(url, req)
+        ecs.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
 
 
@@ -118,12 +141,132 @@ class cce(otcpluginbase):
         return ret
 
     @staticmethod       
-    def delete_namespaces():
+    def delete_namespace():
         if OtcConfig.CLUSTER:
             cce.convertClusterNameToId()
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE
         ret = utils_http.delete(url)
-        print(ret)
+        ecs.otcOutputHandler().print_output(ret,mainkey="")        
         return ret
 
 
+    @staticmethod
+    def describe_pods():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()
+            
+        if OtcConfig.NAMESPACE:
+            if OtcConfig.POD:
+                url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/pods/" + OtcConfig.POD 
+            else:
+                url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/pods"
+        else:          
+            url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/pods"    
+        ret = utils_http.get(url)        
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
+        return ret
+
+
+    @staticmethod
+    def create_pod():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()            
+        
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/pods"
+        req = utils_templates.create_request("cce_create_pod")
+        print req        
+        ret = utils_http.post(url, req)
+        cce.otcOutputHandler().print_output(ret,mainkey="")    
+        return ret
+
+    @staticmethod
+    def delete_pod():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()                    
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/pods/" + OtcConfig.POD 
+                         
+        ret = utils_http.delete(url)
+        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        return ret
+
+    
+    @staticmethod
+    def create_pod_template():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()
+                 
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/podtemplates"
+        req = utils_templates.create_request("cce_create_pod_template")
+        print req
+        ret = utils_http.post(url, req)
+        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        return ret
+
+    @staticmethod
+    def describe_pod_templates():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()
+                    
+        if OtcConfig.POD:
+            url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/podtemplates/" + OtcConfig.POD 
+        else:
+            url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/podtemplates"
+                         
+        ret = utils_http.get(url)
+        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        return ret
+    
+    
+    @staticmethod
+    def delete_pod_templates():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()
+                    
+        if OtcConfig.POD:
+            url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/podtemplates/" + OtcConfig.POD 
+                         
+        ret = utils_http.delete(url)
+        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        return ret
+    
+    
+    @staticmethod
+    def describe_endpoints():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()
+            
+        if OtcConfig.NAMESPACE:
+            if OtcConfig.ENDPOINT_NAME:
+                url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/endpoints/" + OtcConfig.ENDPOINT_NAME 
+            else:
+                url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/endpoints"
+        else:          
+            url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/endpoints"
+        
+        ret = utils_http.get(url)        
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
+        return ret
+
+
+    @staticmethod
+    def create_endpoint():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()            
+        
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/endpoints"
+        req = utils_templates.create_request("cce_create_endpoint")
+        print req        
+        ret = utils_http.post(url, req)
+        cce.otcOutputHandler().print_output(ret,mainkey="")    
+        return ret
+
+    @staticmethod
+    def delete_endpoint():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()                    
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/endpoints/" + OtcConfig.ENDPOINT_NAME 
+                         
+        ret = utils_http.delete(url)
+        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        return ret
+    

@@ -80,7 +80,7 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument(dest="SUBCOM", help="OTC Command Selector",  nargs='?', default='', metavar="OtcCommand")
         # for S3 commands 
         parser.add_argument(dest="SUBCOM_P1", help="[optional Source/Target OBS directory]",  nargs='?', default='', metavar="Source/Target DIR")
-        parser.add_argument(dest="SUBCOM_P2", help="[optional Source/Target OBS directory]",  nargs='?', default='', metavar="Source/Target DIR")
+        parser.add_argument(dest="SUBCOM_P2", help="[optional Source/Target OBS directory]",  nargs='?', default='', metavar="Source/Target DIR")                
 
         parser.add_argument("-k", "--key-name", dest="KEYNAME", help="SSH key name| S3 Object key")
         parser.add_argument( "--public-key", dest="PUBLICKEY", help="Import public key for SSH keypairs")
@@ -110,8 +110,13 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--cluster-name",dest="CLUSTER", help="Name of the cluster")
         parser.add_argument( "--cluster-id",dest="CLUSTER_ID", help="Id of the cluster")
         parser.add_argument( "--namespace-id",dest="NAMESPACE_ID", help="Namespace Id of the cluster")
-
-
+        parser.add_argument( "--pod",dest="POD", help="CCE POD")
+        parser.add_argument( "--container-name",dest="CONTAINER_NAME", help="CCE POD container name")
+        parser.add_argument( "--service-name",dest="SERVICE_NAME", help="CCE Service name")
+        parser.add_argument( "--endpoint-name",dest="ENDPOINT_NAME", help="CCE endpoint name")
+        
+        
+        parser.add_argument( "--cli-input-json",dest="CLIINPUTJSONFILE", help="Input JSON file for every request")
         
         parser.add_argument( "--user-data",dest="USER_DATA_PATH", help="Path to user-data file which will be used for cloud-init")
         

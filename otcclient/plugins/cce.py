@@ -136,7 +136,7 @@ class cce(otcpluginbase):
             url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE
         else:          
             url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces"    
-        ret = utils_http.post(url)        
+        ret = utils_http.get(url)        
         ecs.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
 

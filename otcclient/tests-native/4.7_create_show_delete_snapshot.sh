@@ -8,11 +8,42 @@ SNAPSHOT_NAME=$(cat /dev/urandom | tr -dc 'A-Za-z' | fold -w 10 | head -n 1)_SNA
 
 apitest cinder --insecure create --name ${VOLUME_NAME} 5 2>/dev/null
 sleep 10
-apitest cinder --insecure show ${VOLUME_NAME} 2>/dev/null
-apitest cinder --insecure snapshot-create ${VOLUME_NAME} --name ${SNAPSHOT_NAME} 2>/dev/null
-sleep 20
-apitest cinder --insecure snapshot-show ${SNAPSHOT_NAME} 2>/dev/null
+VOLUME_ID=`cinder --insecure list 2>/dev/null|grep ${VOLUME_NAME}|awk '{print $2}'`
+
+otc ecs create-snapshot --volume-name ${VOLUME_NAME}
+sleep 15
+
+SNAPSHOT_ID=`cinder --insecure snapshot-list 2>/dev/null|grep ${VOLUME_ID}|grep available|awk '{print $2}'`
+i=0
+while [ -z "$SNAPSHOT_ID" ] 
+do
 sleep 10
-apitest cinder --insecure snapshot-delete ${SNAPSHOT_NAME} 2>/dev/null
+SNAPSHOT_ID=`cinder --insecure snapshot-list 2>/dev/null|grep ${VOLUME_ID}|grep available|awk '{print $2}'`
+i=$((i+1))
+if [ $i -eq 5 ];
+then
+exit
+fi
+done
+
+
+apitest cinder --insecure snapshot-show ${SNAPSHOT_ID} 2>/dev/null
+
 sleep 10
+apitest cinder --insecure snapshot-delete ${SNAPSHOT_ID}  2>/dev/null
+
+SNAP=`cinder --insecure snapshot-list 2>/dev/null|grep ${SNAPSHOT_ID}|awk '{print $2}'`
+j=0
+while [ -n "${SNAP}" ]
+do
+sleep 10
+SNAP=`cinder --insecure snapshot-list 2>/dev/null|grep ${SNAPSHOT_ID}|awk '{print $2}'`
+j=$((j+1))
+if [ $j -eq 60 ];
+then
+exit
+fi
+done
+
+
 apitest cinder --insecure delete ${VOLUME_NAME} 2>/dev/null

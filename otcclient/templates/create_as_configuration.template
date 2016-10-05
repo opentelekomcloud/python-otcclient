@@ -1,10 +1,10 @@
 {
 "scaling_configuration_name": "{{SCALINGGROUP_NAME}}",
 "instance_config": {
-"flavorRef": "{{FLAVOR_REF}}",
-"imageRef": "{{IMAGE_REF}}",
+"flavorRef": "{{INSTANCE_TYPE}}",
+"imageRef": "{{IMAGE_ID}}",
 "disk": [{
-"size": {{DISK_SIZE}},
+"size": {{VOLUME_SIZE}},
 "volume_type": "{{VOLUME_TYPE}}",
 "disk_type": "{{DISK_TYPE}}"
 }],

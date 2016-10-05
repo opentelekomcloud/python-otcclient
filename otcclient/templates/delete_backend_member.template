@@ -2,7 +2,7 @@
 "removeMember":
 [
 {
-"id": "{{REMOVE_MEMBER_ID}}"
+"id": "{{INSTANCE_ID}}"
 }
 ]
 }

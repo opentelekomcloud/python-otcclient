@@ -14,7 +14,7 @@ apitest neutron --insecure security-group-rule-create  --protocol icmp --directi
 apitest neutron --insecure security-group-rule-create  --protocol tcp --port-range-min 22 --port-range-max 22 --direction ingress ${SECURITY_GROUP_NAME}  2>/dev/null
 
 
-apitest neutron security-group-rule-list 2>/dev/null
+apitest neutron --insecure security-group-rule-list 2>/dev/null
 SECURITY_RULE_ID_TO_DELETE=`neutron --insecure security-group-show ${SECURITY_GROUP_NAME} 2>/dev/null|awk -F "|" '{print $3}'|grep 172.31|tr -s "," '\n'|grep "\"id\":"|awk -F ":" '{print $2}'|tr -d '"'|tr -d  '}'`
 
 apitest neutron --insecure security-group-show ${SECURITY_GROUP_NAME} 2>/dev/null

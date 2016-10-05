@@ -2,6 +2,20 @@
 
 source ./otcfunc.sh
 
+check_test_server ()
+{
+TEST_SERVER=`nova --insecure list 2>/dev/null | grep TEST_SERVER | awk -F '|' '{print $3}'`
+
+
+if [ "$TEST_SERVER" = ""  ]; then
+        echo "Test Server does not exists.. creating.."
+        echo "Executing 3.1_ecs_create_server.sh"
+        ./3.1_ecs_create_server.sh
+        else
+        echo "Test Server" $TEST_SERVER "already exists"
+fi
+}
+
 check_test_server
 
 TEST_SERVER=`nova --insecure list 2>/dev/null | grep TEST_SERVER | awk -F '|' '{print $3}'`
@@ -54,5 +68,4 @@ while [  $RUNNING != "Running" ]; do
                                 exit
                         fi
         done
-
 

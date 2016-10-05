@@ -142,7 +142,7 @@ def main(argv=None): # IGNORE:C0111
         
         parser.add_argument( "--dim",dest="DIM", nargs='*', help="CES Dim definition")
         parser.add_argument( "--metric-name",dest="METRIC-NAME", help="CES Metric Name")
-        parser.add_argument( "--ñamespace",dest="NAMESPACE", help="CES Namespace")
+        parser.add_argument( "--namespace",dest="NAMESPACE", help="CES Namespace")
         parser.add_argument( "--period",dest="PERIOD", help="CES Period")
         parser.add_argument( "--filter",dest="FILTER", help="CES Filter")
 

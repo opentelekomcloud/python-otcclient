@@ -40,16 +40,19 @@ fi
 done
 
 
-apitest cinder --insecure backup-restore ${BACKUP_ID}  2>/dev/null
+apitest cinder --insecure backup-restore ${BACKUP_ID} # 2>/dev/null
 
 sleep 10
+
+
+
 apitest cinder --insecure backup-delete ${BACKUP_ID}  2>/dev/null
 cinder --insecure snapshot-delete ${SNAPSHOT_ID}  2>/dev/null
 
 SNAP=`cinder --insecure snapshot-list 2>/dev/null|grep ${SNAPSHOT_ID}|awk '{print $2}'`
 BACK=`cinder --insecure backup-list 2>/dev/null|grep ${BACKUP_ID}|awk '{print $2}'`
 j=0
-while [ -n "${SNAP}" ]# -o -n "${BACK}" ]
+while [ -n "${SNAP}" ]
 do
 sleep 10
 SNAP=`cinder --insecure snapshot-list 2>/dev/null|grep ${SNAPSHOT_ID}|awk '{print $2}'`

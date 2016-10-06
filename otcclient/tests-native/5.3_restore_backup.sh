@@ -40,7 +40,7 @@ fi
 done
 
 
-apitest cinder --insecure backup-restore ${BACKUP_ID} # 2>/dev/null
+apitest cinder --insecure backup-restore ${BACKUP_ID}  2>/dev/null
 
 sleep 10
 

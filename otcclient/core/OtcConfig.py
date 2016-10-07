@@ -62,7 +62,7 @@ class OtcConfig(object):
     IMAGE_VISIBILITY = None
     DISK_FORMAT = None
     CONTAINTER_FORMAT = None
-    
+    CONTAINTER_FORMAT
     
     NUMCOUNT = "1"
     INSTANCE_TYPE = None
@@ -72,7 +72,6 @@ class OtcConfig(object):
 
     LOADBALANCER_NAME = None
     LOADBALANCER_ID = None
-    HEALTCHECK_ID = None
 
     LISTENER_NAME = None
     LISTENER_ID = None
@@ -154,6 +153,128 @@ class OtcConfig(object):
 
     NAMESPACE_ID = None
     NAMESPACE = None
+    POD = None
+    CONTAINER_NAME = None    
+    SERVICE_NAME = None
+    ENDPOINT_NAME = None
+    CLIINPUTJSONFILE = None
+
+
+    #hodigy
+    #add_backend_member.template
+    #delete_backend_member.template
+    #SERVER_ID = None  ## INSTANCE_ID
+    ADDRESS = None
+    #apply_private_ip_address.template
+    #SUBNETID
+    IP_ADDRESS = None
+    #create_as_configuration.template
+    #SCALINGGROUP_NAME
+    #FLAVOR_REF = None
+    IMAGE_REF = None
+    DISK_SIZE = None
+    #VOLUME_TYPE
+    DISK_TYPE = None
+    #KEYNAME
+    #create_as_group.template
+    SCALING_CONFIGURATION_ID = None
+    DESIRE_INSTANCE_NUMBER = None
+    MIN_INSTANCE_NUMBER = None
+    MAX_INSTANCE_NUMBER = None
+    COOL_DOWN_TIME = None
+    HEALTH_PERIODIC_AUDIT_METHOD = None
+    HEALTH_PERIODIC_AUDIT_TIME = None
+    INSTANCE_TERMINATE_POLICY = None
+    #VPCID
+    NETWORKS_ID = None
+    NOTIFICATIONS = None
+    SECURITY_GROUPS_ID = None
+    #creating_health_check_task.template
+    HEALTHCHECK_CONNECT_PORT = None
+    HEALTHCHECK_INTERVAL = None
+    HEALTHCHECK_PROTOCOL = None
+    HEALTHCHECK_TIMEOUT = None
+    HEALTHCHECK_URI = None
+    HEALTHY_THREAHOLD = None
+    #LISTENER_ID
+    UNHEALTHY_THRESHOLD = None
+
+    #disable_enable_as_group.template
+    ACTION_DISABLE_ENABLE_AS_GROUP = None
+    #modify_as_group.template
+    #modify_information_health_check_task.template
+    HEALTHCHECK_ID = None
+    #modify_information_listener.template
+    LISTENER_NAME = None
+    LISTENER_DESCRIPTION = None
+    LISTENER_PORT = None
+    BACKEND_PORT = None
+    LB_ALGORITHM = None
+    #modify_load_balancer.template
+    BANDWIDTH = None
+    ADMIN_STATE_UP = None
+    #query_as_configuration_details.template
+
+    SCALING_CONFIGURATION_NAME = None
+    #ADMINPASS
+    PERSONALITY = None
+    #INSTANCE_NAME
+    #INSTANCE_ID
+    #PUBLICIP
+    #USER_DATA
+    CREATE_TIME = None
+    #query_as_group_details.template
+    DETAIL = None
+    #SCALINGGROUP_ID
+    SCALING_GROUP_STATUS = None
+    CURRENT_INSTANCE_NUMBER = None
+    LB_LISTENER_ID = None
+    IS_SCALING = None
+    #DELETE_PUBLICIP
+    #update_bandwidth_information.template
+    BANDWIDTH_SIZE = None
+    #update_elastic_ip_address_information.template
+    PUBLICIP_PORT_ID = None
+    #update_subnet_information.template
+    #SUBNETNAME
+    DHCP_ENABLE = None
+    #PRIMARYDNS
+    #SECDNS
+    #update_vpc_information.template
+    #VPCNAME
+    #CIDR
+    #add_nics_ecs_batches.template
+    SECURITY_GROUP_ID = None
+    #batch_remove_add_instance.template
+    INSTANCE_ACTION_ADD_REMOVE_BATCH = None
+    INSTANCE_ID_1 = None
+    INSTANCE_ID_2 = None
+    INSTANCE_DELETE = None
+    #create_as_policy.template
+    RECURRENCE_VALUE = None
+    START_TIME = None
+    LAUNCH_TIME = None
+    END_TIME = None
+    RECURRENCE_TYPE = None
+    SCALING_POLICY_TYPE = None
+    INSTANCE_NUMBER = None
+    OPERATION_AS_POLICY = None
+
+
+    SCALING_POLICY_NAME = None
+    #delete_nics_ecs_batches.template
+    #NETWORKINTERFACEID
+    #execute_enable_disable_as_policy.template
+    AS_POLICY_ACTION = None
+    #expand_capacity_on_evs_disk.template
+    EVS_NEW_SIZE = None
+    #modify_as_policy.template
+    #modify_spec_ecs.template
+    #restore_disk_vbs_backup.template
+    #VOLUME_ID
+    #update_evs_info.template
+    #VOLUME_NAME
+    #DESCRIPTION
 
 
     
@@ -184,6 +305,8 @@ class OtcConfig(object):
         self.DISK_FORMAT = parser.DISK_FORMAT                                   if parser.DISK_FORMAT else None
         self.CONTAINTER_FORMAT = parser.CONTAINTER_FORMAT                       if parser.CONTAINTER_FORMAT else None
         
+        
+        
         self.NUMCOUNT = parser.NUMCOUNT                                         if parser.NUMCOUNT else str()
         # self.INSTANCE_TYPE_ = parser.INSTANCE_TYPE                               if parser.INSTANCE_TYPE else str()
         self.INSTANCE_TYPE_NAME = parser.INSTANCE_TYPE_NAME                     if parser.INSTANCE_TYPE_NAME else str()
@@ -202,10 +325,13 @@ class OtcConfig(object):
 
         self.CLUSTER = parser.CLUSTER                 if parser.CLUSTER else None
         self.CLUSTER_ID = parser.CLUSTER_ID                     if parser.CLUSTER_ID else None
-
         self.NAMESPACE = parser.NAMESPACE                 if parser.NAMESPACE else None
+        self.POD = parser.POD                             if parser.POD else None
+        self.CONTAINER_NAME = parser.CONTAINER_NAME                             if parser.CONTAINER_NAME else None
+        self.SERVICE_NAME = parser.SERVICE_NAME                                 if parser.SERVICE_NAME else None
+        self.ENDPOINT_NAME = parser.ENDPOINT_NAME                                 if parser.ENDPOINT_NAME else None
         
-        
+                
         self.ADMINPASS = parser.ADMINPASS                                        if parser.ADMINPASS else str()
         self.CREATE_ECS_WITH_PUBLIC_IP = parser.CREATE_ECS_WITH_PUBLIC_IP        if parser.CREATE_ECS_WITH_PUBLIC_IP else str()
         # self.ECSACTIONTYPE = parser.ECSACTIONTYPE                               if parser.ECSACTIONTYPE else str()
@@ -257,4 +383,124 @@ class OtcConfig(object):
         self.QUERY = parser.QUERY                                               if parser.QUERY else None
         self.SOURCE_GROUP = parser.SOURCE_GROUP                                  if parser.SOURCE_GROUP else None
         self.SOURCE_GROUP_ID = parser.SOURCE_GROUP_ID                           if parser.SOURCE_GROUP_ID else None
+        self.CLIINPUTJSONFILE = parser.CLIINPUTJSONFILE                           if parser.CLIINPUTJSONFILE else None
+        
+        
+        
+        
+        #hodigy
+        #add_backend_member.template
+        #self.SERVER_ID = parser.SERVER_ID                                           if parser.SERVER_ID else None
+        self.ADDRESS = parser.ADDRESS                                           if parser.ADDRESS else None
+        #apply_private_ip_address.template
+        #SUBNETID
+        self.IP_ADDRESS = parser.IP_ADDRESS                                           if parser.IP_ADDRESS else None
+        #create_as_configuration.template
+        #SCALINGGROUP_NAME
+        #self.FLAVOR_REF = parser.FLAVOR_REF                                           if parser.FLAVOR_REF else None
+        #self.IMAGE_REF = parser.IMAGE_REF                                           if parser.IMAGE_REF else None
+        #self.DISK_SIZE = parser.DISK_SIZE                                           if parser.DISK_SIZE else None
+        #VOLUME_TYPE
+        self.DISK_TYPE = parser.DISK_TYPE                                           if parser.DISK_TYPE else None
+        #KEYNAME
+        #create_as_group.template
+        self.SCALING_CONFIGURATION_ID = parser.SCALING_CONFIGURATION_ID                                           if parser.SCALING_CONFIGURATION_ID else None
+        self.DESIRE_INSTANCE_NUMBER = parser.DESIRE_INSTANCE_NUMBER                                           if parser.DESIRE_INSTANCE_NUMBER else None
+        self.MIN_INSTANCE_NUMBER = parser.MIN_INSTANCE_NUMBER                                           if parser.MIN_INSTANCE_NUMBER else None
+        self.MAX_INSTANCE_NUMBER = parser.MAX_INSTANCE_NUMBER                                           if parser.MAX_INSTANCE_NUMBER else None
+        self.COOL_DOWN_TIME = parser.COOL_DOWN_TIME                                           if parser.COOL_DOWN_TIME else None
+        self.HEALTH_PERIODIC_AUDIT_METHOD = parser.HEALTH_PERIODIC_AUDIT_METHOD                                           if parser.HEALTH_PERIODIC_AUDIT_METHOD else None
+        self.HEALTH_PERIODIC_AUDIT_TIME = parser.HEALTH_PERIODIC_AUDIT_TIME                                           if parser.HEALTH_PERIODIC_AUDIT_TIME else None
+        self.INSTANCE_TERMINATE_POLICY = parser.INSTANCE_TERMINATE_POLICY                                           if parser.INSTANCE_TERMINATE_POLICY else None
+        #VPCID
+        self.NETWORKS_ID = parser.NETWORKS_ID                                           if parser.NETWORKS_ID else None
+        self.NOTIFICATIONS = parser.NOTIFICATIONS                                           if parser.NOTIFICATIONS else None
+        self.SECURITY_GROUPS_ID = parser.SECURITY_GROUPS_ID                                           if parser.SECURITY_GROUPS_ID else None
+        #creating_health_check_task.template
+        self.HEALTHCHECK_CONNECT_PORT = parser.HEALTHCHECK_CONNECT_PORT                                           if parser.HEALTHCHECK_CONNECT_PORT else None
+        self.HEALTHCHECK_INTERVAL = parser.HEALTHCHECK_INTERVAL                                           if parser.HEALTHCHECK_INTERVAL else None
+        self.HEALTHCHECK_PROTOCOL = parser.HEALTHCHECK_PROTOCOL                                           if parser.HEALTHCHECK_PROTOCOL else None
+        self.HEALTHCHECK_TIMEOUT = parser.HEALTHCHECK_TIMEOUT                                           if parser.HEALTHCHECK_TIMEOUT else None
+        self.HEALTHCHECK_URI = parser.HEALTHCHECK_URI                                           if parser.HEALTHCHECK_URI else None
+        self.HEALTHY_THREAHOLD = parser.HEALTHY_THREAHOLD                                           if parser.HEALTHY_THREAHOLD else None
+        #LISTENER_ID
+        self.UNHEALTHY_THRESHOLD = parser.UNHEALTHY_THRESHOLD                                           if parser.UNHEALTHY_THRESHOLD else None
+        #delete_backend_member.template
+        #self.REMOVE_MEMBER_ID = parser.REMOVE_MEMBER_ID                                           if parser.REMOVE_MEMBER_ID else None
+        #disable_enable_as_group.template
+        self.ACTION_DISABLE_ENABLE_AS_GROUP = parser.ACTION_DISABLE_ENABLE_AS_GROUP                                           if parser.ACTION_DISABLE_ENABLE_AS_GROUP else None
+        #modify_as_group.template
+        #modify_information_health_check_task.template
+        self.HEALTHCHECK_ID = parser.HEALTHCHECK_ID                                           if parser.HEALTHCHECK_ID else None
+
+
+        #modify_information_listener.template
+        self.LISTENER_NAME = parser.LISTENER_NAME                                           if parser.LISTENER_NAME else None
+        self.LISTENER_DESCRIPTION = parser.LISTENER_DESCRIPTION                                           if parser.LISTENER_DESCRIPTION else None
+        self.LISTENER_PORT = parser.LISTENER_PORT                                           if parser.LISTENER_PORT else None
+        self.BACKEND_PORT = parser.BACKEND_PORT                                           if parser.BACKEND_PORT else None
+        self.LB_ALGORITHM = parser.LB_ALGORITHM                                           if parser.LB_ALGORITHM else None
+        #modify_load_balancer.template
+        self.BANDWIDTH = parser.BANDWIDTH                                           if parser.BANDWIDTH else None
+        self.ADMIN_STATE_UP = parser.ADMIN_STATE_UP                                           if parser.ADMIN_STATE_UP else None
+        #query_as_configuration_details.template
+        self.TENANT = parser.TENANT                                           if parser.TENANT else None
+        self.SCALING_CONFIGURATION_NAME = parser.SCALING_CONFIGURATION_NAME                                           if parser.SCALING_CONFIGURATION_NAME else None
+        #ADMINPASS
+        self.PERSONALITY = parser.PERSONALITY                                           if parser.PERSONALITY else None
+        #INSTANCE_NAME
+        #INSTANCE_ID
+        #PUBLICIP
+        #USER_DATA
+        self.CREATE_TIME = parser.CREATE_TIME                                           if parser.CREATE_TIME else None
+        #query_as_group_details.template
+        self.DETAIL = parser.DETAIL                                           if parser.DETAIL else None
+        #SCALINGGROUP_ID
+        self.SCALING_GROUP_STATUS = parser.SCALING_GROUP_STATUS                                           if parser.SCALING_GROUP_STATUS else None
+        self.CURRENT_INSTANCE_NUMBER = parser.CURRENT_INSTANCE_NUMBER                                           if parser.CURRENT_INSTANCE_NUMBER else None
+        self.LB_LISTENER_ID = parser.LB_LISTENER_ID                                           if parser.LB_LISTENER_ID else None
+        self.IS_SCALING = parser.IS_SCALING                                           if parser.IS_SCALING else None
+        #DELETE_PUBLICIP
+        #update_bandwidth_information.template
+        self.BANDWIDTH_SIZE = parser.BANDWIDTH_SIZE                                           if parser.BANDWIDTH_SIZE else None
+        #update_elastic_ip_address_information.template
+        self.PUBLICIP_PORT_ID = parser.PUBLICIP_PORT_ID                                           if parser.PUBLICIP_PORT_ID else None
+        #update_subnet_information.template
+        #SUBNETNAME
+        self.DHCP_ENABLE = parser.DHCP_ENABLE                                           if parser.DHCP_ENABLE else None
+        #PRIMARYDNS
+        #SECDNS
+        #update_vpc_information.template
+        #VPCNAME
+        #CIDR
+        #add_nics_ecs_batches.template
+        self.SECURITY_GROUP_ID = parser.SECURITY_GROUP_ID                                           if parser.SECURITY_GROUP_ID else None
+        #batch_remove_add_instance.template
+        self.INSTANCE_ACTION_ADD_REMOVE_BATCH = parser.INSTANCE_ACTION_ADD_REMOVE_BATCH                                           if parser.INSTANCE_ACTION_ADD_REMOVE_BATCH else None
+        self.INSTANCE_ID_1 = parser.INSTANCE_ID_1                                           if parser.INSTANCE_ID_1 else None
+        self.INSTANCE_ID_2 = parser.INSTANCE_ID_2                                           if parser.INSTANCE_ID_2 else None
+        self.INSTANCE_DELETE = parser.INSTANCE_DELETE                                           if parser.INSTANCE_DELETE else None
+        #create_as_policy.template
+        self.RECURRENCE_VALUE = parser.RECURRENCE_VALUE                                           if parser.RECURRENCE_VALUE else None
+        self.START_TIME = parser.START_TIME                                           if parser.START_TIME else None
+        self.LAUNCH_TIME = parser.LAUNCH_TIME                                           if parser.LAUNCH_TIME else None
+        self.END_TIME = parser.END_TIME                                           if parser.END_TIME else None
+        self.RECURRENCE_TYPE = parser.RECURRENCE_TYPE                                           if parser.RECURRENCE_TYPE else None
+        self.SCALING_POLICY_TYPE = parser.SCALING_POLICY_TYPE                                           if parser.SCALING_POLICY_TYPE else None
+        self.INSTANCE_NUMBER = parser.INSTANCE_NUMBER                                           if parser.INSTANCE_NUMBER else None
+        self.OPERATION_AS_POLICY = parser.OPERATION_AS_POLICY                                           if parser.OPERATION_AS_POLICY else None
+        self.SCALING_POLICY_NAME = parser.SCALING_POLICY_NAME                                           if parser.SCALING_POLICY_NAME else None
+        #delete_nics_ecs_batches.template
+        #NETWORKINTERFACEID
+        #execute_enable_disable_as_policy.template
+        self.AS_POLICY_ACTION = parser.AS_POLICY_ACTION                                           if parser.AS_POLICY_ACTION else None
+        #expand_capacity_on_evs_disk.template
+        self.EVS_NEW_SIZE = parser.EVS_NEW_SIZE                                           if parser.EVS_NEW_SIZE else None
+        #modify_as_policy.template
+        #modify_spec_ecs.template
+        #restore_disk_vbs_backup.template
+        #VOLUME_ID
+        #update_evs_info.template
+        #VOLUME_NAME
+        #DESCRIPTION        
         

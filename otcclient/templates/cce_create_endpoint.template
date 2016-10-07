@@ -1,0 +1,16 @@
+{ 
+    "kind": "Endpoints", 
+    "apiVersion": "v1", 
+    "metadata": { 
+        "name": "{{ENDPOINT_NAME}}"
+    }, 
+    "subsets": [{
+        "addresses": [{
+            "ip": "{{PUBLICIP}}" 
+        }],
+        "ports": [{
+            "name": "http",
+            "port": {{PORTMIN}}
+        }]
+    }]
+}

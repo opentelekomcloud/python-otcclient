@@ -1,0 +1,32 @@
+{
+    "kind": "Pod",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "{{POD}}",
+        "namespace": "{{NAMESPACE}}"
+    },
+    "spec": {
+        "containers": [{
+            "name": "{{CONTAINER_NAME}}",
+            "image": "{{IMAGENAME}}",
+            "env": [{
+                "name": "cy",
+                "value": "cy"
+            }],
+             "volumeMounts": [{
+                    "mountPath": "/tmp/foo",
+                    "name": "test"
+            }]
+        }],
+        "volumes": [{
+                "name": "test",
+            "hostPath": {
+                "path": "/tmp"
+            }
+        }],
+        "imagePullSecrets":[{
+            "name": "hub.secret"
+        }],
+        "restartPolicy": "Always"
+    }
+}

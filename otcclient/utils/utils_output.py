@@ -43,7 +43,11 @@ def printLevel2(respjson, outformat, mainkey, listkey, subkey=None):
         print (p.get_string())
 
 def handleQuery(result, query):
-    parsed = json.loads(result)
+    if isinstance(result, (str, unicode)):
+        parsed = json.loads(result)
+    else:
+        parsed = result
+                
     sr = jmespath.search(query, parsed)    
     if isinstance(sr, list):
         for object_ in sr:

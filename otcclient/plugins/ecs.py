@@ -218,6 +218,8 @@ class ecs(otcpluginbase):
     def resize_instance():        
         if not OtcConfig.INSTANCE_NAME is None:
             ecs.convertINSTANCENameToId() 
+        if not OtcConfig.INSTANCE_TYPE_NAME is None:
+            ecs.convertFlavorNameToId()
         
         if OtcConfig.INSTANCE_ID is None :
             raise RuntimeError( "Error. Must be specify the Instance Name or ID!")

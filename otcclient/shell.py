@@ -80,7 +80,7 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument(dest="SUBCOM", help="OTC Command Selector",  nargs='?', default='', metavar="OtcCommand")
         # for S3 commands 
         parser.add_argument(dest="SUBCOM_P1", help="[optional Source/Target OBS directory]",  nargs='?', default='', metavar="Source/Target DIR")
-        parser.add_argument(dest="SUBCOM_P2", help="[optional Source/Target OBS directory]",  nargs='?', default='', metavar="Source/Target DIR")
+        parser.add_argument(dest="SUBCOM_P2", help="[optional Source/Target OBS directory]",  nargs='?', default='', metavar="Source/Target DIR")                
 
         parser.add_argument("-k", "--key-name", dest="KEYNAME", help="SSH key name| S3 Object key")
         parser.add_argument( "--public-key", dest="PUBLICKEY", help="Import public key for SSH keypairs")
@@ -110,8 +110,13 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--cluster-name",dest="CLUSTER", help="Name of the cluster")
         parser.add_argument( "--cluster-id",dest="CLUSTER_ID", help="Id of the cluster")
         parser.add_argument( "--namespace-id",dest="NAMESPACE_ID", help="Namespace Id of the cluster")
-
-
+        parser.add_argument( "--pod",dest="POD", help="CCE POD")
+        parser.add_argument( "--container-name",dest="CONTAINER_NAME", help="CCE POD container name")
+        parser.add_argument( "--service-name",dest="SERVICE_NAME", help="CCE Service name")
+        parser.add_argument( "--endpoint-name",dest="ENDPOINT_NAME", help="CCE endpoint name")
+        
+        
+        parser.add_argument( "--cli-input-json",dest="CLIINPUTJSONFILE", help="Input JSON file for every request")
         
         parser.add_argument( "--user-data",dest="USER_DATA_PATH", help="Path to user-data file which will be used for cloud-init")
         
@@ -173,6 +178,126 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--description",dest="DESCRIPTION", help="Description definition ( eg: backups)")
         parser.add_argument( "--snapshot-id",dest="SNAPSHOTID", help="Snapshot id of the  backup")
         parser.add_argument( "--wait-instance-running", dest="WAIT_CREATE", action='store_true' , help="Wait instance running (only for run-instance command)")
+        
+        
+        # GY
+        #add_backend_member.template
+        #delete_backend_member.template
+        #INSTANCE_ID #parser.add_argument( "--server-id", dest="SERVER_ID", help="Specifies the backend member ID")
+        
+        parser.add_argument( "--address", dest="ADDRESS", help="Specifies the private IP address of the backend member")
+        #apply_private_ip_address.template
+        #SUBNETID
+        parser.add_argument( "--ip-address", dest="IP_ADDRESS", help="ip-address")
+        #create_as_configuration.template
+        #SCALINGGROUP_NAME
+        parser.add_argument( "--flavor-ref", dest="FLAVOR_REF", help="flavor-ref")
+        parser.add_argument( "--image-ref", dest="IMAGE_REF", help="image-ref")
+        parser.add_argument( "--disk-size", dest="DISK_SIZE", help="disk-size")
+        #VOLUME_TYPE
+        parser.add_argument( "--disk-type", dest="DISK_TYPE", help="disk-type")
+        #KEYNAME
+        #create_as_group.template
+        parser.add_argument( "--scaling-configuration-id", dest="SCALING_CONFIGURATION_ID", help="scaling-configuration-id")
+        parser.add_argument( "--desire-instance-number", dest="DESIRE_INSTANCE_NUMBER", help="desire-instance-number")
+        parser.add_argument( "--min-instance-number", dest="MIN_INSTANCE_NUMBER", help="min-instance-number")
+        parser.add_argument( "--max-instance-number", dest="MAX_INSTANCE_NUMBER", help="max-instance-number")
+        parser.add_argument( "--cool-down-time", dest="COOL_DOWN_TIME", help="cool-down-time")
+        parser.add_argument( "--health-periodic-audit-method", dest="HEALTH_PERIODIC_AUDIT_METHOD", help="health-periodic-audit-method")
+        parser.add_argument( "--health-periodic-audit-time", dest="HEALTH_PERIODIC_AUDIT_TIME", help="health-periodic-audit-time")
+        parser.add_argument( "--instance-terminate-policy", dest="INSTANCE_TERMINATE_POLICY", help="instance-terminate-policy")
+        #VPCID
+        parser.add_argument( "--networks-id", dest="NETWORKS_ID", help="networks-id")
+        parser.add_argument( "--notifications", dest="NOTIFICATIONS", help="notifications")
+        parser.add_argument( "--security-groups-id", dest="SECURITY_GROUPS_ID", help="security-groups-id")
+        #creating_health_check_task.template
+        parser.add_argument( "--healthcheck-connect-port", dest="HEALTHCHECK_CONNECT_PORT", help="Specifies the port for health check")
+        parser.add_argument( "--healthcheck-interval", dest="HEALTHCHECK_INTERVAL", help="Specifies the maximum interval for health check.The value ranges from 1 to 5(s)")
+        parser.add_argument( "--healthcheck-protocol", dest="HEALTHCHECK_PROTOCOL", help="Specifies the health check protocol.The value can be HTTP or TCP (case-insensitive)")
+        parser.add_argument( "--healthcheck-timeout", dest="HEALTHCHECK_TIMEOUT", help="Specifies the maximum timeout duration for health check. The value ranges from 1 to 50 (s)")
+        parser.add_argument( "--healthcheck-uri", dest="HEALTHCHECK_URI", help="Specifies the URI for health check. The value is a string of 1 to 80 characters that contain only letters, digits, and special characters (such as -/.%?#&).It must start with /. This parameter is valid when healthcheck_protocol is HTTP.")
+        parser.add_argument( "--healthy-threahold", dest="HEALTHY_THREAHOLD", help="Specifies the number of consecutive successful health checks for the health check result changing from fail to success. The value ranges from 1 to 10.")
+        #LISTENER_ID
+        parser.add_argument( "--unhealthy-threshold", dest="UNHEALTHY_THRESHOLD", help="Specifies the number of consecutive successful health checks for the health check result changing from success to fail. The value ranges from 1 to 10.")
+        #disable_enable_as_group.template
+        parser.add_argument( "--action-disable-enable-as-group", dest="ACTION_DISABLE_ENABLE_AS_GROUP", help="action-disable-enable-as-group")
+        #modify_as_group.template
+        #modify_information_health_check_task.template
+        parser.add_argument( "--healthcheck-id", dest="HEALTHCHECK_ID", help="healthcheck-id")
+
+
+        #modify_information_listener.template
+        
+        parser.add_argument( "--listener-description", dest="LISTENER_DESCRIPTION", help="listener-description")
+        parser.add_argument( "--listener-port", dest="LISTENER_PORT", help="listener-port")
+        parser.add_argument( "--backend-port", dest="BACKEND_PORT", help="backend-port")
+        parser.add_argument( "--lb-algorithm", dest="LB_ALGORITHM", help="lb-algorithm")
+        #modify_load_balancer.template
+        parser.add_argument( "--bandwidth", dest="BANDWIDTH", help="bandwidth")
+        parser.add_argument( "--admin-state-up", dest="ADMIN_STATE_UP", help="admin-state-up")
+        #query_as_configuration_details.template
+        parser.add_argument( "--tenant", dest="TENANT", help="tenant")
+        parser.add_argument( "--scaling-configuration-name", dest="SCALING_CONFIGURATION_NAME", help="scaling-configuration-name")
+        #ADMINPASS
+        parser.add_argument( "--personality", dest="PERSONALITY", help="personality")
+        #INSTANCE_NAME
+        #INSTANCE_ID
+        #PUBLICIP
+        #USER_DATA
+        parser.add_argument( "--create-time", dest="CREATE_TIME", help="create-time")
+        #query_as_group_details.template
+        parser.add_argument( "--detail", dest="DETAIL", help="detail")
+        #SCALINGGROUP_ID
+        parser.add_argument( "--scaling-group-status", dest="SCALING_GROUP_STATUS", help="scaling-group-status")
+        parser.add_argument( "--current-instance-number", dest="CURRENT_INSTANCE_NUMBER", help="current-instance-number")
+        parser.add_argument( "--lb-listener-id", dest="LB_LISTENER_ID", help="lb-listener-id")
+        parser.add_argument( "--is-scaling", dest="IS_SCALING", help="is-scaling")
+        #DELETE_PUBLICIP
+        #update_bandwidth_information.template
+        parser.add_argument( "--bandwidth-size", dest="BANDWIDTH_SIZE", help="bandwidth-size")
+        #update_elastic_ip_address_information.template
+        parser.add_argument( "--publicip-port-id", dest="PUBLICIP_PORT_ID", help="publicip-port-id")
+        #update_subnet_information.template
+        #SUBNETNAME
+        parser.add_argument( "--dhcp-enable", dest="DHCP_ENABLE", help="dhcp-enable")
+        #PRIMARYDNS
+        #SECDNS
+        #update_vpc_information.template
+        #VPCNAME
+        #CIDR
+        #add_nics_ecs_batches.template
+        parser.add_argument( "--security-group-id", dest="SECURITY_GROUP_ID", help="security-group-id")
+        #batch_remove_add_instance.template
+        parser.add_argument( "--instance-action-add-remove-batch", dest="INSTANCE_ACTION_ADD_REMOVE_BATCH", help="instance-action-add-remove-batch")
+        parser.add_argument( "--instance-id-1", dest="INSTANCE_ID_1", help="instance-id-1")
+        parser.add_argument( "--instance-id-2", dest="INSTANCE_ID_2", help="instance-id-2")
+        parser.add_argument( "--instance-delete", dest="INSTANCE_DELETE", help="instance-delete")
+        #create_as_policy.template
+        parser.add_argument( "--recurrence-value", dest="RECURRENCE_VALUE", help="recurrence-value")
+        parser.add_argument( "--start-time", dest="START_TIME", help="start-time")
+        parser.add_argument( "--launch-time", dest="LAUNCH_TIME", help="launch-time")
+        parser.add_argument( "--end-time", dest="END_TIME", help="end-time")
+        parser.add_argument( "--recurrence-type", dest="RECURRENCE_TYPE", help="recurrence-type")
+        parser.add_argument( "--scaling-policy-type", dest="SCALING_POLICY_TYPE", help="scaling-policy-type")
+        parser.add_argument( "--instance-number", dest="INSTANCE_NUMBER", help="instance-number")
+        parser.add_argument( "--operation-as-policy", dest="OPERATION_AS_POLICY", help="operation-as-policy")
+        parser.add_argument( "--scaling-policy-name", dest="SCALING_POLICY_NAME", help="scaling-policy-name")
+        #delete_nics_ecs_batches.template
+        #NETWORKINTERFACEID
+        #execute_enable_disable_as_policy.template
+        parser.add_argument( "--as-policy-action", dest="AS_POLICY_ACTION", help="as-policy-action")
+        #expand_capacity_on_evs_disk.template
+        parser.add_argument( "--evs-new-size", dest="EVS_NEW_SIZE", help="evs-new-size")
+        #modify_as_policy.template
+        #modify_spec_ecs.template
+        #restore_disk_vbs_backup.template
+        #VOLUME_ID
+        #update_evs_info.template
+        #VOLUME_NAME
+        #DESCRIPTION        
+        
+        
+        
         # Process arguments
         args = parser.parse_args()
         #args = parser.parse_known_args()

@@ -16,6 +16,7 @@ apitest neutron --insecure subnet-create ${NETWORK_NAME} 192.168.2.0/24 --name $
 apitest neutron --insecure subnet-update ${SUBNET_NAME} --name ${SUBNET_NAME_NEW}  2>/dev/null
 
 
+apitest neutron --insecure subnet-list  2>/dev/null
 apitest neutron --insecure subnet-show  ${SUBNET_NAME_NEW}  2>/dev/null
 
 

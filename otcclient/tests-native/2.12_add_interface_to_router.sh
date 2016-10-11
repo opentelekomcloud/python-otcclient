@@ -18,8 +18,11 @@ apitest neutron --insecure subnet-create ${NETWORK_NAME} 192.168.2.0/24 --name $
 
 
 apitest neutron --insecure router-create ${ROUTER_NAME} 2>/dev/null
+apitest neutron --insecure router-list 2>/dev/null
 
 apitest neutron --insecure router-interface-add ${ROUTER_NAME} ${SUBNET_NAME}  2>/dev/null
+ROUTER_ID=`neutron --insecure router-list 2>/dev/null|grep ${ROUTER_NAME}|awk '{print $2}'`
+apitest neutron --insecure router-show ${ROUTER_ID} 2>/dev/null
 
 #apitest neutron --insecure router-show ${ROUTER_NAME} 2>/dev/null
 

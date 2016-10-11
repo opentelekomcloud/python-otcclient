@@ -9,5 +9,5 @@ if [ "$TEST_SERVER" = ""  ]; then
 	exit
 	else
 	echo "Deleting" $TEST_SERVER 
-	nova --insecure delete $TEST_SERVER 2>/dev/null
+	apitest nova --insecure delete $TEST_SERVER 2>/dev/null
 fi

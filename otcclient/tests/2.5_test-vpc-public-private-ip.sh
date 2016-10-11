@@ -20,6 +20,7 @@ apitest otc ecs describe-subnets
 
 # list private ips of subnet 
 apitest otc ecs describe-private-addresses --subnet-name mysubnet --vpc-name myvpc
+apitest otc ecs release-private-addresses --private-ip-id 0f13a9ea-9436-465a-b798-efc6a89d3b2a
 
 # list of bandwiths 
 apitest otc ecs describe_bandwiths 

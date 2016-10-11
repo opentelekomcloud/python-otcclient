@@ -1,0 +1,22 @@
+{
+"name":"{{LISTENER_NAME}}"
+,"loadbalancer_id":"{{LOADBALANCER_ID}}"
+,"protocol":"{{PROTOCOL}}" 
+,"port":{{PORTMIN}}
+,"backend_protocol":"{{PROTOCOL}}"
+,"backend_port":{{BACKEND_PORT}}
+,"lb_algorithm":"{{LB_ALGORITHM}}"
+{% if LISTENER_DESCRIPTION %}
+,"description":"{{LISTENER_DESCRIPTION}}"
+{% endif %}
+
+{% if SESSION_STICKY %}
+,"session_sticky":{{SESSION_STICKY}}
+{% endif %}
+{% if STICKY_SESSION_TYPE %}
+,"sticky_session_type":"{{STICKY_SESSION_TYPE}}"
+{% endif %}
+{% if COOKIE_TIMEOUT %}
+,"cookie_timeout":{{COOKIE_TIMEOUT}}
+{% endif %}
+}

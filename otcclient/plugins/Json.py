@@ -19,6 +19,9 @@ class Json(otcpluginbase):
                 
     @staticmethod
     def print_output(respjson, **kwargs):
-        if len(respjson.strip()) == 0:
-            return
+        
+        if isinstance(respjson, (str, unicode)):
+            if len(respjson.strip()) == 0:
+                return
+
         utils_output.printJsonTableTransverse(respjson, "json", None)

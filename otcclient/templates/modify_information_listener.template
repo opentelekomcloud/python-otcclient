@@ -1,7 +1,17 @@
 {
-"name":"{{LISTENER_NAME}}",
-"description":"{{LISTENER_DESCRIPTION}}",
-"port":{{LISTENER_PORT}},
-"backend_port":{{BACKEND_PORT}},
-"lb_algorithm":"{{LB_ALGORITHM}}"
+{% if LISTENER_NAME %}
+"name":"{{LISTENER_NAME}}"
+{% endif %}
+{% if LISTENER_DESCRIPTION %}
+,"description":"{{LISTENER_DESCRIPTION}}"
+{% endif %}
+{% if LISTENER_PORT %}
+,"port":{{LISTENER_PORT}}
+{% endif %}
+{% if BACKEND_PORT %}
+,"backend_port":{{BACKEND_PORT}}
+{% endif %}
+{% if LB_ALGORITHM %}
+,"lb_algorithm":"{{LB_ALGORITHM}}"
+{% endif %}
 }

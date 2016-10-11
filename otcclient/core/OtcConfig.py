@@ -140,6 +140,7 @@ class OtcConfig(object):
     #  backups 
     SNAPSHOTID = "null"
     DESCRIPTION = str()
+    PRIVATEIPID = None
     PUBLICIPID = None
     PUBLICIP = None
     DELETE_PUBLICIP = "true"
@@ -157,6 +158,8 @@ class OtcConfig(object):
     CONTAINER_NAME = None    
     SERVICE_NAME = None
     ENDPOINT_NAME = None
+    SECRET_NAME = None
+    
     CLIINPUTJSONFILE = None
 
 
@@ -275,6 +278,10 @@ class OtcConfig(object):
     #update_evs_info.template
     #VOLUME_NAME
     #DESCRIPTION
+    #create_listener.template
+    SESSION_STICKY = None
+    STICKY_SESSION_TYPE = None
+    COOKIE_TIMEOUT = None
 
 
     
@@ -330,6 +337,7 @@ class OtcConfig(object):
         self.CONTAINER_NAME = parser.CONTAINER_NAME                             if parser.CONTAINER_NAME else None
         self.SERVICE_NAME = parser.SERVICE_NAME                                 if parser.SERVICE_NAME else None
         self.ENDPOINT_NAME = parser.ENDPOINT_NAME                                 if parser.ENDPOINT_NAME else None
+        self.SECRET_NAME = parser.SECRET_NAME                                 if parser.SECRET_NAME else None
         
                 
         self.ADMINPASS = parser.ADMINPASS                                        if parser.ADMINPASS else str()
@@ -377,6 +385,7 @@ class OtcConfig(object):
         self.SNAPSHOTID = parser.SNAPSHOTID                                     if parser.SNAPSHOTID else "null"
         self.DESCRIPTION = parser.DESCRIPTION                                   if parser.DESCRIPTION else str()
         self.PUBLICIPID = parser.PUBLICIPID                                     if parser.PUBLICIPID else None
+        self.PRIVATEIPID= parser.PRIVATEIPID                                    if parser.PRIVATEIPID else None
         self.PUBLICIP = parser.PUBLICIP                                         if parser.PUBLICIP else None
         # self.DELETE_PUBLICIP = parser.DELETE_PUBLICIP                           if parser.DELETE_PUBLICIP else str()
         # self.DELETE_VOLUME = parser.DELETE_VOLUME                               if parser.DELETE_VOLUME else str()
@@ -503,4 +512,10 @@ class OtcConfig(object):
         #update_evs_info.template
         #VOLUME_NAME
         #DESCRIPTION        
+
+        #create_listener.template
+        self.SESSION_STICKY = parser.SESSION_STICKY                                           if parser.SESSION_STICKY else None
+        self.STICKY_SESSION_TYPE = parser.STICKY_SESSION_TYPE                                           if parser.STICKY_SESSION_TYPE else None
+        self.COOKIE_TIMEOUT = parser.COOKIE_TIMEOUT                                           if parser.COOKIE_TIMEOUT else None
+
         

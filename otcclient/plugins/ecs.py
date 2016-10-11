@@ -193,10 +193,7 @@ class ecs(otcpluginbase):
 
     @staticmethod       
     def release_private_address():
-        if not (OtcConfig.PUBLICIP is None):
-            ecs.convertPublicIpNameToId()            
-        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/publicips" + \
-        "/" + OtcConfig.PUBLICIPID
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/privateips" + OtcConfig.PRIVATEIP_ID
         ret = utils_http.delete(url)
         print(ret)
         return ret
@@ -353,6 +350,16 @@ class ecs(otcpluginbase):
         return ret
 
     @staticmethod
+    def delete_vpc():
+        if not (OtcConfig.VPCNAME is None):
+            ecs.convertVPCNameToId()
+
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/vpcs" + OtcConfig.VPCID    
+        ret = utils_http.delete(url)
+        print(ret)
+        return ret
+
+    @staticmethod
     def create_subnet():
         if not (OtcConfig.VPCNAME is None):
             ecs.convertVPCNameToId()
@@ -362,6 +369,17 @@ class ecs(otcpluginbase):
         ret = utils_http.post(url, REQ_CREATE_SUBNET)
         print(ret)
         return ret
+
+    @staticmethod
+    def delete_subnet():
+        if OtcConfig.SUBNETNAME:
+            ecs.convertSUBNETNameToId()
+        
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/subnets" + OtcConfig.SUBNETID
+        ret = utils_http.delete(url)
+        return ret
+
+
 
     @staticmethod
     def create_network_interface():
@@ -527,6 +545,24 @@ class ecs(otcpluginbase):
         OtcConfig.PROJECT_ID = maindata['token']['project']['id'] 
 
         return ret
+
+    @staticmethod
+    def getIamTokenAKSK():
+        if OtcConfig.PROJECT_NAME != None: 
+            project = "\"name\": \"" + OtcConfig.PROJECT_NAME + "\" " 
+
+        else:
+            project = "\"id\": \"" + OtcConfig.PROJECT_ID + "\""
+            
+        REQ_IAM = "    {" + "        \"auth\": {       " + "        \"identity\": {   " + "            \"methods\": [" + "                \"password\"                             " + "            ],            " + "            \"password\": {                              " + "                \"user\": {                              " + "                    \"name\": \"" + OtcConfig.USERNAME + "\",    " + "                    \"password\": \"" + OtcConfig.PASSWORD + "\"," + "                    \"domain\": {                        " + "                        \"name\": \"" + OtcConfig.DOMAIN + "\"            " + "                    }     " + "                }         " + "            }             " + "        },                " + "        \"scope\": {      " + "            \"project\": {" + project + "            }             " + "        }                 " + "        }                 " + "    }"
+        url = "https://" + OtcConfig.DEFAULT_HOST +":443/v3/auth/tokens"
+        
+        ret = utils_http.post(url, REQ_IAM)
+        maindata = json.loads(ret)
+        OtcConfig.PROJECT_ID = maindata['token']['project']['id'] 
+
+        return ret
+
 
     @staticmethod
     def convertFlavorNameToId():

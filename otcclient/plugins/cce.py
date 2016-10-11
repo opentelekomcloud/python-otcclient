@@ -45,6 +45,7 @@ class cce(otcpluginbase):
     def list_clusters():
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/clusters"
         ret = utils_http.get(url)
+        print ret
         cce.otcOutputHandler().print_output(json.loads(ret), subkey="metadata", listkey={"name", "uuid", "createAt"})
         #ecs.otcOutputHandler().print_output(json.loads(ret),mainkey="")     
         return ret
@@ -87,6 +88,7 @@ class cce(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/services"
         ret = utils_http.get(url)
         
+        print ret
         cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
 
@@ -270,3 +272,42 @@ class cce(otcpluginbase):
         ecs.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
     
+    
+    @staticmethod
+    def describe_secrets():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()
+            
+        if OtcConfig.NAMESPACE:
+            url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/secrets/" + OtcConfig.SECRET_NAME 
+        else:
+            url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/secrets"
+        
+        ret = utils_http.get(url)        
+        print ret
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
+        return ret
+
+
+    @staticmethod
+    def create_secret():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()            
+        
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/secrets"
+        req = utils_templates.create_request("cce_create_secret")
+        print req        
+        ret = utils_http.post(url, req)
+        cce.otcOutputHandler().print_output(ret,mainkey="")    
+        return ret
+
+    @staticmethod
+    def delete_secret():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()                    
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/secrets/" + OtcConfig.SECRET_NAME
+                         
+        ret = utils_http.delete(url)
+        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        return ret
+        

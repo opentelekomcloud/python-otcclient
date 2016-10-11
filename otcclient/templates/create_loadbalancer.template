@@ -1,0 +1,12 @@
+{
+    "name": "{{LOADBALANCER_NAME}}",
+    "vpc_id": {{VPCID}},
+    "type": "External",
+    "admin_state_up": true
+{% if DESCIPTION %}
+    ,"description": {{DESCIPTION}}
+{% endif %}     
+{% if BANDWITH %}
+    ,"bandwidth": {{BANDWITH}}
+{% endif %}
+}

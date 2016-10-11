@@ -21,6 +21,15 @@ class configloader(object):
     """
     Utility class to load / persist configuration properties
     """
+
+    @staticmethod
+    def _checkOtcUserDir():
+        if not os.path.exists(OtcConfig.OTC_USER_DIR):
+            try:
+                os.makedirs(OtcConfig.OTC_USER_DIR)
+            except:
+                raise
+
     @staticmethod
     def loadOtcConfig(jsonFileName):
         Config = ConfigParser.ConfigParser()
@@ -72,24 +81,21 @@ class configloader(object):
 
     @staticmethod
     def persistProxyValues():
-        cfgfile = open(OtcConfig.OTC_PROXY_FILE, 'w')
+        configloader._checkOtcUserDir()
         Config = ConfigParser.ConfigParser()
         # add the settings to the structure of the file, and lets write it out...
         Config.add_section('otc')
         Config.set('otc', 'proxy_host', OtcConfig.PROXY_URL)
         Config.set('otc', 'proxy_port', OtcConfig.PROXY_PORT)
-        try:
-            os.makedirs(OtcConfig.OTC_USER_DIR)
-            Config.write(cfgfile)
-        except Exception as e:
-            print("Error during save keys/date pairs", e)
-
-        cfgfile.close()
-        
+        with open(OtcConfig.OTC_PROXY_FILE, 'w') as cfgfile:
+            try:
+                Config.write(cfgfile)
+            except Exception as e:
+                print("Error during save keys/date pairs", e)
 
     @staticmethod
     def persistUserValues():
-        cfgfile = open(OtcConfig.OTC_USER_FILE, 'w+')
+        configloader._checkOtcUserDir()
         Config = ConfigParser.ConfigParser()
         # add the settings to the structure of the file, and lets write it out...
         Config.add_section('otc')
@@ -97,13 +103,11 @@ class configloader(object):
         Config.set('otc', "otc_secret_access_key", OtcConfig.sk)
         Config.set('otc', "username", OtcConfig.USERNAME)
         Config.set('otc', "apikey", OtcConfig.PASSWORD)
-        try:
-            if not os.path.exists(OtcConfig.OTC_USER_DIR):
-                os.makedirs(OtcConfig.OTC_USER_DIR)
-            Config.write(cfgfile)
-        except Exception as e:
-            print("Error during save keys/date pairs", e)
-        cfgfile.close()
+        with open(OtcConfig.OTC_USER_FILE, 'w+') as cfgfile:
+            try:
+                Config.write(cfgfile)
+            except Exception as e:
+                print("Error during save keys/date pairs", e)
                 
     @staticmethod
     def validateConfig():        

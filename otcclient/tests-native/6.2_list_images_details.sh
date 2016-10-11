@@ -13,7 +13,7 @@ apitest glance --insecure image-create --name ${IMAGE_NAME} --disk-format qcow2 
 IMAGE_ID=`glance --insecure image-list 2>/dev/null|grep ${IMAGE_NAME}|awk '{print $2}'`
 
 
-apitest glance --insecure image-update ${IMAGE_ID} --property name=${IMAGE_NAME_NEW} 2>/dev/null
+apitest glance --insecure  image-show ${IMAGE_ID} 2>/dev/null
 
 sleep 10
 

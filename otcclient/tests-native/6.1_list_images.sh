@@ -3,4 +3,4 @@
 source otcfunc.sh
 
 
-apitest glance --insecure image-list 2>/dev/null
+apitest glance --insecure --get-schema image-list 2>/dev/null

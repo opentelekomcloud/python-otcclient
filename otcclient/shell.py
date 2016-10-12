@@ -172,7 +172,7 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--portmax",dest="PORTMAX", help="Upper  port of the specific security group rule")
         parser.add_argument( "--protocol",dest="PROTOCOL", help="Protocol of the specific security group rule")
         parser.add_argument( "--ethertype",dest="ETHERTYPE", help="Ethertype of the specific security group rule ")
-        parser.add_argument( "--output",dest="OUTPUT_FORMAT", help="Output format")
+        parser.add_argument( "--output",dest="OUTPUT_FORMAT", choices=['Json', 'table', 'text'], default='table', help="Output format")
         parser.add_argument( "--query",dest="QUERY", help="JSON Path query")
         parser.add_argument( "--size",dest="VOLUME_SIZE", help="Size of the EVS disk")
         parser.add_argument( "--volume-type",dest="VOLUME_TYPE", help="Volume type of the EVS disk [SSD,SAS,SATA]")

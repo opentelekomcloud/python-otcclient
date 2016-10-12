@@ -172,7 +172,7 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--portmax",dest="PORTMAX", help="Upper  port of the specific security group rule")
         parser.add_argument( "--protocol",dest="PROTOCOL", help="Protocol of the specific security group rule")
         parser.add_argument( "--ethertype",dest="ETHERTYPE", help="Ethertype of the specific security group rule ")
-        parser.add_argument( "--output",dest="OUTPUT_FORMAT", help="Output format")
+        parser.add_argument( "--output",dest="OUTPUT_FORMAT", choices=['Json', 'table', 'text'], default='table', help="Output format")
         parser.add_argument( "--query",dest="QUERY", help="JSON Path query")
         parser.add_argument( "--size",dest="VOLUME_SIZE", help="Size of the EVS disk")
         parser.add_argument( "--volume-type",dest="VOLUME_TYPE", help="Volume type of the EVS disk [SSD,SAS,SATA]")
@@ -217,7 +217,7 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--healthcheck-interval", dest="HEALTHCHECK_INTERVAL", help="Specifies the maximum interval for health check.The value ranges from 1 to 5(s)")
         parser.add_argument( "--healthcheck-protocol", dest="HEALTHCHECK_PROTOCOL", help="Specifies the health check protocol.The value can be HTTP or TCP (case-insensitive)")
         parser.add_argument( "--healthcheck-timeout", dest="HEALTHCHECK_TIMEOUT", help="Specifies the maximum timeout duration for health check. The value ranges from 1 to 50 (s)")
-        parser.add_argument( "--healthcheck-uri", dest="HEALTHCHECK_URI", help="Specifies the URI for health check. The value is a string of 1 to 80 characters that contain only letters, digits, and special characters (such as -/.%?#&).It must start with /. This parameter is valid when healthcheck_protocol is HTTP.")
+        parser.add_argument( "--healthcheck-uri", dest="HEALTHCHECK_URI", help="Specifies the URI for health check. The value is a string of 1 to 80 characters that contain only letters, digits, and special characters (such as -/.%%?#&).It must start with /. This parameter is valid when healthcheck_protocol is HTTP.")
         parser.add_argument( "--healthy-threahold", dest="HEALTHY_THREAHOLD", help="Specifies the number of consecutive successful health checks for the health check result changing from fail to success. The value ranges from 1 to 10.")
         #LISTENER_ID
         parser.add_argument( "--unhealthy-threshold", dest="UNHEALTHY_THRESHOLD", help="Specifies the number of consecutive successful health checks for the health check result changing from success to fail. The value ranges from 1 to 10.")

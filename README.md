@@ -54,7 +54,7 @@ otc ecs create-vpc --vpc-name myvpc --cidr 10.0.0.0/8                Crete new V
 otc ecs describe-vpcs                                                List VPCs
 Subnet Commands:
 otc ecs create-subnet --subnet-name subnettest --cidr 192.168.1.0/16 --gateway-ip 192.168.1.2 --primary-dns 8.8.8.8 --secondary-dns 8.8.4.4 --availability-zone eu-de-01 --vpc-name default-vpc    Create new subnet for VPC
-otc ecs describe-subnets --output json
+otc ecs describe-subnets --output Json
 Security Group Commands:
 otc ecs create-security-group --group-name test2 --vpc-name default-vpc  Create new security group
 otc ecs describe-security-groups                                     List existing security-groups
@@ -65,7 +65,7 @@ otc ecs describe-key-pairs                                           List key pa
 otc ecs create-key-pair --key-name mykeypair "ssh-rsa AA..."       Create key pair
 Instance Commands:
 otc ecs describe-instances                                           List VM instances
-otc ecs describe-instances  --instance-ids 097da903-ab95-44f3-bb5d-5fc08dfb6cc3 --output json     Detailed information of specific VM instance (JSON)
+otc ecs describe-instances  --instance-ids 097da903-ab95-44f3-bb5d-5fc08dfb6cc3 --output Json     Detailed information of specific VM instance (JSON)
 otc ecs run-instances --count 1  --admin-pass yourpass123! --instance-type c1.medium --instance-name instancename --image-name Standard_CentOS_6.7_latest --subnet-name testsubnet --vpc-name testvpc --group-name testsecgroup     Create new VM instance and START
 otc ecs run-instances --count 1  --admin-pass yourpass123! --instance-type c1.medium --instance-name instancename --image-name Standard_CentOS_6.7_latest --subnet-name testsubnet --vpc-name testvpc --group-name testsecgroup  --key-name testsshkeypair --file1 /otc/a=/otc/a
 --associate-public-ip-address  --wait-instance-running    Create new VM instance with injected SSH keypair, with public ip, additional file injection, wait instance created and running

@@ -1,8 +1,15 @@
 {
 	"action": "{{INSTANCE_ACTION_ADD_REMOVE_BATCH}}",
 	"instances_id": [
-		"{{INSTANCE_ID_1}}",
-		"{{INSTANCE_ID_2}}"
-	],
+        {% set instlist = INSTANCE_ID.split(',') %}
+        {% for INSTANCE in instlist %}
+        {
+            "id": "{{INSTANCE}}"
+        }
+        {% if not loop.last %}
+        ,
+        {% endif %}
+        {% endfor %}
+        ],
 	"instance_delete": "{{INSTANCE_DELETE}}"
 }

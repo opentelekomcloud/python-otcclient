@@ -231,7 +231,7 @@ class OtcConfig(object):
     #SCALINGGROUP_ID
     SCALING_GROUP_STATUS = None
     CURRENT_INSTANCE_NUMBER = None
-    LB_LISTENER_ID = None
+    #LB_LISTENER_ID = None
     IS_SCALING = None
     #DELETE_PUBLICIP
     #update_bandwidth_information.template
@@ -265,6 +265,7 @@ class OtcConfig(object):
 
 
     SCALING_POLICY_NAME = None
+    SCALING_POLICY_ID = None
     #delete_nics_ecs_batches.template
     #NETWORKINTERFACEID
     #execute_enable_disable_as_policy.template
@@ -467,7 +468,7 @@ class OtcConfig(object):
         #SCALINGGROUP_ID
         self.SCALING_GROUP_STATUS = parser.SCALING_GROUP_STATUS                                           if parser.SCALING_GROUP_STATUS else None
         self.CURRENT_INSTANCE_NUMBER = parser.CURRENT_INSTANCE_NUMBER                                           if parser.CURRENT_INSTANCE_NUMBER else None
-        self.LB_LISTENER_ID = parser.LB_LISTENER_ID                                           if parser.LB_LISTENER_ID else None
+        #self.LB_LISTENER_ID = parser.LB_LISTENER_ID                                           if parser.LB_LISTENER_ID else None
         self.IS_SCALING = parser.IS_SCALING                                           if parser.IS_SCALING else None
         #DELETE_PUBLICIP
         #update_bandwidth_information.template
@@ -499,6 +500,7 @@ class OtcConfig(object):
         self.INSTANCE_NUMBER = parser.INSTANCE_NUMBER                                           if parser.INSTANCE_NUMBER else None
         self.OPERATION_AS_POLICY = parser.OPERATION_AS_POLICY                                           if parser.OPERATION_AS_POLICY else None
         self.SCALING_POLICY_NAME = parser.SCALING_POLICY_NAME                                           if parser.SCALING_POLICY_NAME else None
+        self.SCALING_POLICY_ID = parser.SCALING_POLICY_ID                                           if parser.SCALING_POLICY_ID else None
         #delete_nics_ecs_batches.template
         #NETWORKINTERFACEID
         #execute_enable_disable_as_policy.template

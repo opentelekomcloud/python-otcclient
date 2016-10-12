@@ -193,7 +193,7 @@ class ecs(otcpluginbase):
 
     @staticmethod       
     def release_private_address():
-        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/privateips" + OtcConfig.PRIVATEIP_ID
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/privateips" + OtcConfig.PRIVATEIPID
         ret = utils_http.delete(url)
         print(ret)
         return ret

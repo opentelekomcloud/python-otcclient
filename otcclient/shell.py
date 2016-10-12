@@ -252,7 +252,7 @@ def main(argv=None): # IGNORE:C0111
         #SCALINGGROUP_ID
         parser.add_argument( "--scaling-group-status", dest="SCALING_GROUP_STATUS", help="scaling-group-status")
         parser.add_argument( "--current-instance-number", dest="CURRENT_INSTANCE_NUMBER", help="current-instance-number")
-        parser.add_argument( "--lb-listener-id", dest="LB_LISTENER_ID", help="lb-listener-id")
+        #parser.add_argument( "--lb-listener-id", dest="LB_LISTENER_ID", help="lb-listener-id")
         parser.add_argument( "--is-scaling", dest="IS_SCALING", help="is-scaling")
         #DELETE_PUBLICIP
         #update_bandwidth_information.template
@@ -280,10 +280,13 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--launch-time", dest="LAUNCH_TIME", help="launch-time")
         parser.add_argument( "--end-time", dest="END_TIME", help="end-time")
         parser.add_argument( "--recurrence-type", dest="RECURRENCE_TYPE", help="recurrence-type")
-        parser.add_argument( "--scaling-policy-type", dest="SCALING_POLICY_TYPE", help="scaling-policy-type")
+
+        parser.add_argument( "--scaling-policy-type", dest="SCALING_POLICY_TYPE", help="Specifies the AS policy type: ALARM/SCHEDULED/RECURRENCE")
         parser.add_argument( "--instance-number", dest="INSTANCE_NUMBER", help="instance-number")
-        parser.add_argument( "--operation-as-policy", dest="OPERATION_AS_POLICY", help="operation-as-policy")
-        parser.add_argument( "--scaling-policy-name", dest="SCALING_POLICY_NAME", help="scaling-policy-name")
+        parser.add_argument( "--operation-as-policy", dest="OPERATION_AS_POLICY", help="Specifies the operation to be performed. The default operation is ADD.ADD: adds instances to the AS group.REMOVE: removes instances from the AS group.SET: sets the number of the instances in the AS group")
+
+        parser.add_argument( "--scaling-policy-name", dest="SCALING_POLICY_NAME", help="Specifies the AS policy name. The name can contain letters, digits, underscores (_), and hyphens (-), and cannot exceed 64 characters")
+        parser.add_argument( '--scaling-policy-id', dest='SCALING_POLICY_ID', help='scaling-policy-id')
         #delete_nics_ecs_batches.template
         #NETWORKINTERFACEID
         #execute_enable_disable_as_policy.template

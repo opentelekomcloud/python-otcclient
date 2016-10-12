@@ -1,17 +1,40 @@
 {
+
 	"scheduled_policy": {
-		"recurrence_value": "{{RECURRENCE_VALUE}}",
-		"start_time": "{{START_TIME}}",
-		"launch_time": "{{LAUNCH_TIME}}",
-		"end_time": "{{END_TIME}}",
-		"recurrence_type": "{{RECURRENCE_TYPE}}"
+
+		
+
+	"launch_time": "{{LAUNCH_TIME}}"
+	{% if START_TIME %}
+		,"start_time": "{{START_TIME}}"
+	{% endif %}	
+	{% if END_TIME %}
+		,"end_time": "{{END_TIME}}"
+	{% endif %}	
+	
+	{% if RECURRENCE_VALUE %}
+		,"recurrence_value": "{{RECURRENCE_VALUE}}"
+	{% endif %}	
+		
+	{% if RECURRENCE_TYPE %}
+	,"recurrence_type": "{{RECURRENCE_TYPE}}"
+	{% endif %}		
+	
 	},
-	"scaling_group_id": "{{SCALINGGROUP_ID}}",
-	"scaling_policy_type": "{{SCALING_POLICY_TYPE}}",
-	"scaling_policy_action": {
-		"instance_number": {{INSTANCE_NUMBER}},
+	"scaling_group_id": "{{SCALINGGROUP_ID}}"
+	,"scaling_policy_type": "{{SCALING_POLICY_TYPE}}"
+	,"scaling_policy_action": {
+		{% if OPERATION_AS_POLICY %}		
 		"operation": "{{OPERATION_AS_POLICY}}"
+		{% endif %}	
+		{% if NUMCOUNT %}		
+		"instance_number": {{NUMCOUNT}}
+		{% endif %}		
+		
 	},
-	"scaling_policy_name": "{{SCALING_POLICY_NAME}}",
-	"cool_down_time": {{COOL_DOWN_TIME}}
+	"scaling_policy_name": "{{SCALING_POLICY_NAME}}"
+
+{% if COOL_DOWN_TIME %}
+	,"cool_down_time": {{COOL_DOWN_TIME}}
+{% endif %}	
 }

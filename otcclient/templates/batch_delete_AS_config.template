@@ -1,0 +1,13 @@
+{
+	"scaling_configuration_id": [
+        {% set conflist = SCALING_CONFIGURATION_ID.split(',') %}
+        {% for SCI in conflist %}
+        {
+           "{{SCI}}"
+        }
+        {% if not loop.last %}
+        ,
+        {% endif %}
+        {% endfor %}
+        ]
+}

@@ -1,5 +1,5 @@
 {
-"scaling_group_name": "{{SCALINGGROUP_NAME}}",
+"scaling_group_name": "{{SCALINGGROUP_NAME}}"
 {% if SCALING_CONFIGURATION_ID %},"scaling_configuration_id": "{{SCALING_CONFIGURATION_ID}}"{% endif %}	
 {% if NUMCOUNT %},"desire_instance_number": {{NUMCOUNT}}{% endif %}	
 {% if MIN_INSTANCE_NUMBER %},"min_instance_number": {{MIN_INSTANCE_NUMBER}}{% endif %}	
@@ -9,7 +9,7 @@
 {% if HEALTH_PERIODIC_AUDIT_METHOD %},"health_periodic_audit_method": "{{HEALTH_PERIODIC_AUDIT_METHOD}}"{% endif %}	
 {% if HEALTH_PERIODIC_AUDIT_TIME %},"health_periodic_audit_time": "{{HEALTH_PERIODIC_AUDIT_TIME}}"{% endif %}	
 {% if INSTANCE_TERMINATE_POLICY %},"instance_terminate_policy": "{{INSTANCE_TERMINATE_POLICY}}"{% endif %}	
-"vpc_id": "{{VPCID}}",
+,"vpc_id": "{{VPCID}}",
 "networks": [
         {% set subnetlist = SUBNETID.split(',') %}
         {% for SUBNET in subnetlist %}
@@ -24,7 +24,7 @@
 {% if NOTIFICATIONS %},"notifications":["{{NOTIFICATIONS}}"]{% endif %}	
 "security_groups": [
 {
-"id": "{{SECURITY_GROUPS_ID}}"
+"id": "{{SECUGROUP}}"
 }
 ]
 }

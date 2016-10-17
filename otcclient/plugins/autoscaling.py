@@ -41,7 +41,7 @@ class autoscaling(otcpluginbase):
         if not (OtcConfig.SCALINGGROUP_NAME is None):
             autoscaling.convertASNameToId()         
             
-        url = "https://" + OtcConfig.DEFAULT_HOST + "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_policy/" + OtcConfig.SCALINGGROUP_ID + "/list?scaling_policy_name="  ++ OtcConfig.SCALING_POLICY_NAME
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_policy/" + OtcConfig.SCALINGGROUP_ID + "/list?scaling_policy_name="  + OtcConfig.SCALING_POLICY_NAME
         JSON = utils_http.get(url)
         parsed = json.loads(JSON)
         as_policy = parsed["scaling_policies"]        
@@ -78,28 +78,29 @@ class autoscaling(otcpluginbase):
     def describe_auto_scaling_groups():
         url = "https://" + OtcConfig.DEFAULT_HOST + "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_group"
         ret = utils_http.get(url)    
-        autoscaling.otcOutputHandler().print_output(ret, mainkey="scaling_groups",listkey={"instance_terminate_policy","is_scaling"}) 
+        #print(ret)
+        autoscaling.otcOutputHandler().print_output(ret, mainkey="scaling_groups",listkey={"scaling_group_name","scaling_configuration_name","create_time","instance_terminate_policy","is_scaling"}) 
         return ret
 
     @staticmethod 
     def describe_auto_scaling_groups_details():
         if not (OtcConfig.SCALINGGROUP_NAME is None):
             autoscaling.convertASNameToId()     
-        url = "https://" + OtcConfig.DEFAULT_HOST + "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_group" + OtcConfig.SCALINGGROUP_ID
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_group/" + OtcConfig.SCALINGGROUP_ID
         ret = utils_http.get(url)    
         autoscaling.otcOutputHandler().print_output(ret, 
-                                                    mainkey="scaling_group",
-                                                             listkey={"instance_terminate_policy",
-                                                             "is_scaling"}) 
+                                                    mainkey="scaling_group"#,listkey={"instance_terminate_policy","is_scaling"}
+                                                    ) 
         return ret      
         
     @staticmethod     
     def describe_auto_scaling_configuration():
         url = "https://" + OtcConfig.DEFAULT_HOST + "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_configuration"
         ret = utils_http.get(url)
-        autoscaling.otcOutputHandler().print_output(ret, mainkey="scaling_configurations", listkey={"scaling_configuration_name",
-                                                                                                    "scaling_configuration_id",
-                                                                                                     "create_time", "instance_config"})
+        autoscaling.otcOutputHandler().print_output(ret, mainkey="scaling_configurations" #, subkey="instance_config" 
+		, listkey={"scaling_configuration_name","scaling_configuration_id","create_time"#, "instance_config"
+				}
+				)
         return ret
 
     @staticmethod     
@@ -108,9 +109,12 @@ class autoscaling(otcpluginbase):
             autoscaling.convertASConfigurationNameToId()
         url = "https://" + OtcConfig.DEFAULT_HOST + "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_configuration/" + OtcConfig.SCALING_CONFIGURATION_ID
         ret = utils_http.get(url)
-        autoscaling.otcOutputHandler().print_output(ret, mainkey="scaling_configuration", listkey={"scaling_configuration_name",
-                                                                                                    "scaling_configuration_id",
-                                                                                                     "create_time", "instance_config"})
+        #print(ret)
+        autoscaling.otcOutputHandler().print_output(ret, mainkey="scaling_configuration" #, subkey="instance_config" 
+        )
+        #autoscaling.otcOutputHandler().print_output(ret, mainkey="scaling_configuration", listkey={"scaling_configuration_name",
+        #                                                                                            "scaling_configuration_id",
+        #                                                                                             "create_time", "instance_config"})
         return ret      
         
     @staticmethod     
@@ -128,9 +132,10 @@ class autoscaling(otcpluginbase):
             autoscaling.convertASNameToId()            
         url = "https://" + OtcConfig.DEFAULT_HOST + "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_policy/" + OtcConfig.SCALINGGROUP_ID + "/list"  
         ret = utils_http.get(url)
+        #print(ret)
         autoscaling.otcOutputHandler().print_output(ret, mainkey="scaling_policies",
                                                                  listkey={"cool_down_time", "scaling_policy_action",
-                                                                  "policy_status"})
+                                                                  "policy_status", "scaling_policy_type", "scheduled_policy", "scaling_policy_name", "scaling_policy_id"})
         return ret
 
 
@@ -167,7 +172,7 @@ class autoscaling(otcpluginbase):
         if not (OtcConfig.SCALING_POLICY_NAME is None):
             autoscaling.convertASPolicyNameToId()      
                 
-                
+        print(OtcConfig.SCALING_POLICY_ID)        
         url = "https://" + OtcConfig.DEFAULT_HOST + "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_policy/" + OtcConfig.SCALING_POLICY_ID  
         ret = utils_http.get(url)
         #autoscaling.otcOutputHandler().print_output(ret, mainkey="scaling_policy",                                                     listkey={"scaling_policy_id", "scaling_group_id"})
@@ -182,6 +187,23 @@ class autoscaling(otcpluginbase):
         REQ_CREATE_SCP=utils_templates.create_request("create_as_policy")               
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_policy"
         ret = utils_http.post(url, REQ_CREATE_SCP)
+        autoscaling.otcOutputHandler().print_output(ret,mainkey="")
+        return ret
+
+
+    @staticmethod
+    def modify_auto_scaling_policy():
+        if not (OtcConfig.SCALINGGROUP_NAME is None):
+            autoscaling.convertASNameToId()         
+        if not (OtcConfig.SCALING_POLICY_NAME is None):
+            autoscaling.convertASPolicyNameToId() 		
+        
+        REQ_CREATE_SCP=utils_templates.create_request("modify_as_policy")               
+        #print(REQ_CREATE_SCP)
+
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_policy/" + OtcConfig.SCALING_POLICY_ID  
+        #print(url)
+        ret = utils_http.put(url, REQ_CREATE_SCP)
         autoscaling.otcOutputHandler().print_output(ret,mainkey="")
         return ret
 
@@ -208,14 +230,45 @@ class autoscaling(otcpluginbase):
         #security_group_id
         if not OtcConfig.SECUGROUPNAME is None:
             ecs.convertSECUGROUPNameToId()
-            
+        print(OtcConfig.SUBNETID)
+        print(OtcConfig.SUBNETID)		
         REQ_CREATE_SCG=utils_templates.create_request("create_as_group")               
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_group"
         ret = utils_http.post(url, REQ_CREATE_SCG)
         autoscaling.otcOutputHandler().print_output(ret,mainkey="")
+        #print(REQ_CREATE_SCG)		
         return ret 
 
-
+    @staticmethod
+    def modify_auto_scaling_group():
+        if (OtcConfig.SCALINGGROUP_ID is None) and not (OtcConfig.SCALINGGROUP_NAME is None):
+            autoscaling.convertASNameToId()
+        #print(SCALINGGROUP_NAME)
+        #vpc_id
+        if not (OtcConfig.VPCNAME is None):
+            ecs.convertVPCNameToId()
+        #scaling_configuration_id
+        if not (OtcConfig.SCALING_CONFIGURATION_NAME is None):
+            autoscaling.convertASConfigurationNameToId()
+          
+        #lb_listener_id
+        if not (OtcConfig.LISTENER_NAME is None):
+            autoscaling.convertLISTENERNameToId()
+        #network_id
+        if not OtcConfig.SUBNETNAME is None:
+            ecs.convertSUBNETNameToId()
+        #security_group_id
+        if not OtcConfig.SECUGROUPNAME is None:
+            ecs.convertSECUGROUPNameToId()
+        #print(OtcConfig.SECUGROUPNAME)
+        #print(OtcConfig.SECUGROUP)		
+        REQ_CREATE_SCG=utils_templates.create_request("modify_as_group")               
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_group/"+ OtcConfig.SCALINGGROUP_ID
+        ret = utils_http.put(url, REQ_CREATE_SCG)
+        autoscaling.otcOutputHandler().print_output(ret,mainkey="")
+        #print(REQ_CREATE_SCG)		
+        return ret 
+		
     @staticmethod
     def enable_auto_scaling_policy():
         if not (OtcConfig.SCALING_POLICY_NAME is None):
@@ -231,7 +284,8 @@ class autoscaling(otcpluginbase):
     @staticmethod
     def disable_auto_scaling_policy():
         if not (OtcConfig.SCALING_POLICY_NAME is None):
-            autoscaling.convertASPolicyNameToId()       
+            autoscaling.convertASPolicyNameToId()      
+        print(OtcConfig.SCALING_POLICY_ID)	
         OtcConfig.AS_POLICY_ACTION="pause"
         REQ_ACTION_SCP=utils_templates.create_request("execute_enable_disable_as_policy")
         url = "https://" + OtcConfig.DEFAULT_HOST + "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_policy/" + OtcConfig.SCALING_POLICY_ID  + "/action" 
@@ -287,12 +341,14 @@ class autoscaling(otcpluginbase):
 
     @staticmethod     
     def batch_delete_auto_scaling_configuration():
-        #if not (OtcConfig.SCALING_CONFIGURATION_NAME is None):
-        #    autoscaling.convertASConfigurationNameToId()
+        if (OtcConfig.SCALING_CONFIGURATION_ID is None) and not (OtcConfig.SCALING_CONFIGURATION_NAME is None):
+            autoscaling.convertASConfigurationNameToId()
+			
         REQ_DELETE_BATCH_SC=utils_templates.create_request("batch_delete_AS_config")                
         url = "https://" + OtcConfig.DEFAULT_HOST + "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_configurations"
         ret = utils_http.post(url, REQ_DELETE_BATCH_SC)
         autoscaling.otcOutputHandler().print_output(ret,mainkey="")
+        #print(REQ_DELETE_BATCH_SC)
         return ret
 
 
@@ -323,13 +379,27 @@ class autoscaling(otcpluginbase):
 
     @staticmethod     
     def delete_auto_scaling_configuration():
-        if not (OtcConfig.SCALING_POLICY_NAME is None):
-            autoscaling.convertASPolicyNameToId()
+        if not (OtcConfig.SCALING_CONFIGURATION_NAME is None):
+            autoscaling.convertASConfigurationNameToId()
         url = "https://" + OtcConfig.DEFAULT_HOST + "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_configuration/"+ OtcConfig.SCALING_CONFIGURATION_ID
         ret = utils_http.delete(url)
         print(ret)
         return ret
 
+    @staticmethod     
+    def create_auto_scaling_configuration():
+        if not OtcConfig.INSTANCE_TYPE_NAME is None:
+            ecs.convertFlavorNameToId()
+        if not OtcConfig.IMAGENAME is None:
+            ecs.convertIMAGENameToId()
+        REQ_CREATE_SC=utils_templates.create_request("create_as_configuration")     
+        #print(REQ_CREATE_SC)
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_configuration"
+        ret = utils_http.post(url, REQ_CREATE_SC)
+        autoscaling.otcOutputHandler().print_output(ret,mainkey="")
+        return ret 
+
+		
     @staticmethod
     def delete_launch_configuration():
         raise RuntimeError("NOT IMPLEMENTED!")

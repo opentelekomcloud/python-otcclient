@@ -696,7 +696,8 @@ class ecs(otcpluginbase):
 
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/servers/"+ OtcConfig.INSTANCE_ID + "/os-volume_attachments"
         ret = utils_http.get( url )
-        print ret 
+        print ret
+        # TODO: output fix need  
         #ecs.otcOutputHandler().print_output(ret,  mainkey = "volumes", listkey= {"id", "name", "volume_type", "size", "status", "bootable", "availability_zone", "limit", "attachments", "source_volid", "snapshot_id", "description", "created_at"})
         return ret
 

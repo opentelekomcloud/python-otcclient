@@ -28,7 +28,7 @@
 		"operation": "{{OPERATION_AS_POLICY}}"
 		{% endif %}	
 		{% if NUMCOUNT %}		
-		"instance_number": {{NUMCOUNT}}
+		,"instance_number": {{NUMCOUNT}}
 		{% endif %}		
 		
 	},

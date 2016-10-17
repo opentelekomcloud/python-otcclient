@@ -1,14 +1,16 @@
 {
-"scaling_configuration_name": "{{SCALINGGROUP_NAME}}",
+"scaling_configuration_name": "{{SCALING_CONFIGURATION_NAME}}",
+
 "instance_config": {
-"flavorRef": "{{INSTANCE_TYPE}}",
-"imageRef": "{{IMAGE_ID}}",
+	
+{% if IMAGE_ID %}"imageRef": "{{IMAGE_ID}}"{% endif %}	
+{% if INSTANCE_TYPE %},"flavorRef": "{{INSTANCE_TYPE}}",{% endif %}
 "disk": [{
 "size": {{VOLUME_SIZE}},
 "volume_type": "{{VOLUME_TYPE}}",
 "disk_type": "{{DISK_TYPE}}"
 }],
-"personality": [],
+{#"personality": [],#}
 "key_name": "{{KEYNAME}}"
 }
 }

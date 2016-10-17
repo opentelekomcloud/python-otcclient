@@ -1,8 +1,32 @@
 {
-"scaling_group_name":"{{SCALINGGROUP_NAME}}",
-"scaling_configuration_id":"{{SCALING_CONFIGURATION_ID}}",
-"desire_instance_number":{{DESIRE_INSTANCE_NUMBER}},
-"min_instance_number":{{MIN_INSTANCE_NUMBER}},
-"max_instance_number":{{MAX_INSTANCE_NUMBER}},
-"cool_down_time":{{COOL_DOWN_TIME}}
+{% if SCALINGGROUP_NAME %}"scaling_group_name": "{{SCALINGGROUP_NAME}}"{% endif %}
+{% if SCALING_CONFIGURATION_ID %},"scaling_configuration_id": "{{SCALING_CONFIGURATION_ID}}"{% endif %}	
+{% if NUMCOUNT %},"desire_instance_number": {{NUMCOUNT}}{% endif %}	
+{% if MIN_INSTANCE_NUMBER %},"min_instance_number": {{MIN_INSTANCE_NUMBER}}{% endif %}	
+{% if MAX_INSTANCE_NUMBER %},"max_instance_number": {{MAX_INSTANCE_NUMBER}}{% endif %}	
+{% if COOL_DOWN_TIME %},"cool_down_time": {{COOL_DOWN_TIME}}{% endif %}	
+{% if LISTENER_ID %},"lb_listener_id": {{LISTENER_ID}}{% endif %}	
+{% if HEALTH_PERIODIC_AUDIT_METHOD %},"health_periodic_audit_method": "{{HEALTH_PERIODIC_AUDIT_METHOD}}"{% endif %}	
+{% if HEALTH_PERIODIC_AUDIT_TIME %},"health_periodic_audit_time": "{{HEALTH_PERIODIC_AUDIT_TIME}}"{% endif %}	
+{% if INSTANCE_TERMINATE_POLICY %},"instance_terminate_policy": "{{INSTANCE_TERMINATE_POLICY}}"{% endif %}	
+{% if VPCID %},"vpc_id": "{{VPCID}}"{% endif %}
+{% if SUBNETID %},"networks": [
+        {% set subnetlist = SUBNETID.split(',') %}
+        {% for SUBNET in subnetlist %}
+        {
+            "id": "{{SUBNET}}"
+        }
+        {% if not loop.last %}
+        ,
+        {% endif %}
+        {% endfor %}
+        ]  
+{% endif %}	
+{% if NOTIFICATIONS %},"notifications":["{{NOTIFICATIONS}}"]{% endif %}	
+{% if SECUGROUP %},"security_groups": [
+{
+"id": "{{SECUGROUP}}"
+}
+]
+{% endif %}
 }

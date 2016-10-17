@@ -2,10 +2,18 @@
     "server": {
         "availability_zone": "{{AZ}}",
         "name": "{{INSTANCE_NAME}}",
-        "imageRef": "{{IMAGE_ID}}",
+        "imageRef": "{{IMAGE_ID}}",        
         "root_volume": {
-            "volumetype": "{{VOLUME_TYPE}}"
+            {% if VOLUME_TYPE %}        
+                "volumetype": "{{VOLUME_TYPE}}"
+            {% else %}            
+                "volumetype": "SATA"
+            {% endif %}            
+            {% if VOLUME_SIZE %}                        
+            ,"size": "{{VOLUME_SIZE}}"
+            {% endif %}                        
         },
+
         {% if USER_DATA %}
         "user_data": "{{USER_DATA}}",
         {% endif %}

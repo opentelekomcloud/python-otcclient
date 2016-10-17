@@ -1,0 +1,44 @@
+{ 
+    "kind": "ReplicationController", 
+    "apiVersion": "v1", 
+    "metadata": { 
+        "name": "{{RC_NAME}}",
+        "annotations": {
+            "cce/app-createTimestamp": "2016-09-22-08-30-21",
+            "cce/app-description":"",
+            "cce/app-updateTimestamp": "2016-09-22-08-30-21"
+        },
+        "labels":{
+            "cce/appgroup": "{{RC_NAME}}"
+        }
+    }, 
+    "spec": { 
+        "replicas": 2, 
+        "selector": {
+            "cce/appgroup": "{{RC_NAME}}"
+        },
+        "template": { 
+            "metadata": {
+                "labels":{
+                    "cce/appgroup": "{{RC_NAME}}"
+                }
+            },
+            "spec": { 
+                "containers": [{ 
+                    "name": "{{IMAGENAME}}", 
+                    "image": "{{IMAGE_REF}}", 
+                    "ports": [{ 
+                        "containerPort": {{PORTMIN}}, 
+                        "protocol": "TCP" 
+                    }], 
+
+                    "imagePullPolicy": "Always" 
+                    }], 
+                "imagePullSecrets":[{
+                    "name": "{{SECRET_NAME}}"
+                }],
+                    "restartPolicy": "Always"
+            }
+        } 
+    } 
+}

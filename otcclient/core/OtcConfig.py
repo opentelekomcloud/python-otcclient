@@ -159,6 +159,7 @@ class OtcConfig(object):
     SERVICE_NAME = None
     ENDPOINT_NAME = None
     SECRET_NAME = None
+    RC_NAME = None
     
     CLIINPUTJSONFILE = None
 
@@ -339,6 +340,7 @@ class OtcConfig(object):
         self.SERVICE_NAME = parser.SERVICE_NAME                                 if parser.SERVICE_NAME else None
         self.ENDPOINT_NAME = parser.ENDPOINT_NAME                                 if parser.ENDPOINT_NAME else None
         self.SECRET_NAME = parser.SECRET_NAME                                 if parser.SECRET_NAME else None
+        self.RC_NAME = parser.RC_NAME                                 if parser.RC_NAME else None
         
                 
         self.ADMINPASS = parser.ADMINPASS                                        if parser.ADMINPASS else str()
@@ -348,7 +350,7 @@ class OtcConfig(object):
         self.KEYNAME = parser.KEYNAME                                            if parser.KEYNAME else str()
         self.PUBLICKEY = parser.PUBLICKEY                                       if parser.PUBLICKEY else str()
         self.VOLUME_SIZE = parser.VOLUME_SIZE                                   if parser.VOLUME_SIZE else str()
-        self.VOLUME_TYPE = parser.VOLUME_TYPE                                   if parser.VOLUME_TYPE else str()
+        self.VOLUME_TYPE = parser.VOLUME_TYPE                                   if parser.VOLUME_TYPE else None
         self.VOLUME_NAME = parser.VOLUME_NAME                                   if parser.VOLUME_NAME else None
         self.VOLUME_ID = parser.VOLUME_ID                                       if parser.VOLUME_ID else None
         self.ATTACHMENT_ID = parser.ATTACHMENT_ID                               if parser.ATTACHMENT_ID else str()
@@ -408,7 +410,7 @@ class OtcConfig(object):
         #create_as_configuration.template
         #SCALINGGROUP_NAME
         #self.FLAVOR_REF = parser.FLAVOR_REF                                           if parser.FLAVOR_REF else None
-        #self.IMAGE_REF = parser.IMAGE_REF                                           if parser.IMAGE_REF else None
+        self.IMAGE_REF = parser.IMAGE_REF                                           if parser.IMAGE_REF else None
         #self.DISK_SIZE = parser.DISK_SIZE                                           if parser.DISK_SIZE else None
         #VOLUME_TYPE
         self.DISK_TYPE = parser.DISK_TYPE                                           if parser.DISK_TYPE else None

@@ -132,7 +132,7 @@ class ecs(otcpluginbase):
 
     @staticmethod       
     def describe_images():
-        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/images"
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/cloudimages"
         ret = utils_http.get(url)
         ecs.otcOutputHandler().print_output(ret, mainkey="images", listkey={"id", "name", "__os_type", "updated_at", "deleted"})
         return ret
@@ -511,8 +511,10 @@ class ecs(otcpluginbase):
         
         REQ_CREATE_VM=utils_templates.create_request("create_vm")        
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers"
-        ret = utils_http.post(url, REQ_CREATE_VM)
-        print ret 
+        
+        #print REQ_CREATE_VM
+        ret = utils_http.post(url, REQ_CREATE_VM)       
+        #print ret  
 
         OtcConfig.ECSTASKID  = json.loads(ret)["job_id"]
 
@@ -619,7 +621,7 @@ class ecs(otcpluginbase):
     def convertSUBNETNameToId():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/subnets"
         ar = []
-        print OtcConfig.SUBNETNAME
+        
         ar.append(OtcConfig.SUBNETNAME)
         if "," in OtcConfig.SUBNETNAME:             
             ar=str(OtcConfig.SUBNETNAME).split(",")
@@ -638,7 +640,7 @@ class ecs(otcpluginbase):
 
     @staticmethod
     def convertIMAGENameToId():
-        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/images"
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/cloudimages"
         JSON = utils_http.get(url)
         parsed  = json.loads(JSON)
         images = parsed["images"]

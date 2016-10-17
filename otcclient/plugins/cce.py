@@ -11,7 +11,6 @@ from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.pluginmanager import getplugin
 import json
 from otcclient.plugins.ecs import ecs
-import os
     
 class cce(otcpluginbase):
     ar = {}    
@@ -45,7 +44,7 @@ class cce(otcpluginbase):
     def list_clusters():
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/clusters"
         ret = utils_http.get(url)
-        print ret
+        #print ret
         cce.otcOutputHandler().print_output(json.loads(ret), subkey="metadata", listkey={"name", "uuid", "createAt"})
         #ecs.otcOutputHandler().print_output(json.loads(ret),mainkey="")     
         return ret
@@ -101,6 +100,29 @@ class cce(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/services"
         req = utils_templates.create_request("cce_create_service")
         ret = utils_http.post(url, req)
+        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        return ret
+
+
+    @staticmethod
+    def modify_service():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()
+                 
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/services/" + OtcConfig.SERVICE_NAME
+        req = utils_templates.create_request("cce_create_service")
+        ret = utils_http.put(url, req)
+        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        return ret
+
+
+    @staticmethod
+    def delete_service():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()
+                 
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/services/" + OtcConfig.SERVICE_NAME
+        ret = utils_http.delete(url)
         ecs.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
 
@@ -278,7 +300,7 @@ class cce(otcpluginbase):
         if OtcConfig.CLUSTER:
             cce.convertClusterNameToId()
             
-        if OtcConfig.NAMESPACE:
+        if OtcConfig.SECRET_NAME:
             url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/secrets/" + OtcConfig.SECRET_NAME 
         else:
             url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/secrets"
@@ -296,7 +318,7 @@ class cce(otcpluginbase):
         
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/secrets"
         req = utils_templates.create_request("cce_create_secret")
-        print req        
+        #print req        
         ret = utils_http.post(url, req)
         cce.otcOutputHandler().print_output(ret,mainkey="")    
         return ret
@@ -311,3 +333,58 @@ class cce(otcpluginbase):
         ecs.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
         
+        
+    @staticmethod
+    def describe_rc():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()
+
+        if OtcConfig.NAMESPACE:
+            if OtcConfig.RC_NAME:
+                url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/replicationcontrollers/" + OtcConfig.RC_NAME  
+            else:
+                url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/replicationcontrollers"   
+        else:
+            url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/replicationcontrollers"
+        
+        
+        ret = utils_http.get(url)        
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
+        return ret
+
+
+    @staticmethod
+    def create_rc():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()            
+        
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/replicationcontrollers"
+        req = utils_templates.create_request("cce_create_rc")
+        #print req        
+        ret = utils_http.post(url, req)
+        cce.otcOutputHandler().print_output(ret,mainkey="")    
+        return ret
+
+    @staticmethod
+    def modify_rc():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()            
+        
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/replicationcontrollers/" + OtcConfig.RC_NAME
+        req = utils_templates.create_request("cce_create_rc")
+        #print req        
+        ret = utils_http.put(url, req)
+        cce.otcOutputHandler().print_output(ret,mainkey="")    
+        return ret
+
+
+    @staticmethod
+    def delete_rc():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()                    
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/replicationcontrollers/" + OtcConfig.RC_NAME
+                         
+        ret = utils_http.delete(url)
+        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        return ret
+                

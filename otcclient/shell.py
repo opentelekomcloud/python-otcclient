@@ -115,6 +115,7 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--service-name",dest="SERVICE_NAME", help="CCE Service name")
         parser.add_argument( "--endpoint-name",dest="ENDPOINT_NAME", help="CCE endpoint name")
         parser.add_argument( "--secret-name",dest="SECRET_NAME", help="CCE secret name")        
+        parser.add_argument( "--rc-name",dest="RC_NAME", help="CCE replication controller name")
         
         
         parser.add_argument( "--cli-input-json",dest="CLIINPUTJSONFILE", help="Input JSON file for every request")
@@ -300,7 +301,7 @@ def main(argv=None): # IGNORE:C0111
         #update_evs_info.template
         #VOLUME_NAME
         #DESCRIPTION        
-       #create_listener.template
+        #create_listener.template
         parser.add_argument( '--session-sticky', dest='SESSION_STICKY', help='Specifies whether to enable the session persistence function.The value is true or false. The session persistence function is enabled when the value is true, and is disabled when the value is false.')
         parser.add_argument( '--sticky-session-type', dest='STICKY_SESSION_TYPE', help='Specifies the cookie processing method. The value is insert.insert indicates that the cookie is inserted by the load balancer. This parameter is valid when protocol is set to HTTP, and session_sticky to true. The default value is insert. This parameter is invalid when protocol is set to TCP. That means the parameter is empty.')
         parser.add_argument( '--cookie-timeout', dest='COOKIE_TIMEOUT', help='Specifies the cookie timeout period (s).The value ranges from 1 to 86,400. This parameter is valid when protocol is set to HTTP, session_sticky to true, and sticky_session_type to insert. This parameter is invalid when protocol is set to TCP.')

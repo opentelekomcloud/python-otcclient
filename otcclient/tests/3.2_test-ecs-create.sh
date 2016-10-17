@@ -10,6 +10,8 @@ apitest otc ecs describe-instances
 # create with public IP 
 apitest otc ecs run-instances --count 1  --admin-pass yourpass123! --instance-type c1.medium --instance-name testinstance-public --image-name Standard_CentOS_6.7_latest --subnet-name testsubnet --vpc-name testvpc --group-name testsecgroup  --key-name testsshkeypair --file1 /otc/a=/otc/a --associate-public-ip-address --wait-instance-running
 
+apitest otc ecs run-instances --count 1  --admin-pass yourpass123! --instance-type c1.medium --instance-name testinstance-public --image-name Standard_CentOS_6.8_latest --subnet-name testsubnet --vpc-name testvpc --group-name testsecgroup  --key-name nzstestbed  --associate-public-ip-address --wait-instance-running --debug
+
 apitest otc ecs describe-instances
 
 # create with public IP wait the creation 

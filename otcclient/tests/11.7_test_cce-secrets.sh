@@ -1,10 +1,11 @@
 source ./otcclient/tests/otcfunc.sh 
 
 
+#apitest otc cce create-secret  --cluster-name `otc cce describe-clusters --query  "[0].[metadata][*].name"`  --namespace apitestnamespace --secret-name apitestsecret --key-name "YWRtaW4=" --admin-pass MWYyZDFlMmU2N2Rm --secret-name apitestsecret --debug
+#exit
 
-apitest otc cce describe-secrets   --cluster-name `otc cce describe-clusters --query  "[0].[metadata][*].name"`  --namespace apitestnamespace
+#apitest otc cce describe-secrets   --cluster-name `otc cce describe-clusters --query  "[0].[metadata][*].name"`  --namespace apitestnamespace --secret-name apitestsecret --debug 
+#exit
 
-apitest otc cce create-secrets   --cluster-name `otc cce describe-clusters --query  "[0].[metadata][*].name"`  --namespace apitestnamespace --secret-name apitestsecret --portmin 8765 --portmax 9376
 
-
-apitest otc cce delete-secrets --cluster-name `otc cce describe-clusters --query  "[0].[metadata][*].name"`  --namespace apitestnamespace --secret-name apitestsecret
+apitest otc cce delete-secret --cluster-name `otc cce describe-clusters --query  "[0].[metadata][*].name"`  --namespace apitestnamespace --secret-name apitestsecret

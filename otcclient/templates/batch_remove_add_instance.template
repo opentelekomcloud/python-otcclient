@@ -3,13 +3,11 @@
 	"instances_id": [
         {% set instlist = INSTANCE_ID.split(',') %}
         {% for INSTANCE in instlist %}
-        {
-            "id": "{{INSTANCE}}"
-        }
+            "{{INSTANCE}}"
         {% if not loop.last %}
         ,
         {% endif %}
         {% endfor %}
-        ],
-	"instance_delete": "{{INSTANCE_DELETE}}"
+        ]
+	{% if INSTANCE_DELETE %},"instance_delete": "{{INSTANCE_DELETE}}"{% endif %}
 }

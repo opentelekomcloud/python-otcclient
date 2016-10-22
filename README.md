@@ -91,6 +91,123 @@ otc ecs allocate-address                                             Allocate pu
 otc ecs associate-address --public-ip 46.29.96.246 --network-interface-id b197b8af-fe63-465f-97b6-5e5b89exxx      Assodicate public ip with Network Interface Id
 `````
 
+Writing clients
+---------------
+
+### Example Client with JSON output
+ 
+	#!/usr/bin/env python
+	
+	import sys
+	import os
+	
+	from otcclient.core.userconfigaction import userconfigaction
+	from otcclient.core.configloader import configloader
+	from otcclient.core.OtcConfig import OtcConfig
+	from otcclient.plugins.ecs import ecs
+	
+	if __name__ == '__main__':
+	    configloader.readUserValues() 
+	    configloader.readProxyValues()
+	
+	    OtcConfig.OUTPUT_FORMAT = "Json"
+	
+	    ecs.getIamToken()
+	    ecs.describe_vpcs()
+
+### Example Ansible Module
+
+- Ansible modules should not print everything to STDOUT (_noout_ plugin)
+- Returned results are strings and need to bo converted back into data (_json.loads()_)
+
+	#!/usr/bin/python
+	
+	import os
+	import sys
+	import re
+	import json
+	
+	from ansible.module_utils.basic import *
+	
+	from otcclient.core.userconfigaction import userconfigaction
+	from otcclient.core.configloader import configloader
+	from otcclient.core.OtcConfig import OtcConfig
+	from otcclient.plugins.ecs import ecs
+	
+	# DOCUMENTATION = """
+	# ---
+	# module: otc_vpc
+	# short_description: manage otc vpcs aka tenants
+	# description:
+	# - create or a delete an otc vpc
+	# options:
+	#   name:
+	#   - description: Name of VPC
+	#   cidr:
+	#   - description: Net for VPC in CIDR format
+	#   state:
+	#   - description: absent or present
+	# author: Matthias Witte <matthias.witte@telekom.de>
+	# """
+	
+	def _otc_init():
+	    configloader.readUserValues()
+	    configloader.readProxyValues()
+	
+	    OtcConfig.OUTPUT_FORMAT = "noout"
+	    if OtcConfig.TOKEN == "":
+	        ecs.getIamToken()
+	
+	def _get_vpcs():
+	    try:
+	        vpcs = json.loads(ecs.describe_vpcs())['vpcs']
+	    except:
+	        module.fail_json(msg="Result has no key 'vpcs'")
+	    return vpcs
+	
+	
+	def _vpc_create(module):
+	    OtcConfig.VPCNAME = module.params['name']
+	    OtcConfig.VPC_CIDR = module.params['cidr']
+	    ecs.create_vpc()
+	
+	def _vpc_delete(module):
+	    OtcConfig.VPCNAME = module.params['name']
+	    module.fail_json(msg="Not implemented in OTC API.")
+	    ecs.delete_vpc()
+	
+	def main():
+	    module = AnsibleModule(
+	        argument_spec = dict(
+	            name    = dict(required=True),
+	            cidr    = dict(required=False),
+	            state   = dict(default='present', choices=['absent', 'present']),
+	         )
+	    )
+	
+	    if module.params['state'] == 'present' and 'cidr' not in module.params:
+	        module.fail_json(msg="Missing argument 'cidr'")
+	
+	    _otc_init()
+	
+	    vpc_changed = False
+	    vpc = [vpc for vpc in _get_vpcs() if vpc['name'] == module.params['name']]
+	    if len(vpc) == 0:
+	        if module.params['state'] == 'present':
+	            _vpc_create(module)
+	            vpc_changed = True
+	    elif len(vpc) == 1:
+	        if module.params['state'] == 'absent':
+	            _vpc_delete(module)
+	            vpc_changed = True
+	    else:
+	        module.fail_json(msg="Tenant name not unique.")
+	
+	    module.exit_json(changed=vpc_changed)
+	
+	if __name__ == '__main__':
+	    main()
+
 License
 -------
 

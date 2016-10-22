@@ -120,6 +120,7 @@ Writing clients
 - Ansible modules should not print everything to STDOUT (_noout_ plugin)
 - Returned results are strings and need to bo converted back into data (_json.loads()_)
 
+```
 	#!/usr/bin/python
 	
 	import os
@@ -207,6 +208,7 @@ Writing clients
 	
 	if __name__ == '__main__':
 	    main()
+```
 
 License
 -------

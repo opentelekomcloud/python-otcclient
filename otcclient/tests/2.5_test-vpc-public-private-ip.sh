@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source ./otcclient/tests/otcfunc.sh 
 
 # get avaliable addresses EIP address 

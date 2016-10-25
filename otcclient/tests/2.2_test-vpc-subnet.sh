@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source ./otcclient/tests/otcfunc.sh 
 
 apitest otc ecs describe-subnets

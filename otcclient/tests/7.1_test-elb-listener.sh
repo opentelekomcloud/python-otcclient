@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source ./otcclient/tests/otcfunc.sh 
 
 apitest otc elb create_listener --load-balancer-name apitestelb --listener-name listener-apitest --listener-description test --protocol HTTP --portmin 8888 --lb-algorithm roundrobin --backend-port 1888 --session-sticky false --sticky-session-type insert 

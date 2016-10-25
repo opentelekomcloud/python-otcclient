@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source ./otcclient/tests/otcfunc.sh 
 
 apitest otc ims create_image_metadata  --image-name testimagenzs --os-version "Ubuntu 14.04 server 64bit" --container-format bare --disk-format raw --min-disk 1 --min-ram 1024 --tags "test,image" --visibility private --protected false

@@ -1,6 +1,6 @@
+#!/bin/bash
+
 source ./otcclient/tests/otcfunc.sh 
-
-
 
 apitest otc cce list-services  --cluster-name `otc cce describe-clusters --query  "[0].[metadata][*].name"`  
 

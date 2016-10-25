@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source ./otcclient/tests/VER
 
 echo "$TEST $VER TEST $VER" >"$TEST-$VER.txt"

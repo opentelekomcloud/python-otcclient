@@ -354,7 +354,7 @@ class ecs(otcpluginbase):
         if not (OtcConfig.VPCNAME is None):
             ecs.convertVPCNameToId()
 
-        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/vpcs" + OtcConfig.VPCID    
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/vpcs/" + OtcConfig.VPCID    
         ret = utils_http.delete(url)
         print(ret)
         return ret

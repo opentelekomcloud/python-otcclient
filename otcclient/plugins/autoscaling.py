@@ -79,7 +79,7 @@ class autoscaling(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST + "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_group"
         ret = utils_http.get(url)    
         #print(ret)
-        autoscaling.otcOutputHandler().print_output(ret, mainkey="scaling_groups",listkey={"scaling_group_name","scaling_configuration_name","create_time","instance_terminate_policy","is_scaling"}) 
+        autoscaling.otcOutputHandler().print_output(ret, mainkey="scaling_groups",listkey={"scaling_group_name","scaling_configuration_name","create_time","instance_terminate_policy","is_scaling", "scaling_group_status"}) 
         return ret
 
     @staticmethod 
@@ -123,7 +123,7 @@ class autoscaling(otcpluginbase):
             autoscaling.convertASNameToId()            
         url = "https://" + OtcConfig.DEFAULT_HOST + "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_group_instance/" + OtcConfig.SCALINGGROUP_ID + "/list"
         ret = utils_http.get(url)
-        autoscaling.otcOutputHandler().print_output(ret, mainkey="scaling_group_instances",listkey={"instance_id", "scaling_group_name"} )
+        autoscaling.otcOutputHandler().print_output(ret, mainkey="scaling_group_instances",listkey={"instance_name","instance_id", "scaling_group_name", "life_cycle_state"} )
         return ret
 
     @staticmethod     
@@ -356,10 +356,15 @@ class autoscaling(otcpluginbase):
     def batch_add_delete_auto_scaling_instances():
         if not (OtcConfig.SCALINGGROUP_NAME is None):
             autoscaling.convertASNameToId()  
+        
+        if (OtcConfig.INSTANCE_ID is None) and not OtcConfig.INSTANCE_NAME is None:
+            ecs.convertINSTANCENameToId() 			
+        	
         REQ_BATCH_INST=utils_templates.create_request("batch_remove_add_instance")        
 
         url = "https://" + OtcConfig.DEFAULT_HOST + "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_group_instance/"+ OtcConfig.SCALINGGROUP_ID +"/action"
         ret = utils_http.post(url, REQ_BATCH_INST)
+        #print(REQ_BATCH_INST)
         autoscaling.otcOutputHandler().print_output(ret,mainkey="")
         return ret          
 

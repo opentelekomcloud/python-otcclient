@@ -1,0 +1,5 @@
+[otc]
+otc_access_key_id = mock_access_key_id
+otc_secret_access_key = mock_secret_access_key
+username = MOCK OTC USER NAME
+apikey = MOCK_API_KEY

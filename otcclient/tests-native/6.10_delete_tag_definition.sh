@@ -1,9 +1,9 @@
 #!/bin/sh
 
 source otcfunc.sh
+source otcconf.sh
 
 
-IMAGE_NAME=$(cat /dev/urandom | tr -dc 'A-Za-z' | fold -w 10 | head -n 1)_IMAGE
 
 #curl -O http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img
 

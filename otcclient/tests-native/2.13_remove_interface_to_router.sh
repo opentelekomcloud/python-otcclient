@@ -1,12 +1,7 @@
 #!/bin/sh
 
 source otcfunc.sh
-
-ROUTER_NAME=$(cat /dev/urandom | tr -dc 'A-Za-z' | fold -w 10 | head -n 1)_ROUTER
-SUBNET_NAME=$(cat /dev/urandom | tr -dc 'A-Za-z' | fold -w 10 | head -n 1)_SUBNET
-ROUTER_INTERFACE_NAME=$(cat /dev/urandom | tr -dc 'A-Za-z' | fold -w 10 | head -n 1)_INTERFACE
-
-NETWORK_NAME=$(cat /dev/urandom | tr -dc 'A-Za-z' | fold -w 10 | head -n 1)_NETWORK
+source otcconf.sh
 
 
 apitest neutron --insecure net-create ${NETWORK_NAME} 2>/dev/null

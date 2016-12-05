@@ -1,8 +1,7 @@
 #!/bin/sh
 
 source otcfunc.sh
-
-SECURITY_GROUP_NAME=$(cat /dev/urandom | tr -dc 'A-Za-z' | fold -w 10 | head -n 1)_SECNAME
+source otcconf.sh
 
 
 apitest neutron --insecure security-group-list 2>/dev/null

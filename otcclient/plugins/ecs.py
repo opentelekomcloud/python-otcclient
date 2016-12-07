@@ -172,7 +172,7 @@ class ecs(otcpluginbase):
         REQ_CREATE_PUBLICIP = "{\"publicip\":{\"type\":\"5_bgp\"},\"bandwidth\":{\"name\":\"apiTest\",\"size\":5,\"share_type\":\"PER\",\"charge_mode\":\"traffic\"}}"
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/publicips"
         ret = utils_http.post(url, REQ_CREATE_PUBLICIP)
-        print( ret )
+        # print( ret )
         maindata = json.loads(ret)
         if "code" in  maindata:            
             print("Can not create:" +maindata["message"])  
@@ -534,13 +534,15 @@ class ecs(otcpluginbase):
 
     @staticmethod
     def getIamToken():
-        if OtcConfig.PROJECT_NAME != None: 
-            project = "\"name\": \"" + OtcConfig.PROJECT_NAME + "\" " 
-
-        else:
-            project = "\"id\": \"" + OtcConfig.PROJECT_ID + "\""
+#        if OtcConfig.PROJECT_NAME != None: 
+#            project = "\"name\": \"" + OtcConfig.PROJECT_NAME + "\" " 
+#
+#        else:
+#            project = "\"id\": \"" + OtcConfig.PROJECT_ID + "\""
             
-        REQ_IAM = "    {" + "        \"auth\": {       " + "        \"identity\": {   " + "            \"methods\": [" + "                \"password\"                             " + "            ],            " + "            \"password\": {                              " + "                \"user\": {                              " + "                    \"name\": \"" + OtcConfig.USERNAME + "\",    " + "                    \"password\": \"" + OtcConfig.PASSWORD + "\"," + "                    \"domain\": {                        " + "                        \"name\": \"" + OtcConfig.DOMAIN + "\"            " + "                    }     " + "                }         " + "            }             " + "        },                " + "        \"scope\": {      " + "            \"project\": {" + project + "            }             " + "        }                 " + "        }                 " + "    }"
+        #REQ_IAM = "    {" + "        \"auth\": {       " + "        \"identity\": {   " + "            \"methods\": [" + "                \"password\"                             " + "            ],            " + "            \"password\": {                              " + "                \"user\": {                              " + "                    \"name\": \"" + OtcConfig.USERNAME + "\",    " + "                    \"password\": \"" + OtcConfig.PASSWORD + "\"," + "                    \"domain\": {                        " + "                        \"name\": \"" + OtcConfig.DOMAIN + "\"            " + "                    }     " + "                }         " + "            }             " + "        },                " + "        \"scope\": {      " + "            \"project\": {" + project + "            }             " + "        }                 " + "        }                 " + "    }"
+        REQ_IAM = utils_templates.create_request("iam_token")
+        
         url = "https://" + OtcConfig.DEFAULT_HOST +":443/v3/auth/tokens"
         ret = utils_http.post(url, REQ_IAM)
         maindata = json.loads(ret)
@@ -800,3 +802,17 @@ class ecs(otcpluginbase):
         print (ret)
         return ret
 
+    @staticmethod 
+    def describe_az():         
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-availability-zone/detail"        
+        ret = utils_http.get(url)
+        print ret
+        ecs.otcOutputHandler().print_output(ret, mainkey="availabilityZoneInfo", listkey={"zoneState", "zoneName"})
+        return ret
+
+
+    @staticmethod 
+    def types():         
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/types"        
+        ret = utils_http.get(url)
+        print ret

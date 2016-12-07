@@ -206,13 +206,9 @@ class elb(otcpluginbase):
             elb.convertLISTENERNameToId()
         if not OtcConfig.INSTANCE_NAME is None:
             ecs.convertINSTANCENameToId() 
-			
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners/" + OtcConfig.LISTENER_ID + "/members"       
-
-        REQ_CREATE_BACKEND_MEMBER = utils_templates.create_request("add_backend_member")        
-   
-        ret = utils_http.post(url, REQ_CREATE_BACKEND_MEMBER)
-	
+        REQ_CREATE_BACKEND_MEMBER = utils_templates.create_request("add_backend_member")           
+        ret = utils_http.post(url, REQ_CREATE_BACKEND_MEMBER)	
         print(ret)
         return ret		
 		

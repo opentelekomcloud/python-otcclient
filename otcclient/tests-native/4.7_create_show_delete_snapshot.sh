@@ -1,10 +1,9 @@
 #!/bin/sh
 
 source otcfunc.sh
+source otcconf.sh
 
 
-VOLUME_NAME=$(cat /dev/urandom | tr -dc 'A-Za-z' | fold -w 10 | head -n 1)_VOLUME
-SNAPSHOT_NAME=$(cat /dev/urandom | tr -dc 'A-Za-z' | fold -w 10 | head -n 1)_SNAPSHOT
 
 apitest cinder --insecure create --name ${VOLUME_NAME} 5 2>/dev/null
 sleep 10

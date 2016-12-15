@@ -44,7 +44,7 @@ class cce(otcpluginbase):
     def list_clusters():
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/clusters"
         ret = utils_http.get(url)
-        #print ret
+        #print (ret)
         cce.otcOutputHandler().print_output(json.loads(ret), subkey="metadata", listkey={"name", "uuid", "createAt"})
         #ecs.otcOutputHandler().print_output(json.loads(ret),mainkey="")     
         return ret
@@ -87,7 +87,7 @@ class cce(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/services"
         ret = utils_http.get(url)
         
-        print ret
+        print (ret)
         cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
 
@@ -136,7 +136,7 @@ class cce(otcpluginbase):
         #print req
         #print OtcConfig.NAMESPACE
         ret = utils_http.post(url, req)
-        #print ret
+        #print (ret)
         ecs.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
 
@@ -198,7 +198,7 @@ class cce(otcpluginbase):
         
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/pods"
         req = utils_templates.create_request("cce_create_pod")
-        print req        
+        print (req)        
         ret = utils_http.post(url, req)
         cce.otcOutputHandler().print_output(ret,mainkey="")    
         return ret
@@ -221,7 +221,7 @@ class cce(otcpluginbase):
                  
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/podtemplates"
         req = utils_templates.create_request("cce_create_pod_template")
-        print req
+        print (req)
         ret = utils_http.post(url, req)
         ecs.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
@@ -279,7 +279,7 @@ class cce(otcpluginbase):
         
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/endpoints"
         req = utils_templates.create_request("cce_create_endpoint")
-        print req        
+        print (req)        
         ret = utils_http.post(url, req)
         cce.otcOutputHandler().print_output(ret,mainkey="")    
         return ret
@@ -306,7 +306,7 @@ class cce(otcpluginbase):
             url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/secrets"
         
         ret = utils_http.get(url)        
-        print ret
+        print (ret)
         cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
 

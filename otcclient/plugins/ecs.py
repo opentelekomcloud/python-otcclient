@@ -123,7 +123,7 @@ class ecs(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/servers/" + OtcConfig.INSTANCE_ID + "/os-interface"
         
         ret = utils_http.get(url)
-#        print ret
+#        print (ret)
         ecs.otcOutputHandler().print_output(ret, mainkey="interfaceAttachments", listkey={"port_state", "fixed_ips", "port_id", "net_id", "mac_addr"})
         return ret
 
@@ -514,7 +514,7 @@ class ecs(otcpluginbase):
         
         #print REQ_CREATE_VM
         ret = utils_http.post(url, REQ_CREATE_VM)       
-        #print ret  
+        #print (ret)  
 
         OtcConfig.ECSTASKID  = json.loads(ret)["job_id"]
 
@@ -698,7 +698,7 @@ class ecs(otcpluginbase):
 
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/servers/"+ OtcConfig.INSTANCE_ID + "/os-volume_attachments"
         ret = utils_http.get( url )
-        print ret
+        print (ret)
         # TODO: output fix need  
         #ecs.otcOutputHandler().print_output(ret,  mainkey = "volumes", listkey= {"id", "name", "volume_type", "size", "status", "bootable", "availability_zone", "limit", "attachments", "source_volid", "snapshot_id", "description", "created_at"})
         return ret
@@ -806,7 +806,7 @@ class ecs(otcpluginbase):
     def describe_az():         
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-availability-zone/detail"        
         ret = utils_http.get(url)
-        print ret
+        print (ret)
         ecs.otcOutputHandler().print_output(ret, mainkey="availabilityZoneInfo", listkey={"zoneState", "zoneName"})
         return ret
 
@@ -815,4 +815,4 @@ class ecs(otcpluginbase):
     def types():         
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/types"        
         ret = utils_http.get(url)
-        print ret
+        print (ret)

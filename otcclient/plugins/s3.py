@@ -60,7 +60,7 @@ class s3(otcpluginbase):
     def get_bucket_versioning():
         s3bucket, s3dir = s3.parse_bucket_uri(OtcConfig.SUBCOM_P1)            # @UnusedVariable
         ver = utils_s3.get_bucket_versioning(Bucket=s3bucket,Prefix=s3dir)
-        print(ver) #debug
+        #print(ver) #debug
         s3.otcOutputHandler().print_output(ver, mainkey = "", listkey={"Key","Size","LastModified"}) 
 
     @staticmethod

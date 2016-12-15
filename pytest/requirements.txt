@@ -1,0 +1,2 @@
+pip install nose
+pip install coverage

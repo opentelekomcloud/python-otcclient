@@ -1,0 +1,21 @@
+{
+    "auth": {
+        "identity": {
+            "methods": ["password"],
+            "password": {
+                "user": {
+                    "name": "{{USERNAME}}",
+                    "password": "{{PASSWORD}}",
+                    "domain": {
+                        "name": "{{DOMAIN}}"
+                    }
+                }
+            }
+        },
+        "scope": {
+            "project": {
+                "name": "eu-de"
+            }
+        }
+    }
+}

@@ -1,7 +1,9 @@
 {
     "auth": {
         "identity": {
-            "methods": ["password"],
+            "methods": [
+                "password"
+            ],
             "password": {
                 "user": {
                     "name": "{{USERNAME}}",
@@ -14,7 +16,7 @@
         },
         "scope": {
             "project": {
-                "name": "eu-de"
+                "name": "{{PROJECT_NAME}}"
             }
         }
     }

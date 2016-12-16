@@ -7,6 +7,7 @@
 from otcclient.core.OtcConfig import OtcConfig 
 from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.utils import utils_output
+import sys
 
 class table(otcpluginbase):
     
@@ -19,10 +20,14 @@ class table(otcpluginbase):
         subkey= kwargs.get('subkey', None)
         listkey = kwargs.get('listkey', None)        
         
-        
-        if isinstance(respjson, (str, unicode)):
-            if len(respjson.strip()) == 0:
-                return
+        if (sys.version_info > (3, 0)):
+            if isinstance(respjson, (bytes, str)):
+                if len(respjson.strip()) == 0:
+                    return
+        else:
+            if isinstance(respjson, (str, unicode)):
+                if len(respjson.strip()) == 0:
+                    return
 
         
         if mainkey is None and listkey is None:

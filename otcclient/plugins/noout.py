@@ -19,5 +19,5 @@ class noout(otcpluginbase):
                 
     @staticmethod
     def print_output(respjson, **kwargs):
-	pass
+        pass
 

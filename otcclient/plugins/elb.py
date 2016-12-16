@@ -132,7 +132,7 @@ class elb(otcpluginbase):
     def convertLISTENERIdToHealthCheckId():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners/" + OtcConfig.LISTENER_ID
     
-    	JSON = utils_http.get(url)
+        JSON = utils_http.get(url)
         parsed  = json.loads(JSON)
         OtcConfig.HEALTHCHECK_ID = parsed["healthcheck_id"]
         ret = OtcConfig.HEALTHCHECK_ID
@@ -166,7 +166,7 @@ class elb(otcpluginbase):
             ecs.convertVPCNameToId()                
         
         REQ_CREATE_LISTENER=utils_templates.create_request("create_listener")        
-        print REQ_CREATE_LISTENER       
+        print (REQ_CREATE_LISTENER)       
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners"
         ret = utils_http.post(url, REQ_CREATE_LISTENER)        
         maindata = json.loads(ret)
@@ -265,7 +265,7 @@ class elb(otcpluginbase):
                  
         REQ_MODIFY_ELB=utils_templates.create_request("modify_load_balancer")        
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers/" + OtcConfig.LOADBALANCER_ID
-        print REQ_MODIFY_ELB
+        print (REQ_MODIFY_ELB)
         ret = utils_http.put(url, REQ_MODIFY_ELB)
         print(ret)         
         maindata = json.loads(ret)

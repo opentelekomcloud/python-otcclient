@@ -16,7 +16,15 @@ from  otcclient.core.OtcConfig import OtcConfig
 import os
 
 from otcclient.core.pluginmanager import getplugin
-from urlparse import urlparse
+#from urlparse import urlparse
+
+if (sys.version_info > (3, 0)):
+     # Python 3 code in this block
+     from urllib.parse import urlparse
+else:
+     # Python 2 code in this block
+     from urlparse import urlparse
+
  
 class configloader(object):
     """

@@ -1,6 +1,9 @@
 #!/bin/bash
 
-
+SERVER_NAME=$(cat /dev/urandom | tr -dc 'A-Za-z' | fold -w 10 | head -n 1)_TEST_SERVER
+KEY_NAME=$(cat /dev/urandom | tr -dc 'A-Za-z' | fold -w 10 | head -n 1)_KEY_NAME
+TEST_SEC_GROUP=TEST_SEC_GROUP_$(cat /dev/urandom | tr -dc 'A-Za-z' | fold -w 10 | head -n 1)
+RENAME_SERVER=$(cat /dev/urandom | tr -dc 'A-Za-z' | fold -w 10 | head -n 1)_TEST_SERVER
 NETWORK_NAME=$(cat /dev/urandom | tr -dc 'A-Za-z' | fold -w 10 | head -n 1)_NETWORK
 NETWORK_NAME_NEW=$(cat /dev/urandom | tr -dc 'A-Za-z' | fold -w 10 | head -n 1)_NETWORK
 
@@ -21,3 +24,10 @@ SNAPSHOT_NAME=$(cat /dev/urandom | tr -dc 'A-Za-z' | fold -w 10 | head -n 1)_SNA
 
 IMAGE_NAME=$(cat /dev/urandom | tr -dc 'A-Za-z' | fold -w 10 | head -n 1)_IMAGE
 IMAGE_NAME_NEW=$(cat /dev/urandom | tr -dc 'A-Za-z' | fold -w 10 | head -n 1)_IMAGE
+
+check_testserver(){
+if [ "$TEST_SERVER" = ""  ]; then
+        echo "Test Server does not exists.. creating.."
+        exit
+fi
+}

@@ -6,6 +6,7 @@
 import json
 import prettytable
 import jmespath
+import sys
  
 def defaultprettytable( cols ):    
     p = prettytable.PrettyTable(cols)
@@ -84,4 +85,26 @@ def id_generator(parsed, headkey):
                 if not v : 
                     v = ""                                          
                 x.add_row([headkey + "." + k, v ])
+
+
+
+# Print iterations progress
+def printProgress (iteration, total, prefix = '', suffix = '', decimals = 1, barLength = 100, fill = '#'):
+    """
+    Call in a loop to create terminal progress bar
+    @params:
+        iteration   - Required  : current iteration (Int)
+        total       - Required  : total iterations (Int)
+        prefix      - Optional  : prefix string (Str)
+        suffix      - Optional  : suffix string (Str)
+        decimals    - Optional  : positive number of decimals in percent complete (Int)
+        barLength   - Optional  : character length of bar (Int)
+    """
+    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+    filledLength = int(barLength * iteration // total)
+    bar = fill * filledLength + '-' * (barLength - filledLength)
+    sys.stdout.write('\r%s |%s| %s%s %s' % (prefix, bar, percent, '%', suffix)),
+    if iteration == total:
+        sys.stdout.write('\n')
+    sys.stdout.flush()
 

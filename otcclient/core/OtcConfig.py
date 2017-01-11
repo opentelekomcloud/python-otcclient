@@ -521,5 +521,5 @@ class OtcConfig(object):
         self.SESSION_STICKY = parser.SESSION_STICKY                                           if parser.SESSION_STICKY else None
         self.STICKY_SESSION_TYPE = parser.STICKY_SESSION_TYPE                                           if parser.STICKY_SESSION_TYPE else None
         self.COOKIE_TIMEOUT = parser.COOKIE_TIMEOUT                                           if parser.COOKIE_TIMEOUT else None
-
+        self.PROJECT_NAME = parser.PROJECT_NAME                                           if parser.PROJECT_NAME else OtcConfig.PROJECT_NAME
         

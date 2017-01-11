@@ -82,6 +82,7 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument(dest="SUBCOM_P1", help="[optional Source/Target OBS directory]",  nargs='?', default='', metavar="Source/Target DIR")
         parser.add_argument(dest="SUBCOM_P2", help="[optional Source/Target OBS directory]",  nargs='?', default='', metavar="Source/Target DIR")                
 
+        parser.add_argument( "--project-name", dest="PROJECT_NAME", help="Project Name for Dedicated Compute Zone")
         parser.add_argument("-k", "--key-name", dest="KEYNAME", help="SSH key name| S3 Object key")
         parser.add_argument( "--public-key", dest="PUBLICKEY", help="Import public key for SSH keypairs")
         parser.add_argument( "--admin-pass", dest="ADMINPASS", help="Admin password of the started VM")

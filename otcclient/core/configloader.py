@@ -110,12 +110,14 @@ class configloader(object):
         Config.add_section('otc')
         Config.set('otc', 'proxy_host', OtcConfig.PROXY_URL)
         Config.set('otc', 'proxy_port', OtcConfig.PROXY_PORT)
+        oldmask = os.umask(0o600);        
         with open(OtcConfig.OTC_PROXY_FILE, 'w') as cfgfile:
             try:
                 Config.write(cfgfile)
             except Exception as e:
                 print("Error during save keys/date pairs", e)
-
+        os.umask(oldmask)
+        
     @staticmethod
     def persistUserValues():
         configloader._checkOtcUserDir()
@@ -126,15 +128,18 @@ class configloader(object):
         Config.set('otc', "otc_secret_access_key", OtcConfig.sk)
         Config.set('otc', "username", OtcConfig.USERNAME)
         Config.set('otc', "apikey", OtcConfig.PASSWORD)
+        oldmask = os.umask(0o600);
         with open(OtcConfig.OTC_USER_FILE, 'w+') as cfgfile:
             try:
                 Config.write(cfgfile)
             except Exception as e:
                 print("Error during save keys/date pairs", e)
+        os.umask(oldmask)
                 
     @staticmethod
     def validateConfig():        
-        if OtcConfig.USERNAME != None and len(OtcConfig.USERNAME) == 32 and OtcConfig.PASSWORD != None and len(OtcConfig.PASSWORD) == 32 and OtcConfig.DOMAIN != None and len(OtcConfig.DOMAIN) == 23:
+        #if OtcConfig.USERNAME != None and len(OtcConfig.USERNAME) == 32 and OtcConfig.PASSWORD != None and len(OtcConfig.PASSWORD) == 32 and OtcConfig.DOMAIN != None and len(OtcConfig.DOMAIN) == 23:
+        if OtcConfig.USERNAME != None and len(OtcConfig.USERNAME) == 32 and OtcConfig.PASSWORD != None and OtcConfig.DOMAIN != None:            
             getplugin("ecs").getIamToken()
             #cls.otcServiceCalls.getIamToken()
         elif OtcConfig.ak != None and len(OtcConfig.ak) == 32 and OtcConfig.sk != None and len(OtcConfig.sk) == 32:

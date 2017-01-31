@@ -21,8 +21,9 @@ def load_from_file(filepath):
     if file_ext.lower() == '.py':
         py_mod = imp.load_source(mod_name, filepath)
     elif file_ext.lower() == '.pyc':
-        return None
         py_mod = imp.load_compiled(mod_name, filepath)        
+    else:
+        return None
     class_inst = getattr(py_mod, mod_name)()
     return class_inst
 

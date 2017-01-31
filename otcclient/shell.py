@@ -179,6 +179,7 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--size",dest="VOLUME_SIZE", help="Size of the EVS disk")
         parser.add_argument( "--volume-type",dest="VOLUME_TYPE", help="Volume type of the EVS disk [SSD,SAS,SATA]")
         parser.add_argument( "--volume-name",dest="VOLUME_NAME", help="Volume name of the EVS disk")
+        parser.add_argument( "--data-volumes",dest="DATA_VOLUMES", help="Attach data volumes while creating ECS(eg: SSD:10,SATA:20)")
         parser.add_argument( "--description",dest="DESCRIPTION", help="Description definition ( eg: backups)")
         parser.add_argument( "--snapshot-id",dest="SNAPSHOTID", help="Snapshot id of the  backup")
         parser.add_argument( "--wait-instance-running", dest="WAIT_CREATE", action='store_true' , help="Wait instance running (only for run-instance command)")

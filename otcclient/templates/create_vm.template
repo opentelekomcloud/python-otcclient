@@ -14,6 +14,12 @@
             {% endif %}                        
         },
 
+        {% if DATA_VOLUMES %}
+        "data_volumes": [
+           {{DATA_VOLUMES}}
+        ],
+        {% endif %}
+
         {% if USER_DATA %}
         "user_data": "{{USER_DATA}}",
         {% endif %}
@@ -37,8 +43,12 @@
         {% if CREATE_ECS_WITH_PUBLIC_IP %}
             "publicip": { "eip": { "iptype": "5_bgp", "bandwidth": { "size": 5, "sharetype": "PER", "chargemode": "traffic" } } },
         {% endif %}                
+        {% if KEYNAME %}
         "key_name": "{{KEYNAME}}",
+        {% endif %}
+        {% if ADMINPASS %}
         "adminPass": "{{ADMINPASS}}",
+        {% endif %}
         "count": "{{NUMCOUNT}}",
         "},": {
             "__vnc_keymap": "en"

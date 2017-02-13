@@ -139,7 +139,7 @@ class configloader(object):
     @staticmethod
     def validateConfig():        
         #if OtcConfig.USERNAME != None and len(OtcConfig.USERNAME) == 32 and OtcConfig.PASSWORD != None and len(OtcConfig.PASSWORD) == 32 and OtcConfig.DOMAIN != None and len(OtcConfig.DOMAIN) == 23:
-        if OtcConfig.USERNAME != None and len(OtcConfig.USERNAME) == 32 and OtcConfig.PASSWORD != None and OtcConfig.DOMAIN != None:            
+        if OtcConfig.USERNAME != None and OtcConfig.PASSWORD != None and OtcConfig.DOMAIN != None:            
             getplugin("ecs").getIamToken()
             #cls.otcServiceCalls.getIamToken()
         elif OtcConfig.ak != None and len(OtcConfig.ak) == 32 and OtcConfig.sk != None and len(OtcConfig.sk) == 32:

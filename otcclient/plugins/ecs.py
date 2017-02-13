@@ -509,6 +509,21 @@ class ecs(otcpluginbase):
         OtcConfig.PERSONALIZATION = PERSONALIZATION
 #        REQ_CREATE_VM = "    {                 " + "        \"server\": { " + "        \"availability_zone\": \"" + OtcConfig.AZ + "\",         " + "        \"name\": \"" + OtcConfig.INSTANCE_NAME + "\",            " + "        \"imageRef\": \"" + OtcConfig.IMAGE_ID + "\",             " + "        \"root_volume\": {      " + "            \"volumetype\": \"SATA\"            " + "        }, " + "        \"flavorRef\": \"" + OtcConfig.INSTANCE_TYPE + "\"," + PERSONALIZATION + "        \"vpcid\": \"" + OtcConfig.VPCID + "\",           " + "        \"security_groups\": [         " + "            { " + "                \"id\": \"" + OtcConfig.SECUGROUP + "\"   " + "            }    " + "        ],        " + "        \"nics\": [           " + "            {            " + "                \"subnet_id\": \"" + OtcConfig.SUBNETID + "\"        " + "            }         " + "        ],       " + PUBLICIPJSON + "        \"key_name\": \"" + OtcConfig.KEYNAME + "\",    " + "        \"adminPass\": \"" + OtcConfig.ADMINPASS + "\",   " + "        \"count\": \"" + OtcConfig.NUMCOUNT + "\",   " + "        \"},\": {      " + "            \"__vnc_keymap\": \"de\"    " + "        }   " + "        }   " + "    }       " + "    "
         
+        if OtcConfig.DATA_VOLUMES is not None:
+            DATA_VOLUMES = OtcConfig.DATA_VOLUMES
+            volumes = DATA_VOLUMES.split(',')
+            DATA_VOLUMES = []
+            if len(volumes):
+                for v in volumes:
+                    data = v.split(':')
+                    if len(data):
+                        DATA_VOLUMES.append("{\"volumetype\":\"%s\",\"size\":%s}" % (data[0], data[1]))
+            if len(DATA_VOLUMES):
+                DATA_VOLUMES = ','.join(DATA_VOLUMES)
+            else:
+                DATA_VOLUMES = ''
+            OtcConfig.DATA_VOLUMES = DATA_VOLUMES
+
         REQ_CREATE_VM=utils_templates.create_request("create_vm")        
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers"
         

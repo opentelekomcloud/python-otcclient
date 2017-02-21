@@ -5,7 +5,7 @@
 # Copyright (C) 2016 T-systems Kurt Garloff, Zsolt Nagy 
 
 from otcclient.core.otcpluginbase import otcpluginbase
-from otcclient.core.argmanager import params
+
 from otcclient.utils import utils_s3
 from otcclient.core.OtcConfig import OtcConfig
 from otcclient.core.pluginmanager import getplugin
@@ -30,7 +30,6 @@ class s3(otcpluginbase):
         return s3bucket, s3dir
     
     @staticmethod
-    @params("s3", "ls")
     def ls():        
         if OtcConfig.SUBCOM_P1 is None:   
             buckets = utils_s3.ls_buckets()            

@@ -7,11 +7,19 @@
 
 import os
 from argparse import ArgumentParser, RawTextHelpFormatter
- 
+from otcclient.core.OtcConfig import OtcConfig
+import pprint
+
 parser = ArgumentParser(prog='otc' ,  formatter_class=RawTextHelpFormatter ) #RawDescriptionHelpFormatter ,description=program_license
+parserall = ArgumentParser(prog='otc' ,  formatter_class=RawTextHelpFormatter ) #RawDescriptionHelpFormatter ,description=program_license
 
+funclist = {}
 
-def params(*args, **kwargs):
+    
+def arg(*args, **kwargs):
+    return args, kwargs
+
+def otcfunc(*args, **kwargs):
     """Decorator for CLI args.
 
     Example:
@@ -20,8 +28,8 @@ def params(*args, **kwargs):
     ... def entity_create(args):
     ...     pass
     """
-    def _decorator(func):
-        add_arg(func, *args, **kwargs)
+    def _decorator(func):        
+        add_otc_func(func, *args, **kwargs)
         return func
     return _decorator
 
@@ -36,21 +44,26 @@ def env(*args, **kwargs):
         if value:
             return value
     return kwargs.get('default', '')
-
-
-def add_arg(func, *args, **kwargs):
-    """Bind CLI arguments to a shell.py `do_foo` function."""
-
-    if not hasattr(func, 'arguments'):
-        func.arguments = []
-
-    # NOTE(sirp): avoid dups that can occur when the module is shared across
-    # tests.
-    if (args, kwargs) not in func.arguments:
-        # Because of the semantics of decorator composition if we just append
-        # to the options list positional options will appear to be backwards.
-        func.arguments.insert(0, (args, kwargs))
-        #print args
         
+def add_otc_func(func, *args, **kwargs):
+    if type( func ).__name__ == 'staticmethod':
+        return;
 
+    args_temp = dict( kwargs )
+    args_temp["func_name"] = func.func_name
+    key = kwargs.get("plugin_name") + "-" + func.func_name 
+    if not funclist.has_key(key):
+        funclist[key] = args_temp      
 
+# 
+# add_to_parser( parser, "mrs-describe_clusters" )
+# add_to_parser( parserall  )
+def add_to_parser( myparser, key ='*' ):    
+    for fkey, fval in funclist.iteritems():
+        if fkey ==  key or fkey == '*':
+            print fval 
+            for myarg,mykwargs in fval["args"]:         
+                myparser.add_argument(  *myarg,**mykwargs  )
+
+    if OtcConfig.DEBUG: 
+        pprint(funclist)

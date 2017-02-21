@@ -7,6 +7,9 @@
 import imp
 import os
 import sys
+from otcclient.core.argmanager import funclist, add_to_parser, parserall
+from pprint import pprint
+from otcclient.core.argmanager import parser
 
 sys.path.append('plugins')
 
@@ -38,6 +41,8 @@ def initPlugins():
         if p :
             name = os.path.splitext(os.path.split(location)[-1])[0]        
             plugins[name] = p 
+    
+    
     return plugins
 
 def getType(plugintype="func"):

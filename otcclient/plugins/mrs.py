@@ -13,7 +13,8 @@ from otcclient.core.pluginmanager import getplugin
 
 import json
 from otcclient.plugins.ecs import ecs
-
+from otcclient.core.argmanager import arg, otcfunc
+ 
     
 class mrs(otcpluginbase):
     ar = {}    
@@ -25,10 +26,27 @@ class mrs(otcpluginbase):
     def otctype(self):
         return "func" 
 
-
+    
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="description of the avaliable clusters",
+             args = [ 
+                arg(
+                    '--cluster-name',
+                    dest='CLUSTER',
+                    help='description of the avaliable clusters'
+                )
+                ,
+                arg(
+                    '-cluster-id',
+                    dest='CLUSTER_ID',
+                    metavar='<cluster_id>',
+                    default=None,
+                    help='description of the avaliable clusters'
+                )                                            
+                ]                
+             )
     def describe_clusters():
-
         url = "https://" + OtcConfig.DEFAULT_HOST + "/bigdata/api/v1/clusters?pageSize=10&currentPage=1&clusterState=existing"
         
         if OtcConfig.CLUSTER_ID is None: 
@@ -44,4 +62,18 @@ class mrs(otcpluginbase):
             ecs.otcOutputHandler().print_output(ret,mainkey="server") 
         return ret
 
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="create hadoop cluster",
+             args = [ 
+                arg(
+                    '--cluster-name',
+                    dest='CLUSTER',
+                    help='create cluster'
+                )
+                ]                
+             )
+    def create_cluster():
+        pass
 
+    

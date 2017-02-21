@@ -48,4 +48,5 @@ setup(name='python-otcclient',
 				]
 			},
 			test_suite="tests"
+			,data_files = [('/usr/local/share/man/man1', ['man/otc.1'])]
 		)

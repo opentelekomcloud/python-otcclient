@@ -1,0 +1,695 @@
+.TH otc 1 2017\-02\-21
+.SH SYNOPSIS
+ \fBotc\fR [-h] [-V] [-d] [--configure [{user,proxy}]] [--project-name PROJECT_NAME]
+    [-k KEYNAME] [--public-key PUBLICKEY] [--admin-pass ADMINPASS]
+    [--instance-name INSTANCE_NAME] [--instance-ids INSTANCE_ID]
+    [--load-balancer-name LOADBALANCER_NAME]
+    [--load-balancer-id LOADBALANCER_ID] [--listener-name LISTENER_NAME]
+    [--listener-id LISTENER_ID] [--alarm-name ALARM_NAME]
+    [--alarm-id ALARM_ID] [--volume-id VOLUME_ID]
+    [--attachment-id ATTACHMENT_ID] [--device EVS_DEVICE] [--file1 FILE1]
+    [--file2 FILE2] [--file3 FILE3] [--file4 FILE4] [--file5 FILE5]
+    [--instance-type INSTANCE_TYPE_NAME] [--image-name IMAGENAME]
+    [--image-id IMAGE_ID] [--cluster-name CLUSTER] [--cluster-id CLUSTER_ID]
+    [--namespace-id NAMESPACE_ID] [--pod POD]
+    [--container-name CONTAINER_NAME] [--service-name SERVICE_NAME]
+    [--endpoint-name ENDPOINT_NAME] [--secret-name SECRET_NAME]
+    [--rc-name RC_NAME] [--cli-input-json CLIINPUTJSONFILE]
+    [--user-data USER_DATA_PATH] [--image-url IMAGE_URL] [--tags TAG_LIST]
+    [--protected PROTECTED] [--os-version OS_VERSION] [--min-ram MIN_RAM]
+    [--min-disk MIN_DISK] [--visibility IMAGE_VISIBILITY]
+    [--disk-format DISK_FORMAT] [--container-format CONTAINTER_FORMAT]
+    [-n NUMCOUNT] [--subnet-name SUBNETNAME] [--subnet-id SUBNETID]
+    [--network-interface-id NETWORKINTERFACEID] [--vpc-name VPCNAME]
+    [--vpc-id VPCID] [--cidr CIDR] [--gateway-ip GWIP]
+    [--primary-dns PRIMARYDNS] [--secondary-dns SECDNS]
+    [--availability-zone AZ] [--region REGION] [--group-names SECUGROUPNAME]
+    [--security-group-ids SECUGROUP] [--source-group-id SOURCE_GROUP_ID]
+    [--source-group SOURCE_GROUP]
+    [--auto-scaling-group-name SCALINGGROUP_NAME]
+    [--auto-scaling-group-id SCALINGGROUP_ID] [--dim [DIM [DIM ...]]]
+    [--metric-name METRIC-NAME] [--namespace NAMESPACE] [--period PERIOD]
+    [--filter FILTER] [-p] [--public-ip PUBLICIP]
+    [--private-ip-id PRIVATEIPID] [--allocation-id PUBLICIPID]
+    [--bucket S3BUCKET] [--key S3OBJECT] [--recursive S3RECURSIVE]
+    [--direction DIRECTION] [--portmin PORTMIN] [--portmax PORTMAX]
+    [--protocol PROTOCOL] [--ethertype ETHERTYPE] [--output {Json,table,text}]
+    [--query QUERY] [--size VOLUME_SIZE] [--volume-type VOLUME_TYPE]
+    [--volume-name VOLUME_NAME] [--data-volumes DATA_VOLUMES]
+    [--description DESCRIPTION] [--snapshot-id SNAPSHOTID]
+    [--wait-instance-running] [--address ADDRESS] [--ip-address IP_ADDRESS]
+    [--flavor-ref FLAVOR_REF] [--image-ref IMAGE_REF] [--disk-size DISK_SIZE]
+    [--disk-type DISK_TYPE]
+    [--scaling-configuration-id SCALING_CONFIGURATION_ID]
+    [--desire-instance-number DESIRE_INSTANCE_NUMBER]
+    [--min-instance-number MIN_INSTANCE_NUMBER]
+    [--max-instance-number MAX_INSTANCE_NUMBER]
+    [--cool-down-time COOL_DOWN_TIME]
+    [--health-periodic-audit-method HEALTH_PERIODIC_AUDIT_METHOD]
+    [--health-periodic-audit-time HEALTH_PERIODIC_AUDIT_TIME]
+    [--instance-terminate-policy INSTANCE_TERMINATE_POLICY]
+    [--networks-id NETWORKS_ID] [--notifications NOTIFICATIONS]
+    [--security-groups-id SECURITY_GROUPS_ID]
+    [--healthcheck-connect-port HEALTHCHECK_CONNECT_PORT]
+    [--healthcheck-interval HEALTHCHECK_INTERVAL]
+    [--healthcheck-protocol HEALTHCHECK_PROTOCOL]
+    [--healthcheck-timeout HEALTHCHECK_TIMEOUT]
+    [--healthcheck-uri HEALTHCHECK_URI]
+    [--healthy-threahold HEALTHY_THREAHOLD]
+    [--unhealthy-threshold UNHEALTHY_THRESHOLD]
+    [--action-disable-enable-as-group ACTION_DISABLE_ENABLE_AS_GROUP]
+    [--healthcheck-id HEALTHCHECK_ID]
+    [--listener-description LISTENER_DESCRIPTION]
+    [--listener-port LISTENER_PORT] [--backend-port BACKEND_PORT]
+    [--lb-algorithm LB_ALGORITHM] [--bandwidth BANDWIDTH]
+    [--admin-state-up ADMIN_STATE_UP] [--tenant TENANT]
+    [--scaling-configuration-name SCALING_CONFIGURATION_NAME]
+    [--personality PERSONALITY] [--create-time CREATE_TIME] [--detail DETAIL]
+    [--scaling-group-status SCALING_GROUP_STATUS]
+    [--current-instance-number CURRENT_INSTANCE_NUMBER]
+    [--is-scaling IS_SCALING] [--bandwidth-size BANDWIDTH_SIZE]
+    [--publicip-port-id PUBLICIP_PORT_ID] [--dhcp-enable DHCP_ENABLE]
+    [--security-group-id SECURITY_GROUP_ID]
+    [--instance-action-add-remove-batch INSTANCE_ACTION_ADD_REMOVE_BATCH]
+    [--instance-id-1 INSTANCE_ID_1] [--instance-id-2 INSTANCE_ID_2]
+    [--instance-delete INSTANCE_DELETE] [--recurrence-value RECURRENCE_VALUE]
+    [--start-time START_TIME] [--launch-time LAUNCH_TIME]
+    [--end-time END_TIME] [--recurrence-type RECURRENCE_TYPE]
+    [--scaling-policy-type SCALING_POLICY_TYPE]
+    [--instance-number INSTANCE_NUMBER]
+    [--operation-as-policy OPERATION_AS_POLICY]
+    [--scaling-policy-name SCALING_POLICY_NAME]
+    [--scaling-policy-id SCALING_POLICY_ID]
+    [--as-policy-action AS_POLICY_ACTION] [--evs-new-size EVS_NEW_SIZE]
+    [--session-sticky SESSION_STICKY]
+    [--sticky-session-type STICKY_SESSION_TYPE]
+    [--cookie-timeout COOKIE_TIMEOUT]
+    [OtcComponent] [OtcCommand] [Source/Target DIR] [Source/Target DIR]
+
+
+.SH DESCRIPTION
+Otcclient
+.br
+==========
+.br
+
+.br
+[![Downloads](https://pypip.in/download/otcclient/badge.svg)](https://pypi.python.org/pypi/otcclient/)
+.br
+[![License](https://pypip.in/license/otcclient/badge.svg)](https://pypi.python.org/pypi/otcclient/)
+.br
+
+.br
+
+.br
+Open Telecom Cloud API tool 
+.br
+\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+.br
+
+.br
+**#OTC #cloud #devops #IAAS #PAAS #DBAAS #BDAAS #container\-services**
+.br
+
+.br
+Purposes of the OTC Tool to manage OTC cloud environment via command line similar way like AWS cli. OTC Cli provides common interface to operation and DEVOPS teams to manage their cloud services. 
+.br
+On top of that, the language implementations (Python at the moment) are secure and relatively fast.
+.br
+
+.br
+More at [OTC site](https://console.otc.t\-systems.com/console/#/home)
+.br
+
+.br
+OTC makes it easy to use the cloud environment. It borrows the best parts from Huawei Service and Native Oenstack API.
+.br
+
+.br
+
+.br
+Documentation
+.br
+\-\-\-\-\-\-\-\-\-\-\-\-\-
+.br
+
+.br
+[Otcclient Reference](https://docs.otc.t\-systems.com/?locale=en\-us)
+.br
+
+.br
+Command line usage
+.br
+\-\-\-\-\-
+.br
+
+.br
+`````sh
+.br
+$ sudo pip install python\-otcclient
+.br
+`````
+.br
+or
+.br
+`````sh
+.br
+$ git clone https://github.com/OpenTelekomCloud/python\-otcclient.git
+.br
+`````
+.br
+
+.br
+Usage
+.br
+\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+.br
+
+.br
+`````sh
+.br
+OTC Tool Configuration Commands:
+.br
+otc configure                                                        Configuring OTC client tool (mandatory in first use)
+.br
+otc configure\-proxy                                                  Configureing proxy settings ( ONLY https )
+.br
+otc version                                                          Print OTC Client tool version
+.br
+S3 Commands:
+.br
+otc s3 ls                                                            List Buckets
+.br
+otc s3 ls mybucket                                                   List Bucket files
+.br
+otc s3api create\-bucket \-\-bucket mybucket                                      Create New Bucket
+.br
+otc.bat s3 cp s3://bucketname/filename.txt /localdir/filename.txt    Download from bucket to local
+.br
+otc.bat s3 cp /localdir/filename.txt s3://bucketname/filename.txt    Upload file / directory to bucket
+.br
+ECS Flavor & Image Commands:
+.br
+otc ecs describe\-flavors                                             List avaliable flavors (VM templates)
+.br
+otc ecs describe\-images                                              List image templates
+.br
+VPC Commands:
+.br
+otc ecs create\-vpc \-\-vpc\-name myvpc \-\-cidr 10.0.0.0/8                Crete new VPC
+.br
+otc ecs describe\-vpcs                                                List VPCs
+.br
+Subnet Commands:
+.br
+otc ecs create\-subnet \-\-subnet\-name subnettest \-\-cidr 192.168.1.0/16 \-\-gateway\-ip 192.168.1.2 \-\-primary\-dns 8.8.8.8 \-\-secondary\-dns 8.8.4.4 \-\-availability\-zone eu\-de\-01 \-\-vpc\-name default\-vpc    Create new subnet for VPC
+.br
+otc ecs describe\-subnets \-\-output json
+.br
+Security Group Commands:
+.br
+otc ecs create\-security\-group \-\-group\-name test2 \-\-vpc\-name default\-vpc  Create new security group
+.br
+otc ecs describe\-security\-groups                                     List existing security\-groups
+.br
+otc ecs authorize\-security\-group\-ingress \-\-group\-name test2 \-\-vpc\-name default\-vpc \-\-protocol tcp \-\-ethertype IPv4 \-\-portmin 22 \-\-portmax 25      Add new incomming rule to security\-group
+.br
+otc ecs authorize\-security\-group\-egress \-\-group\-name test2 \-\-vpc\-name default\-vpc \-\-protocol tcp \-\-ethertype IPv4 \-\-portmin 7000 \-\-portmax 7001   Add new outcomming rule to security\-group
+.br
+Keypair Commands:
+.br
+otc ecs describe\-key\-pairs                                           List key pairs
+.br
+otc ecs create\-key\-pair \-\-key\-name mykeypair "ssh\-rsa AA..."       Create key pair
+.br
+Instance Commands:
+.br
+otc ecs describe\-instances                                           List VM instances
+.br
+otc ecs describe\-instances  \-\-instance\-ids 097da903\-ab95\-44f3\-bb5d\-5fc08dfb6cc3 \-\-output json     Detailed information of specific VM instance (JSON)
+.br
+otc ecs run\-instances \-\-count 1  \-\-admin\-pass yourpass123! \-\-instance\-type c1.medium \-\-instance\-name instancename \-\-image\-name Standard_CentOS_6.7_latest \-\-subnet\-name testsubnet \-\-vpc\-name testvpc \-\-group\-name testsecgroup     Create new VM instance and START
+.br
+otc ecs run\-instances \-\-count 1  \-\-admin\-pass yourpass123! \-\-instance\-type c1.medium \-\-instance\-name instancename \-\-image\-name Standard_CentOS_6.7_latest \-\-subnet\-name testsubnet \-\-vpc\-name testvpc \-\-group\-name testsecgroup  \-\-key\-name testsshkeypair \-\-file1 /otc/a=/otc/a
+.br
+\-\-associate\-public\-ip\-address  \-\-wait\-instance\-running    Create new VM instance with injected SSH keypair, with public ip, additional file injection, wait instance created and running
+.br
+otc ecs describe\-instances                                           List VM instances
+.br
+otc ecs stop\-instances   \-\-instance\-ids b6c602b1\-06d0\-4bdb\-b764\-5d43b47abc14        Stop VM instance
+.br
+otc ecs start\-instances  \-\-instance\-ids b6c602b1\-06d0\-4bdb\-b764\-5d43b47abc14        Start VM instance
+.br
+otc ecs reboot\-instances \-\-instance\-ids b6c602b1\-06d0\-4bdb\-b764\-5d43b47abc14        Reboot VM instance
+.br
+otc ecs delete\-instances \-\-instance\-ids b6c602b1\-06d0\-4bdb\-b764\-5d43b47abc14        Delete VM instance (public ip + EVS also)
+.br
+Backup Commands:
+.br
+otc ecs create\-snapshot  \-\-volume\-id b197b8af\-fe63\-465f\-97b6\-5e5b89exxxx  Create snapshot of volume
+.br
+otc ecs describe\-snapshots                                           List backup volumes
+.br
+otc ecs delete\-snapshot  \-\-snapshot\-id 0c942ff7\-454e\-xxxx            Delete volume backup
+.br
+Volume Commands:
+.br
+otc ecs describe\-volumes                                             List volumes
+.br
+otc ecs create\-volume   \-\-volume\-id b197b8af\-fe63\-465f\-97b6\-5e5b89exxx \-\-snapshot\-id 0c942ff7\-454e\-xxxx Create volume from snapshot
+.br
+otc ecs create\-volume   \-\-count 1 \-\-volume\-name myvolume  \-\-size 100 \-\-volume\-type SATA      Create new Volume [type: SSD,SAS,SATA]
+.br
+otc ecs attach\-volume   \-\-instance\-ids f344b625\-6f73\-44f8\-ad56\-9fcb05a523c4 \-\-volume\-id 8c0de9a7\-9f61\-4613\-a68a\-21f456cb7298             Attach volume to instance
+.br
+otc ecs detach\-volume   \-\-instance\-ids f344b625\-6f73\-44f8\-ad56\-9fcb05a523c4 \-\-volume\-id 8c0de9a7\-9f61\-4613\-a68a\-21f456cb7298             Detach volume from instance
+.br
+otc ecs delete\-volume   \-\-volume\-id 8c0de9a7\-9f61\-4613\-a68a\-21f456cb7298                                                                 Delete volume
+.br
+Public Ip Commands:
+.br
+otc otc ecs describe\-addresses                                       List public ip adresses
+.br
+otc ecs allocate\-address                                             Allocate public ip address from public ip pool
+.br
+otc ecs associate\-address \-\-public\-ip 46.29.96.246 \-\-network\-interface\-id b197b8af\-fe63\-465f\-97b6\-5e5b89exxx      Assodicate public ip with Network Interface Id
+.br
+`````
+.br
+
+.br
+License
+.br
+\-\-\-\-\-\-\-
+.br
+
+.br
+**MIT**
+.br
+
+.br
+The MIT License (MIT)
+.br
+
+.br
+Copyright (c) 2016 OpenTelekomCloud
+.br
+
+.br
+Permission is hereby granted, free of charge, to any person obtaining a copy
+.br
+of this software and associated documentation files (the "Software"), to deal
+.br
+in the Software without restriction, including without limitation the rights
+.br
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+.br
+copies of the Software, and to permit persons to whom the Software is
+.br
+furnished to do so, subject to the following conditions:
+.br
+
+.br
+The above copyright notice and this permission notice shall be included in all
+.br
+copies or substantial portions of the Software.
+.br
+
+.br
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+.br
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+.br
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+.br
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+.br
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+.br
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+.br
+SOFTWARE.
+.br
+Download
+.br
+********
+.br
+
+.SH OPTIONS
+  OtcComponent          OTC Component Selector
+  OtcCommand            OTC Command Selector
+  Source/Target DIR     [optional Source/Target OBS directory]
+  Source/Target DIR     [optional Source/Target OBS directory]
+
+  \fB-h\fR, \fB--help\fR
+                        show this help message and exit
+  \fB-V\fR, \fB--version\fR
+                        show program's version number and exit
+  \fB-d\fR, \fB--debug\fR
+                        Debug mode
+  \fB--configure\fR [{user,proxy}]
+  \fB--project-name\fR \fI\s-1PROJECT_NAME\s0\fR
+                        Project Name for Dedicated Compute Zone
+  \fB-k\fR \fI\s-1KEYNAME\s0\fR, \fB--key-name\fR \fI\s-1KEYNAME\s0\fR
+                        SSH key name| S3 Object key
+  \fB--public-key\fR \fI\s-1PUBLICKEY\s0\fR
+                        Import public key for SSH keypairs
+  \fB--admin-pass\fR \fI\s-1ADMINPASS\s0\fR
+                        Admin password of the started VM
+  \fB--instance-name\fR \fI\s-1INSTANCE_NAME\s0\fR
+                        Instance name of the VM
+  \fB--instance-ids\fR \fI\s-1INSTANCE_ID\s0\fR
+                        Instance Id of the VM
+  \fB--load-balancer-name\fR \fI\s-1LOADBALANCER_NAME\s0\fR
+                        Loadbalancer name of the VM
+  \fB--load-balancer-id\fR \fI\s-1LOADBALANCER_ID\s0\fR
+                        Loadbalancer Id of the VM
+  \fB--listener-name\fR \fI\s-1LISTENER_NAME\s0\fR
+                        Listener name of the VM
+  \fB--listener-id\fR \fI\s-1LISTENER_ID\s0\fR
+                        Listener Id of the VM
+  \fB--alarm-name\fR \fI\s-1ALARM_NAME\s0\fR
+                        Alarm name
+  \fB--alarm-id\fR \fI\s-1ALARM_ID\s0\fR
+                        Alarm Id
+  \fB--volume-id\fR \fI\s-1VOLUME_ID\s0\fR
+                        Volume Id of the EVS volume
+  \fB--attachment-id\fR \fI\s-1ATTACHMENT_ID\s0\fR
+                        Attachment Id of the EVS volume
+  \fB--device\fR \fI\s-1EVS_DEVICE\s0\fR
+                        Device of the EVS volume
+  \fB--file1\fR \fI\s-1FILE1\s0\fR
+                        Name of the #1 file to be injected to VM. Format:
+                        target=source
+  \fB--file2\fR \fI\s-1FILE2\s0\fR
+                        Name of the #2 file to be injected to VM. Format:
+                        target=source
+  \fB--file3\fR \fI\s-1FILE3\s0\fR
+                        Name of the #3 file to be injected to VM. Format:
+                        target=source
+  \fB--file4\fR \fI\s-1FILE4\s0\fR
+                        Name of the #4 file to be injected to VM. Format:
+                        target=source
+  \fB--file5\fR \fI\s-1FILE5\s0\fR
+                        Name of the #5 file to be injected to VM. Format:
+                        target=source
+  \fB--instance-type\fR \fI\s-1INSTANCE_TYPE_NAME\s0\fR
+                        Flavor type of the VM
+  \fB--image-name\fR \fI\s-1IMAGENAME\s0\fR
+                        Name of the image reference will used during VM
+                        creation
+  \fB--image-id\fR \fI\s-1IMAGE_ID\s0\fR
+                        Id of the image reference will use during VM creation
+  \fB--cluster-name\fR \fI\s-1CLUSTER\s0\fR
+                        Name of the cluster
+  \fB--cluster-id\fR \fI\s-1CLUSTER_ID\s0\fR
+                        Id of the cluster
+  \fB--namespace-id\fR \fI\s-1NAMESPACE_ID\s0\fR
+                        Namespace Id of the cluster
+  \fB--pod\fR \fI\s-1POD\s0\fR
+                        CCE POD
+  \fB--container-name\fR \fI\s-1CONTAINER_NAME\s0\fR
+                        CCE POD container name
+  \fB--service-name\fR \fI\s-1SERVICE_NAME\s0\fR
+                        CCE Service name
+  \fB--endpoint-name\fR \fI\s-1ENDPOINT_NAME\s0\fR
+                        CCE endpoint name
+  \fB--secret-name\fR \fI\s-1SECRET_NAME\s0\fR
+                        CCE secret name
+  \fB--rc-name\fR \fI\s-1RC_NAME\s0\fR
+                        CCE replication controller name
+  \fB--cli-input-json\fR \fI\s-1CLIINPUTJSONFILE\s0\fR
+                        Input JSON file for every request
+  \fB--user-data\fR \fI\s-1USER_DATA_PATH\s0\fR
+                        Path to user-data file which will be used for cloud-
+                        init
+  \fB--image-url\fR \fI\s-1IMAGE_URL\s0\fR
+                        Url of the image used during Image creation
+  \fB--tags\fR \fI\s-1TAG_LIST\s0\fR
+                        Tags of the image will used during Image creation
+  \fB--protected\fR \fI\s-1PROTECTED\s0\fR
+                        Protected status of image used during VM creation
+  \fB--os-version\fR \fI\s-1OS_VERSION\s0\fR
+                        Os version of image
+  \fB--min-ram\fR \fI\s-1MIN_RAM\s0\fR
+                        Min ram used during image creation
+  \fB--min-disk\fR \fI\s-1MIN_DISK\s0\fR
+                        Min ram used during image creation
+  \fB--visibility\fR \fI\s-1IMAGE_VISIBILITY\s0\fR
+                        Image visibility used during image creation
+  \fB--disk-format\fR \fI\s-1DISK_FORMAT\s0\fR
+                        Disk format used during image creation
+  \fB--container-format\fR \fI\s-1CONTAINTER_FORMAT\s0\fR
+                        Container format used during image creation
+  \fB-n\fR \fI\s-1NUMCOUNT\s0\fR, \fB--count\fR \fI\s-1NUMCOUNT\s0\fR
+                        Number of VM will be created
+  \fB--subnet-name\fR \fI\s-1SUBNETNAME\s0\fR
+                        Name of the subnet reference will use during VM
+                        creation
+  \fB--subnet-id\fR \fI\s-1SUBNETID\s0\fR
+                        Id of the subnet will use during VM creation
+  \fB--network-interface-id\fR \fI\s-1NETWORKINTERFACEID\s0\fR
+                        Network interface Id of NIC
+  \fB--vpc-name\fR \fI\s-1VPCNAME\s0\fR
+                        Name of the VPC reference will use during VM creation
+  \fB--vpc-id\fR \fI\s-1VPCID\s0\fR
+                        Id of the VPC will use during VM creation
+  \fB--cidr\fR \fI\s-1CIDR\s0\fR
+                        CIDR of the subnet will use during subnet creation
+  \fB--gateway-ip\fR \fI\s-1GWIP\s0\fR
+                        Gateway Ip of the subnet
+  \fB--primary-dns\fR \fI\s-1PRIMARYDNS\s0\fR
+                        Primary dns of the subnet
+  \fB--secondary-dns\fR \fI\s-1SECDNS\s0\fR
+                        Secondary dns of the subnet
+  \fB--availability-zone\fR \fI\s-1AZ\s0\fR
+                        Availability-zone definition
+  \fB--region\fR \fI\s-1REGION\s0\fR
+                        Region definition
+  \fB--group-names\fR \fI\s-1SECUGROUPNAME\s0\fR
+                        Name of the security group
+  \fB--security-group-ids\fR \fI\s-1SECUGROUP\s0\fR
+                        Id of the security group
+  \fB--source-group-id\fR \fI\s-1SOURCE_GROUP_ID\s0\fR
+                        Id of Source security group
+  \fB--source-group\fR \fI\s-1SOURCE_GROUP\s0\fR
+                        Name of Source security group
+  \fB--auto-scaling-group-name\fR \fI\s-1SCALINGGROUP_NAME\s0\fR
+                        Name of Auto Scaling group
+  \fB--auto-scaling-group-id\fR \fI\s-1SCALINGGROUP_ID\s0\fR
+                        Id of Auto Scaling group
+  \fB--dim\fR [\fI\s-1DIM\s0\fR [\fI\s-1DIM\s0\fR ...]]
+                        CES Dim definition
+  \fB--metric-name\fR \fI\s-1METRIC-NAME\s0\fR
+                        CES Metric Name
+  \fB--namespace\fR \fI\s-1NAMESPACE\s0\fR
+                        CES/CCE Namespace
+  \fB--period\fR \fI\s-1PERIOD\s0\fR
+                        CES Period
+  \fB--filter\fR \fI\s-1FILTER\s0\fR
+                        CES Filter
+  \fB-p\fR, \fB--associate-public-ip-address\fR
+                        VM will get EIP public IP
+  \fB--public-ip\fR \fI\s-1PUBLICIP\s0\fR
+                        Public IP for association
+  \fB--private-ip-id\fR \fI\s-1PRIVATEIPID\s0\fR
+                        Private IP Id
+  \fB--allocation-id\fR \fI\s-1PUBLICIPID\s0\fR
+                        Public IP ID
+  \fB--bucket\fR \fI\s-1S3BUCKET\s0\fR
+                        S3 Bucket
+  \fB--key\fR \fI\s-1S3OBJECT\s0\fR
+                        S3 Object Name
+  \fB--recursive\fR \fI\s-1S3RECURSIVE\s0\fR
+                        S3 recursive operation
+  \fB--direction\fR \fI\s-1DIRECTION\s0\fR
+                        Direction of the security group rule
+  \fB--portmin\fR \fI\s-1PORTMIN\s0\fR
+                        Lower por of the specific security group rule
+  \fB--portmax\fR \fI\s-1PORTMAX\s0\fR
+                        Upper port of the specific security group rule
+  \fB--protocol\fR \fI\s-1PROTOCOL\s0\fR
+                        Protocol of the specific security group rule
+  \fB--ethertype\fR \fI\s-1ETHERTYPE\s0\fR
+                        Ethertype of the specific security group rule
+  \fB--output\fR {Json,table,text}
+                        Output format
+  \fB--query\fR \fI\s-1QUERY\s0\fR
+                        JSON Path query
+  \fB--size\fR \fI\s-1VOLUME_SIZE\s0\fR
+                        Size of the EVS disk
+  \fB--volume-type\fR \fI\s-1VOLUME_TYPE\s0\fR
+                        Volume type of the EVS disk [SSD,SAS,SATA]
+  \fB--volume-name\fR \fI\s-1VOLUME_NAME\s0\fR
+                        Volume name of the EVS disk
+  \fB--data-volumes\fR \fI\s-1DATA_VOLUMES\s0\fR
+                        Attach data volumes while creating ECS(eg:
+                        SSD:10,SATA:20)
+  \fB--description\fR \fI\s-1DESCRIPTION\s0\fR
+                        Description definition ( eg: backups)
+  \fB--snapshot-id\fR \fI\s-1SNAPSHOTID\s0\fR
+                        Snapshot id of the backup
+  \fB--wait-instance-running\fR
+                        Wait instance running (only for run-instance command)
+  \fB--address\fR \fI\s-1ADDRESS\s0\fR
+                        Specifies the private IP address of the backend member
+  \fB--ip-address\fR \fI\s-1IP_ADDRESS\s0\fR
+                        ip-address
+  \fB--flavor-ref\fR \fI\s-1FLAVOR_REF\s0\fR
+                        flavor-ref
+  \fB--image-ref\fR \fI\s-1IMAGE_REF\s0\fR
+                        image-ref
+  \fB--disk-size\fR \fI\s-1DISK_SIZE\s0\fR
+                        disk-size
+  \fB--disk-type\fR \fI\s-1DISK_TYPE\s0\fR
+                        disk-type
+  \fB--scaling-configuration-id\fR \fI\s-1SCALING_CONFIGURATION_ID\s0\fR
+                        scaling-configuration-id
+  \fB--desire-instance-number\fR \fI\s-1DESIRE_INSTANCE_NUMBER\s0\fR
+                        desire-instance-number
+  \fB--min-instance-number\fR \fI\s-1MIN_INSTANCE_NUMBER\s0\fR
+                        min-instance-number
+  \fB--max-instance-number\fR \fI\s-1MAX_INSTANCE_NUMBER\s0\fR
+                        max-instance-number
+  \fB--cool-down-time\fR \fI\s-1COOL_DOWN_TIME\s0\fR
+                        cool-down-time
+  \fB--health-periodic-audit-method\fR \fI\s-1HEALTH_PERIODIC_AUDIT_METHOD\s0\fR
+                        health-periodic-audit-method
+  \fB--health-periodic-audit-time\fR \fI\s-1HEALTH_PERIODIC_AUDIT_TIME\s0\fR
+                        health-periodic-audit-time
+  \fB--instance-terminate-policy\fR \fI\s-1INSTANCE_TERMINATE_POLICY\s0\fR
+                        instance-terminate-policy
+  \fB--networks-id\fR \fI\s-1NETWORKS_ID\s0\fR
+                        networks-id
+  \fB--notifications\fR \fI\s-1NOTIFICATIONS\s0\fR
+                        notifications
+  \fB--security-groups-id\fR \fI\s-1SECURITY_GROUPS_ID\s0\fR
+                        security-groups-id
+  \fB--healthcheck-connect-port\fR \fI\s-1HEALTHCHECK_CONNECT_PORT\s0\fR
+                        Specifies the port for health check
+  \fB--healthcheck-interval\fR \fI\s-1HEALTHCHECK_INTERVAL\s0\fR
+                        Specifies the maximum interval for health check.The
+                        value ranges from 1 to 5(s)
+  \fB--healthcheck-protocol\fR \fI\s-1HEALTHCHECK_PROTOCOL\s0\fR
+                        Specifies the health check protocol.The value can be
+                        HTTP or TCP (case-insensitive)
+  \fB--healthcheck-timeout\fR \fI\s-1HEALTHCHECK_TIMEOUT\s0\fR
+                        Specifies the maximum timeout duration for health
+                        check. The value ranges from 1 to 50 (s)
+  \fB--healthcheck-uri\fR \fI\s-1HEALTHCHECK_URI\s0\fR
+                        Specifies the URI for health check. The value is a
+                        string of 1 to 80 characters that contain only
+                        letters, digits, and special characters (such as
+                        -/.%?#&).It must start with /. This parameter is valid
+                        when healthcheck_protocol is HTTP.
+  \fB--healthy-threahold\fR \fI\s-1HEALTHY_THREAHOLD\s0\fR
+                        Specifies the number of consecutive successful health
+                        checks for the health check result changing from fail
+                        to success. The value ranges from 1 to 10.
+  \fB--unhealthy-threshold\fR \fI\s-1UNHEALTHY_THRESHOLD\s0\fR
+                        Specifies the number of consecutive successful health
+                        checks for the health check result changing from
+                        success to fail. The value ranges from 1 to 10.
+  \fB--action-disable-enable-as-group\fR \fI\s-1ACTION_DISABLE_ENABLE_AS_GROUP\s0\fR
+                        action-disable-enable-as-group
+  \fB--healthcheck-id\fR \fI\s-1HEALTHCHECK_ID\s0\fR
+                        healthcheck-id
+  \fB--listener-description\fR \fI\s-1LISTENER_DESCRIPTION\s0\fR
+                        listener-description
+  \fB--listener-port\fR \fI\s-1LISTENER_PORT\s0\fR
+                        listener-port
+  \fB--backend-port\fR \fI\s-1BACKEND_PORT\s0\fR
+                        backend-port
+  \fB--lb-algorithm\fR \fI\s-1LB_ALGORITHM\s0\fR
+                        lb-algorithm
+  \fB--bandwidth\fR \fI\s-1BANDWIDTH\s0\fR
+                        bandwidth
+  \fB--admin-state-up\fR \fI\s-1ADMIN_STATE_UP\s0\fR
+                        admin-state-up
+  \fB--tenant\fR \fI\s-1TENANT\s0\fR
+                        tenant
+  \fB--scaling-configuration-name\fR \fI\s-1SCALING_CONFIGURATION_NAME\s0\fR
+                        scaling-configuration-name
+  \fB--personality\fR \fI\s-1PERSONALITY\s0\fR
+                        personality
+  \fB--create-time\fR \fI\s-1CREATE_TIME\s0\fR
+                        create-time
+  \fB--detail\fR \fI\s-1DETAIL\s0\fR
+                        detail
+  \fB--scaling-group-status\fR \fI\s-1SCALING_GROUP_STATUS\s0\fR
+                        scaling-group-status
+  \fB--current-instance-number\fR \fI\s-1CURRENT_INSTANCE_NUMBER\s0\fR
+                        current-instance-number
+  \fB--is-scaling\fR \fI\s-1IS_SCALING\s0\fR
+                        is-scaling
+  \fB--bandwidth-size\fR \fI\s-1BANDWIDTH_SIZE\s0\fR
+                        bandwidth-size
+  \fB--publicip-port-id\fR \fI\s-1PUBLICIP_PORT_ID\s0\fR
+                        publicip-port-id
+  \fB--dhcp-enable\fR \fI\s-1DHCP_ENABLE\s0\fR
+                        dhcp-enable
+  \fB--security-group-id\fR \fI\s-1SECURITY_GROUP_ID\s0\fR
+                        security-group-id
+  \fB--instance-action-add-remove-batch\fR \fI\s-1INSTANCE_ACTION_ADD_REMOVE_BATCH\s0\fR
+                        instance-action-add-remove-batch
+  \fB--instance-id-1\fR \fI\s-1INSTANCE_ID_1\s0\fR
+                        instance-id-1
+  \fB--instance-id-2\fR \fI\s-1INSTANCE_ID_2\s0\fR
+                        instance-id-2
+  \fB--instance-delete\fR \fI\s-1INSTANCE_DELETE\s0\fR
+                        instance-delete
+  \fB--recurrence-value\fR \fI\s-1RECURRENCE_VALUE\s0\fR
+                        recurrence-value
+  \fB--start-time\fR \fI\s-1START_TIME\s0\fR
+                        start-time
+  \fB--launch-time\fR \fI\s-1LAUNCH_TIME\s0\fR
+                        launch-time
+  \fB--end-time\fR \fI\s-1END_TIME\s0\fR
+                        end-time
+  \fB--recurrence-type\fR \fI\s-1RECURRENCE_TYPE\s0\fR
+                        recurrence-type
+  \fB--scaling-policy-type\fR \fI\s-1SCALING_POLICY_TYPE\s0\fR
+                        Specifies the AS policy type:
+                        ALARM/SCHEDULED/RECURRENCE
+  \fB--instance-number\fR \fI\s-1INSTANCE_NUMBER\s0\fR
+                        instance-number
+  \fB--operation-as-policy\fR \fI\s-1OPERATION_AS_POLICY\s0\fR
+                        Specifies the operation to be performed. The default
+                        operation is ADD.ADD: adds instances to the AS
+                        group.REMOVE: removes instances from the AS group.SET:
+                        sets the number of the instances in the AS group
+  \fB--scaling-policy-name\fR \fI\s-1SCALING_POLICY_NAME\s0\fR
+                        Specifies the AS policy name. The name can contain
+                        letters, digits, underscores (_), and hyphens (-), and
+                        cannot exceed 64 characters
+  \fB--scaling-policy-id\fR \fI\s-1SCALING_POLICY_ID\s0\fR
+                        scaling-policy-id
+  \fB--as-policy-action\fR \fI\s-1AS_POLICY_ACTION\s0\fR
+                        as-policy-action
+  \fB--evs-new-size\fR \fI\s-1EVS_NEW_SIZE\s0\fR
+                        evs-new-size
+  \fB--session-sticky\fR \fI\s-1SESSION_STICKY\s0\fR
+                        Specifies whether to enable the session persistence
+                        function.The value is true or false. The session
+                        persistence function is enabled when the value is
+                        true, and is disabled when the value is false.
+  \fB--sticky-session-type\fR \fI\s-1STICKY_SESSION_TYPE\s0\fR
+                        Specifies the cookie processing method. The value is
+                        insert.insert indicates that the cookie is inserted by
+                        the load balancer. This parameter is valid when
+                        protocol is set to HTTP, and session_sticky to true.
+                        The default value is insert. This parameter is invalid
+                        when protocol is set to TCP. That means the parameter
+                        is empty.
+  \fB--cookie-timeout\fR \fI\s-1COOKIE_TIMEOUT\s0\fR
+                        Specifies the cookie timeout period (s).The value
+                        ranges from 1 to 86,400. This parameter is valid when
+                        protocol is set to HTTP, session_sticky to true, and
+                        sticky_session_type to insert. This parameter is
+                        invalid when protocol is set to TCP.
+.SH SEE ALSO
+ Online documentation: https://github.com/OpenTelekomCloud/python-otcclient
+.SH MAINTAINER(S)
+ UNKNOWN
+.SH LICENSE
+ MIT License

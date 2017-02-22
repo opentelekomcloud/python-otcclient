@@ -7,6 +7,7 @@ import json
 import prettytable
 import jmespath
 import sys
+from otcclient.core.argmanager import get_help_iter
  
 def defaultprettytable( cols ):    
     p = prettytable.PrettyTable(cols)
@@ -108,3 +109,17 @@ def printProgress (iteration, total, prefix = '', suffix = '', decimals = 1, bar
         sys.stdout.write('\n')
     sys.stdout.flush()
 
+
+def printShortHelp():
+    print("usage: otc [-h] [-V] [-d] [--configure [{user,proxy}]] <plugin name> <command>")
+    print("Available plugin commands:")
+    
+    for i in get_help_iter():
+        print("    "+ i["plugin_name"] + " " + i["func_name"])
+    
+    indent = len("otc") * " "
+    sys.stderr.write("otc" + ": " + "\n")
+    sys.stderr.write(indent + "  for help use --help\n")
+        
+    print("More information: ")        
+    print("    otc --help")

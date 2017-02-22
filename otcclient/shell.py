@@ -3,6 +3,7 @@
 # This file is part of OTC Tool released under MIT license.
 # otcclient.otcclient -- Client Tool for Open Telecom Cloud
 # Copyright (C) 2016 T-systems Kurt Garloff, Zsolt Nagy
+from otcclient.utils.utils_output import printShortHelp
 
 '''
 otcclient.otcclient -- Client Tool for Open Telecom Cloud 
@@ -335,7 +336,8 @@ def main(argv=None): # IGNORE:C0111
     except (KeyError,AttributeError) as e:
         #errno, strerror = e.args
         print("Invalid command:" + str(e))
-        parser.print_help()
+        printShortHelp();
+        #parser.print_help()
         if OtcConfig.DEBUG or TESTRUN:        
             raise
         ### handle keyboard interrupt ###

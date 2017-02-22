@@ -30,6 +30,10 @@ class mrs(otcpluginbase):
     @staticmethod
     @otcfunc(plugin_name=__name__,
              desc="description of the avaliable clusters",
+             examples=[
+                       {"List Clusters":"otc mrs describe_clusters"}, 
+                       {"Show Cluster Details":"otc mrs describe_clusters mycluster"}
+                       ],
              args = [ 
                 arg(
                     '--cluster-name',

@@ -67,3 +67,8 @@ def add_to_parser( myparser, key ='*' ):
 
     if OtcConfig.DEBUG: 
         pprint(funclist)
+
+def get_help_iter():
+    for fkey, fval in funclist.iteritems():
+        yield fval    
+ 

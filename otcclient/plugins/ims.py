@@ -12,7 +12,6 @@ from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.pluginmanager import getplugin
 
 import json
-from otcclient.plugins.ecs import ecs
 
     
 class ims(otcpluginbase):
@@ -28,7 +27,7 @@ class ims(otcpluginbase):
     @staticmethod
     def update_image_metadata():
         if not (OtcConfig.IMAGENAME is None):
-            ecs.convertIMAGENameToId()
+            getplugin("ecs").convertIMAGENameToId()
         ims.create_image_metadata()
 
     @staticmethod
@@ -50,7 +49,7 @@ class ims(otcpluginbase):
     @staticmethod
     def register_image():
         if not (OtcConfig.IMAGENAME is None):
-            ecs.convertIMAGENameToId()
+            getplugin("ecs").convertIMAGENameToId()
         
         if OtcConfig.IMAGE_ID is None:
             # error handling 
@@ -67,7 +66,7 @@ class ims(otcpluginbase):
     @staticmethod
     def get_image():
         if not (OtcConfig.IMAGENAME is None):
-            ecs.convertIMAGENameToId()
+            getplugin("ecs").convertIMAGENameToId()
         
         if OtcConfig.IMAGE_ID is None:
             # error handling 

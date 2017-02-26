@@ -10,10 +10,6 @@ from otcclient.utils import utils_http
 
 from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.pluginmanager import getplugin
-
-import json
-from otcclient.plugins.ecs import ecs
-
     
 class dms(otcpluginbase):
     ar = {}    

@@ -10,7 +10,7 @@ from otcclient.utils import utils_http, utils_templates
 from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.pluginmanager import getplugin
 import json
-from otcclient.plugins.ecs import ecs
+#from otcclient.plugins.ecs import ecs
     
 class cce(otcpluginbase):
     ar = {}    
@@ -46,7 +46,7 @@ class cce(otcpluginbase):
         ret = utils_http.get(url)
         #print (ret)
         cce.otcOutputHandler().print_output(json.loads(ret), subkey="metadata", listkey={"name", "uuid", "createAt"})
-        #ecs.otcOutputHandler().print_output(json.loads(ret),mainkey="")     
+        #cce.otcOutputHandler().print_output(json.loads(ret),mainkey="")     
         return ret
 
     @staticmethod
@@ -57,7 +57,7 @@ class cce(otcpluginbase):
         if OtcConfig.CLUSTER_ID:
             url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/clusters/" + OtcConfig.CLUSTER_ID            
             ret = utils_http.get(url)
-            ecs.otcOutputHandler().print_output(ret,mainkey="")     
+            cce.otcOutputHandler().print_output(ret,mainkey="")     
         else:
             return cce.list_clusters()     
 
@@ -67,16 +67,16 @@ class cce(otcpluginbase):
             cce.convertClusterNameToId()
 
         if OtcConfig.INSTANCE_NAME:
-            ecs.convertINSTANCENameToId()
+            cce.convertINSTANCENameToId()
         
         if OtcConfig.INSTANCE_ID:
             url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/clusters/" + OtcConfig.CLUSTER_ID + "/hosts"
             ret = utils_http.get(url)
-            ecs.otcOutputHandler().print_output(ret,mainkey="")     
+            cce.otcOutputHandler().print_output(ret,mainkey="")     
         else:
             url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/clusters/" + OtcConfig.CLUSTER_ID + "/hosts/" + OtcConfig.INSTANCE_ID 
             ret = utils_http.get(url)
-            ecs.otcOutputHandler().print_output(ret,mainkey="")     
+            cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
             
 
@@ -100,7 +100,7 @@ class cce(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/services"
         req = utils_templates.create_request("cce_create_service")
         ret = utils_http.post(url, req)
-        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
 
 
@@ -112,7 +112,7 @@ class cce(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/services/" + OtcConfig.SERVICE_NAME
         req = utils_templates.create_request("cce_create_service")
         ret = utils_http.put(url, req)
-        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
 
 
@@ -123,7 +123,7 @@ class cce(otcpluginbase):
                  
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/services/" + OtcConfig.SERVICE_NAME
         ret = utils_http.delete(url)
-        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
 
 
@@ -137,7 +137,7 @@ class cce(otcpluginbase):
         #print OtcConfig.NAMESPACE
         ret = utils_http.post(url, req)
         #print (ret)
-        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
 
     @staticmethod
@@ -147,7 +147,7 @@ class cce(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces"
         req = utils_templates.create_request("cce_rename_namespace")        
         ret = utils_http.post(url, req)
-        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
 
 
@@ -161,7 +161,7 @@ class cce(otcpluginbase):
         else:          
             url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces"    
         ret = utils_http.get(url)        
-        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
 
     @staticmethod       
@@ -170,7 +170,7 @@ class cce(otcpluginbase):
             cce.convertClusterNameToId()
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE
         ret = utils_http.delete(url)
-        ecs.otcOutputHandler().print_output(ret,mainkey="")        
+        cce.otcOutputHandler().print_output(ret,mainkey="")        
         return ret
 
 
@@ -210,7 +210,7 @@ class cce(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/pods/" + OtcConfig.POD 
                          
         ret = utils_http.delete(url)
-        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
 
     
@@ -223,7 +223,7 @@ class cce(otcpluginbase):
         req = utils_templates.create_request("cce_create_pod_template")
         print (req)
         ret = utils_http.post(url, req)
-        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
 
     @staticmethod
@@ -237,7 +237,7 @@ class cce(otcpluginbase):
             url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/podtemplates"
                          
         ret = utils_http.get(url)
-        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
     
     
@@ -250,7 +250,7 @@ class cce(otcpluginbase):
             url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/podtemplates/" + OtcConfig.POD 
                          
         ret = utils_http.delete(url)
-        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
     
     
@@ -291,7 +291,7 @@ class cce(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/endpoints/" + OtcConfig.ENDPOINT_NAME 
                          
         ret = utils_http.delete(url)
-        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
     
     
@@ -330,7 +330,7 @@ class cce(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/secrets/" + OtcConfig.SECRET_NAME
                          
         ret = utils_http.delete(url)
-        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
         
         
@@ -385,6 +385,6 @@ class cce(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/replicationcontrollers/" + OtcConfig.RC_NAME
                          
         ret = utils_http.delete(url)
-        ecs.otcOutputHandler().print_output(ret,mainkey="")     
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
                 

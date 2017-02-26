@@ -69,6 +69,5 @@ def add_to_parser( myparser, key ='*' ):
         pprint(funclist)
 
 def get_help_iter():
-    for fkey, fval in funclist.iteritems():
-        yield fval    
- 
+    for fkey, fval in funclist.iteritems():  # @UnusedVariable
+        yield fval

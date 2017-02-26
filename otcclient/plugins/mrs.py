@@ -12,7 +12,7 @@ from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.pluginmanager import getplugin
 
 import json
-from otcclient.plugins.ecs import ecs
+
 from otcclient.core.argmanager import arg, otcfunc
  
     
@@ -57,13 +57,13 @@ class mrs(otcpluginbase):
             ret = utils_http.get(url)
             print (url)
             print (ret)        
-            ecs.otcOutputHandler().print_output(ret, mainkey = "clusters", listkey={"id", "name"})
+            mrs.otcOutputHandler().print_output(ret, mainkey = "clusters", listkey={"id", "name"})
         else:            
             ret = utils_http.get(url + '/' + OtcConfig.INSTANCE_ID )        
             maindata = json.loads(ret)
             if "itemNotFound" in  maindata:
                 raise RuntimeError("Not found!")                      
-            ecs.otcOutputHandler().print_output(ret,mainkey="server") 
+            mrs.otcOutputHandler().print_output(ret,mainkey="server") 
         return ret
 
     @staticmethod

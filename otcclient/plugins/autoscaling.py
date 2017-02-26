@@ -11,7 +11,7 @@ from otcclient.core.pluginmanager import getplugin
 
 import json
 from otcclient.utils import utils_templates 
-from otcclient.plugins.ecs import ecs
+#from otcclient.plugins.ecs import ecs
     
 class autoscaling(otcpluginbase):
     ar = {}    
@@ -216,7 +216,7 @@ class autoscaling(otcpluginbase):
         
         #vpc_id
         if not (OtcConfig.VPCNAME is None):
-            ecs.convertVPCNameToId()
+            getplugin("ecs").convertVPCNameToId()
         #scaling_configuration_id
         if not (OtcConfig.SCALING_CONFIGURATION_NAME is None):
             autoscaling.convertASConfigurationNameToId()
@@ -226,10 +226,10 @@ class autoscaling(otcpluginbase):
             autoscaling.convertLISTENERNameToId()
         #network_id
         if not OtcConfig.SUBNETNAME is None:
-            ecs.convertSUBNETNameToId()
+            getplugin("ecs").convertSUBNETNameToId()
         #security_group_id
         if not OtcConfig.SECUGROUPNAME is None:
-            ecs.convertSECUGROUPNameToId()
+            getplugin("ecs").convertSECUGROUPNameToId()
         print(OtcConfig.SUBNETID)
         print(OtcConfig.SUBNETID)		
         REQ_CREATE_SCG=utils_templates.create_request("create_as_group")               
@@ -246,7 +246,7 @@ class autoscaling(otcpluginbase):
         #print(SCALINGGROUP_NAME)
         #vpc_id
         if not (OtcConfig.VPCNAME is None):
-            ecs.convertVPCNameToId()
+            getplugin("ecs").convertVPCNameToId()
         #scaling_configuration_id
         if not (OtcConfig.SCALING_CONFIGURATION_NAME is None):
             autoscaling.convertASConfigurationNameToId()
@@ -256,10 +256,10 @@ class autoscaling(otcpluginbase):
             autoscaling.convertLISTENERNameToId()
         #network_id
         if not OtcConfig.SUBNETNAME is None:
-            ecs.convertSUBNETNameToId()
+            getplugin("ecs").convertSUBNETNameToId()
         #security_group_id
         if not OtcConfig.SECUGROUPNAME is None:
-            ecs.convertSECUGROUPNameToId()
+            getplugin("ecs").convertSECUGROUPNameToId()
         #print(OtcConfig.SECUGROUPNAME)
         #print(OtcConfig.SECUGROUP)		
         REQ_CREATE_SCG=utils_templates.create_request("modify_as_group")               
@@ -268,7 +268,7 @@ class autoscaling(otcpluginbase):
         autoscaling.otcOutputHandler().print_output(ret,mainkey="")
         #print(REQ_CREATE_SCG)		
         return ret 
-		
+
     @staticmethod
     def enable_auto_scaling_policy():
         if not (OtcConfig.SCALING_POLICY_NAME is None):
@@ -331,7 +331,7 @@ class autoscaling(otcpluginbase):
     @staticmethod     
     def delete_auto_scaling_instance_from_group():
         if not OtcConfig.INSTANCE_NAME is None:
-            ecs.convertINSTANCENameToId()            
+            getplugin("ecs").convertINSTANCENameToId()            
         url = "https://" + OtcConfig.DEFAULT_HOST + "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_group_instance/" + OtcConfig.INSTANCE_ID 
         ret = utils_http.delete(url)
         print(ret)
@@ -343,7 +343,7 @@ class autoscaling(otcpluginbase):
     def batch_delete_auto_scaling_configuration():
         if (OtcConfig.SCALING_CONFIGURATION_ID is None) and not (OtcConfig.SCALING_CONFIGURATION_NAME is None):
             autoscaling.convertASConfigurationNameToId()
-			
+
         REQ_DELETE_BATCH_SC=utils_templates.create_request("batch_delete_AS_config")                
         url = "https://" + OtcConfig.DEFAULT_HOST + "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_configurations"
         ret = utils_http.post(url, REQ_DELETE_BATCH_SC)
@@ -358,8 +358,8 @@ class autoscaling(otcpluginbase):
             autoscaling.convertASNameToId()  
         
         if (OtcConfig.INSTANCE_ID is None) and not OtcConfig.INSTANCE_NAME is None:
-            ecs.convertINSTANCENameToId() 			
-        	
+            getplugin("ecs").convertINSTANCENameToId() 			
+
         REQ_BATCH_INST=utils_templates.create_request("batch_remove_add_instance")        
 
         url = "https://" + OtcConfig.DEFAULT_HOST + "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_group_instance/"+ OtcConfig.SCALINGGROUP_ID +"/action"
@@ -394,9 +394,9 @@ class autoscaling(otcpluginbase):
     @staticmethod     
     def create_auto_scaling_configuration():
         if not OtcConfig.INSTANCE_TYPE_NAME is None:
-            ecs.convertFlavorNameToId()
+            getplugin("ecs").convertFlavorNameToId()
         if not OtcConfig.IMAGENAME is None:
-            ecs.convertIMAGENameToId()
+            getplugin("ecs").convertIMAGENameToId()
         REQ_CREATE_SC=utils_templates.create_request("create_as_configuration")     
         #print(REQ_CREATE_SC)
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/autoscaling-api/v1/" + OtcConfig.PROJECT_ID + "/scaling_configuration"
@@ -404,7 +404,6 @@ class autoscaling(otcpluginbase):
         autoscaling.otcOutputHandler().print_output(ret,mainkey="")
         return ret 
 
-		
     @staticmethod
     def delete_launch_configuration():
         raise RuntimeError("NOT IMPLEMENTED!")

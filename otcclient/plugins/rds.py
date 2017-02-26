@@ -9,9 +9,6 @@ from otcclient.utils import utils_http, utils_templates
 
 from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.pluginmanager import getplugin
-import json
-from otcclient.plugins.ecs import ecs
-import os
     
 class rds(otcpluginbase):
     ar = {}    

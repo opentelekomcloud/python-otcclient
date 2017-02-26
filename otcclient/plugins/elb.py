@@ -11,7 +11,7 @@ from otcclient.utils import utils_templates
 from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.pluginmanager import getplugin
 import json
-from otcclient.plugins.ecs import ecs
+
 import os
     
 class elb(otcpluginbase):
@@ -78,7 +78,7 @@ class elb(otcpluginbase):
                
         ret = utils_http.get(url)
         
-        ecs.otcOutputHandler().print_output(ret,mainkey="")
+        elb.otcOutputHandler().print_output(ret,mainkey="")
         return ret
 
 
@@ -92,7 +92,7 @@ class elb(otcpluginbase):
         if OtcConfig.LOADBALANCER_ID:
             url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers" + "/" + OtcConfig.LOADBALANCER_ID
             ret = utils_http.get(url)                       
-            ecs.otcOutputHandler().print_output(ret,mainkey="")
+            elb.otcOutputHandler().print_output(ret,mainkey="")
         else:
             url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers"
             ret = utils_http.get(url) 
@@ -143,7 +143,7 @@ class elb(otcpluginbase):
         if not (OtcConfig.LOADBALANCER_NAME is None):
             elb.convertELBNameToId()
         if not (OtcConfig.VPCNAME is None):
-            ecs.convertVPCNameToId()        
+            getplugin("ecs").convertVPCNameToId()        
         REQ_CREATE_ELB=utils_templates.create_request("create_loadbalancer")
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers"
         ret = utils_http.post(url, REQ_CREATE_ELB)
@@ -163,7 +163,7 @@ class elb(otcpluginbase):
         if not (OtcConfig.LOADBALANCER_NAME is None):
             elb.convertELBNameToId()
         if not (OtcConfig.VPCNAME is None):
-            ecs.convertVPCNameToId()                
+            getplugin("ecs").convertVPCNameToId()                
         
         REQ_CREATE_LISTENER=utils_templates.create_request("create_listener")        
         print (REQ_CREATE_LISTENER)       
@@ -183,9 +183,9 @@ class elb(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/quotas"                           
         ret = utils_http.get(url)
         print( ret )
-        ecs.otcOutputHandler().print_output(ret,mainkey="")
+        elb.otcOutputHandler().print_output(ret,mainkey="")
         return ret
-		
+
 #     @staticmethod
 #     def describe_members():
 #         if not (OtcConfig.LISTENER_NAME is None):
@@ -205,26 +205,27 @@ class elb(otcpluginbase):
         if not (OtcConfig.LISTENER_NAME is None):
             elb.convertLISTENERNameToId()
         if not OtcConfig.INSTANCE_NAME is None:
-            ecs.convertINSTANCENameToId() 
+            getplugin("ecs").convertINSTANCENameToId() 
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners/" + OtcConfig.LISTENER_ID + "/members"       
         REQ_CREATE_BACKEND_MEMBER = utils_templates.create_request("add_backend_member")           
         ret = utils_http.post(url, REQ_CREATE_BACKEND_MEMBER)	
         print(ret)
         return ret		
-		
+    
     @staticmethod 
     def delete_backend_member():
         if not (OtcConfig.LISTENER_NAME is None):
             elb.convertLISTENERNameToId()
         if not OtcConfig.INSTANCE_NAME is None:
-            ecs.convertINSTANCENameToId() 
-			
+            getplugin("ecs").convertINSTANCENameToId() 
+
+
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners/" + OtcConfig.LISTENER_ID + "/members/action"       
 
         REQ_DELETE_BACKEND_MEMBER=utils_templates.create_request("delete_backend_member")        
    
         ret = utils_http.post(url, REQ_DELETE_BACKEND_MEMBER)
-	
+
         print(ret)
         return ret			
 
@@ -246,7 +247,7 @@ class elb(otcpluginbase):
         if not (OtcConfig.LOADBALANCER_NAME is None):
             elb.convertELBNameToId()
         if not (OtcConfig.HEALTHCHECK_ID is None):
-        	elb.convertLISTENERIdToHealthCheckId()
+            elb.convertLISTENERIdToHealthCheckId()
         
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/healthcheck/"  + OtcConfig.HEALTHCHECK_ID              
 
@@ -261,7 +262,7 @@ class elb(otcpluginbase):
         if not (OtcConfig.LOADBALANCER_NAME is None):
             elb.convertELBNameToId()
         if not (OtcConfig.VPCNAME is None):
-            ecs.convertVPCNameToId()        
+            getplugin("ecs").convertVPCNameToId()        
                  
         REQ_MODIFY_ELB=utils_templates.create_request("modify_load_balancer")        
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers/" + OtcConfig.LOADBALANCER_ID
@@ -274,13 +275,13 @@ class elb(otcpluginbase):
             os._exit( 1 )             
         print("created")        
         return ret
-		
+
     @staticmethod 
     def modify_listeners():
         #if not (OtcConfig.LOADBALANCER_NAME is None):
         #    elb.convertELBNameToId()
         #if not (OtcConfig.VPCNAME is None):
-        #    ecs.convertVPCNameToId()                
+        #    getplugin("ecs").convertVPCNameToId()                
         if not (OtcConfig.LISTENER_NAME is None):
             elb.convertLISTENERNameToId()
         
@@ -297,7 +298,7 @@ class elb(otcpluginbase):
         print( ret )
         #ecs.otcOutputHandler().print_output(ret, mainkey="loadbalancer")
         return ret		
-		
+
     @staticmethod
     def delete_listener():
         if not (OtcConfig.LISTENER_NAME is None):
@@ -308,15 +309,14 @@ class elb(otcpluginbase):
 
         print(ret)
         return ret
-		
-		
+
     @staticmethod
     def delete_health_check():
         if not (OtcConfig.LOADBALANCER_NAME is None):
             elb.convertELBNameToId()
         if not (OtcConfig.HEALTHCHECK_ID is None):
-        	elb.convertLISTENERIdToHealthCheckId()
-			
+            elb.convertLISTENERIdToHealthCheckId()
+
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/healthcheck/" + OtcConfig.HEALTHCHECK_ID        
         ret = utils_http.delete(url)
 

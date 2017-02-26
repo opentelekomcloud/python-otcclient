@@ -7,9 +7,6 @@
 import imp
 import os
 import sys
-from otcclient.core.argmanager import funclist, add_to_parser, parserall
-from pprint import pprint
-from otcclient.core.argmanager import parser
 
 sys.path.append('plugins')
 
@@ -36,13 +33,17 @@ def initPlugins():
         location = os.path.abspath(os.path.join(PluginFolder, i))
         
         if os.path.isdir(location) :
-            continue        
-        p = load_from_file(location)
+            # here is the dir base plugin definition
+            if os.path.exists(location + '/' + i + '.py'):    
+                location =  location + '/' + i + '.py'
+            elif os.path.exists(location + '/' + i + '.pyc'):    
+                location =  location + '/' + i + '.pyc'
+            else:
+                continue
+        p = load_from_file(location)    
         if p :
-            name = os.path.splitext(os.path.split(location)[-1])[0]        
+            name = os.path.splitext(os.path.split(location)[-1])[0]
             plugins[name] = p 
-    
-    
     return plugins
 
 def getType(plugintype="func"):

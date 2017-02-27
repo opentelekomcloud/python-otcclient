@@ -6,7 +6,14 @@
 
 import os
 from setuptools import setup
+import platform
 
+data_file= None
+if platform.system() == 'Linux':
+	data_file = ('/usr/local/share/man/man1', ['man/otc.1'])
+elif platform.system() == 'Windows':
+	data_file = ('man/man1', ['man/otc.1'])
+	
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
@@ -47,6 +54,6 @@ setup(name='python-otcclient',
 					'otc = otcclient.shell:main'
 				]
 			},
-			test_suite="tests"
-			,data_files = [('/usr/local/share/man/man1', ['man/otc.1'])]
+			test_suite="tests",
+			data_files=[data_file]
 		)

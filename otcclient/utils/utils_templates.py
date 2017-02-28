@@ -43,9 +43,11 @@ def create_plugin_request(pluginname, template):
     
     
 def automodule():
-    frame = inspect.stack()[2]
-    module = inspect.getmodule(frame[0])
-    return module.__name__.split(".")[-1]
+    #frame = inspect.stack()[2]
+    #module = inspect.getmodule(frame[0])
+    #module.__name__.split(".")[-1]
+    fname = str(inspect.stack()[2][1])
+    return os.path.basename(fname).split(".")[0] 
 
 
 def create_request(template):

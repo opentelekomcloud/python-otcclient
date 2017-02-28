@@ -27,6 +27,17 @@ class ecs(otcpluginbase):
         return "func" 
 
     @staticmethod 
+    @otcfunc(plugin_name=__name__,
+             desc="Describe instances",
+             examples=[
+                       {'Describe instances":"otc ecs describe_instances'},
+                       {'Detailed information of specific VM instance (JSON): otc ecs describe_instances --instance-ids 097da903-ab95-44f3-bb5d-5fc08dfb6cc3 --output json     '}
+                       ],
+             args = [ 
+                       arg(    '--instance-name',     dest='INSTANCE_NAME',     help='Instance name of the VM'),
+                       arg(    '--instance-id',     dest='INSTANCE_ID',     help='Instance ID of the VM')
+
+                ])    
     def describe_instances():  
         url = "https://" + OtcConfig.DEFAULT_HOST +  "/v2/" + OtcConfig.PROJECT_ID + "/servers"
         
@@ -46,7 +57,13 @@ class ecs(otcpluginbase):
 
 
 
-    @staticmethod 
+    @staticmethod  
+    @otcfunc(plugin_name=__name__,
+             desc="List VPCs",
+             examples=[
+                       {'List VPCs":"otc ecs describe_vpcs'}
+                       ]
+             )
     def describe_vpcs():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/vpcs"
         ret = utils_http.get(url)
@@ -54,21 +71,43 @@ class ecs(otcpluginbase):
         return ret
 
 
-    @staticmethod 
+    @staticmethod   
+    @otcfunc(plugin_name=__name__,
+             desc="List addresses",
+             examples=[
+                       {'List addresses":"otc ecs describe_addresses'}
+                       ]
+             )
     def describe_addresses():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/publicips"        
         ret = utils_http.get(url)
         ecs.otcOutputHandler().print_output(ret, mainkey="publicips", listkey={"id", "status", "public_ip_address", "private_ip_address", "type", "create_time", "bandwidth_size"})
         return ret
 
-    @staticmethod 
+    @staticmethod   
+    @otcfunc(plugin_name=__name__,
+             desc="List bandwiths",
+             examples=[
+                       {'List bandwiths":"otc ecs describe_bandwiths'}
+                       ])
     def describe_bandwiths():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/bandwidths"        
         ret = utils_http.get(url)
         ecs.otcOutputHandler().print_output(ret, mainkey="bandwidths", listkey={"id", "name", "publicip_info", "size"})
         return ret
 
-    @staticmethod 
+    @staticmethod   
+    @otcfunc(plugin_name=__name__,
+             desc="List private addresses",
+             examples=[
+                       {'List private addresses":"otc ecs describe_private_addresses --vpc-name myvpc --subnet-name subnettest'}
+                       ],
+             args = [
+                    arg(    '--vpc-id',    dest='VPCID',     help='Id of the VPC will use during VM creation'),    
+                    arg(    '--vpc-name',    dest='VPCNAME',     help='Name of the VPC reference will use during VM creation'),
+                    arg('--subnet-name',    dest='SUBNETNAME',     help='Name of the subnet reference will use during VM creation'),
+                    arg(  '--subnet-id',    dest='SUBNETID',     help='Id of the subnet will use during VM creation')
+                    ])
     def describe_private_addresses():
         if not (OtcConfig.VPCNAME is None):
             ecs.convertVPCNameToId()
@@ -92,7 +131,16 @@ class ecs(otcpluginbase):
 
 
 
-    @staticmethod 
+    @staticmethod  
+    @otcfunc(plugin_name=__name__,
+             desc="List VPCs",
+             examples=[
+                       {'List security groups":"otc ecs describe_security_groups'},
+                       {'List security groups":"otc ecs describe_security_groups --group-names test2'}
+                       ],
+             args = [
+                    arg(    '--group-names',    dest='SECUGROUPNAME',     help='Name of the security group'),
+                    arg(    '--security-group-ids',    dest='SECUGROUP',     help='Id of the security group')             ]) 
     def describe_security_groups():
         if (not (OtcConfig.SECUGROUPNAME is None)) or (not (OtcConfig.SECUGROUP is None)):
 
@@ -108,7 +156,12 @@ class ecs(otcpluginbase):
             ecs.otcOutputHandler().print_output(ret, mainkey= "security_groups", listkey={"id", "name", "vpc_id" })                    
         return ret
 
-    @staticmethod 
+    @staticmethod    
+    @otcfunc(plugin_name=__name__,
+             desc="List subnets",
+             examples=[
+                       {'List subnets":"otc ecs describe_subnets'}
+                       ])
     def describe_subnets():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/subnets"
         ret = utils_http.get(url)
@@ -116,6 +169,15 @@ class ecs(otcpluginbase):
         return ret
 
     @staticmethod 
+    @otcfunc(plugin_name=__name__,
+             desc="Describe network interfaces",
+             examples=[
+                       {'Describe network interfaces":"otc ecs describe_network_interfaces --instance-name testinstance'}
+                       ],
+             args = [ 
+                       arg(    '--instance-name',     dest='INSTANCE_NAME',     help='Instance name of the VM'),
+
+                ])    
     def describe_network_interfaces(): 
         if not OtcConfig.INSTANCE_NAME is None:
             ecs.convertINSTANCENameToId() 
@@ -130,7 +192,12 @@ class ecs(otcpluginbase):
 
 
 
-    @staticmethod       
+    @staticmethod    
+    @otcfunc(plugin_name=__name__,
+             desc="List images",
+             examples=[
+                       {'List images":"otc ecs describe_images'}
+                       ])      
     def describe_images():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/cloudimages"
         ret = utils_http.get(url)
@@ -138,14 +205,24 @@ class ecs(otcpluginbase):
         return ret
 
 
-    @staticmethod 
+    @staticmethod     
+    @otcfunc(plugin_name=__name__,
+             desc="List flavors",
+             examples=[
+                       {'List flavors":"otc ecs describe_flavors'}
+                       ])  
     def describe_flavors():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers/flavors"
         ret = utils_http.get(url)
         ecs.otcOutputHandler().print_output(ret, mainkey="flavors", listkey= {"id", "name", "vcpus", "ram", "disk", "swap"})
         return ret
 
-    @staticmethod 
+    @staticmethod     
+    @otcfunc(plugin_name=__name__,
+             desc="List key-pairs",
+             examples=[
+                       {'List key-pairs":"otc ecs describe_key_pairs'}
+                       ])  
     def describe_key_pairs():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-keypairs"
         ret = utils_http.get( url )    
@@ -154,6 +231,16 @@ class ecs(otcpluginbase):
 
 
     @staticmethod 
+    @otcfunc(plugin_name=__name__,
+             desc="Create key-pairs",
+             examples=[
+                       {"Create key-pairs":"otc dms create_key_pair --key-name testkey --public-key 1234"}                       
+                       ],
+             args = [ 
+                    arg(    '--key-name',     dest='KEYNAME',     help='SSH key name| S3 Object key'),
+                    arg(    '--public-key',     dest='PUBLICKEY',     help='Import public key for SSH keypairs')             
+                ]                
+            )        
     def create_key_pair():
         REQ_CREATE_KEYPAIR = "{ \"keypair\": { \"name\": \"" + OtcConfig.KEYNAME + "\", " + "\"public_key\": \"" + OtcConfig.PUBLICKEY + "\" } }"
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-keypairs"
@@ -167,7 +254,13 @@ class ecs(otcpluginbase):
         return ret
 
 
-    @staticmethod 
+    @staticmethod   
+    @otcfunc(plugin_name=__name__,
+             desc="Allocate address",
+             examples=[
+                       {'Allocate address ":"otc ecs allocate-address'}
+                       ],
+             args = [])   
     def allocate_address():
         REQ_CREATE_PUBLICIP = "{\"publicip\":{\"type\":\"5_bgp\"},\"bandwidth\":{\"name\":\"apiTest\",\"size\":5,\"share_type\":\"PER\",\"charge_mode\":\"traffic\"}}"
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/publicips"
@@ -181,7 +274,15 @@ class ecs(otcpluginbase):
         ecs.otcOutputHandler().print_output(ret, mainkey="publicip")
         return ret
 
-    @staticmethod       
+    @staticmethod   
+    @otcfunc(plugin_name=__name__,
+             desc="Release address",
+             examples=[
+                       {'Release address ":"otc ecs release-address'}
+                       ],
+             args = [
+                    arg(    '--public-ip',    dest='PUBLICIP',     help='Public IP for association')
+                  ])         
     def release_address():
         if not (OtcConfig.PUBLICIP is None):
             ecs.convertPublicIpNameToId()            
@@ -191,7 +292,15 @@ class ecs(otcpluginbase):
         print(ret)
         return ret
 
-    @staticmethod       
+    @staticmethod     
+    @otcfunc(plugin_name=__name__,
+             desc="Release private address",
+             examples=[
+                       {'Release private address ":"otc ecs release-private-address --private-ip-id 097da903-ab95-44f3-bb5d-5fc08dfb6cc3'}
+                       ],
+             args = [
+                    arg(    '--private-ip-id',    dest='PRIVATEIPID',     help='Private IP Id')
+                  ])       
     def release_private_address():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/privateips" + OtcConfig.PRIVATEIPID
         ret = utils_http.delete(url)
@@ -199,7 +308,12 @@ class ecs(otcpluginbase):
         return ret
 
 
-    @staticmethod 
+    @staticmethod    
+    @otcfunc(plugin_name=__name__,
+             desc="Associate address",
+             examples=[
+                       {'Associate address ":"otc ecs associate-address'}
+                       ])
     def associate_address():        
         REQ_ASSOCIATE_PUBLICIP = "{ \"publicip\": { \"port_id\": \"" + OtcConfig.NETWORKINTERFACEID + "\" } }"
         #print REQ_ASSOCIATE_PUBLICIP
@@ -211,7 +325,18 @@ class ecs(otcpluginbase):
         print(ret)
         return ret
 
-    @staticmethod 
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Resize instance",
+             examples=[
+                       {'Resize instance":"otc ecs resize-instance --instance-ids 097da903-ab95-44f3-bb5d-5fc08dfb6cc3 --instance-type testinstancetype'},
+                        {'Resize instance":"otc ecs resize-instance --instance-name testinstance --instance-type testinstancetype'}
+                       ],
+             args = [ 
+                       arg(    '--instance-ids',     dest='INSTANCE_ID',     help='Instance Id of the VM'),
+                       arg(    '--instance-name',     dest='INSTANCE_NAME',     help='Instance name of the VM'),
+                       arg(    '--instance-type',    dest='INSTANCE_TYPE_NAME',     help='Flavor type of the VM')
+                ])    
     def resize_instance():        
         if not OtcConfig.INSTANCE_NAME is None:
             ecs.convertINSTANCENameToId() 
@@ -228,14 +353,22 @@ class ecs(otcpluginbase):
         return ret
 
 
-    @staticmethod       
+    @staticmethod 
+    @otcfunc(plugin_name=__name__,
+             desc="Delete key-pairs",
+             examples=[
+                       {"Delete key-pairs":"otc dms delete-key-pair --key-name testkey"}                       
+                       ],
+             args = [ 
+                    arg(    '--key-name',     dest='KEYNAME',     help='SSH key name| S3 Object key')]
+                    )   
     def delete_key_pair():
         """ generated source for method KEYPAIRDelete """
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-keypairs"+ "/" + OtcConfig.KEYNAME
         ret = utils_http.delete(url )        
         return ret
 
-    @staticmethod 
+    @staticmethod
     def getECSJOBList():
         """ generated source for method getECSJOBList """        
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/jobs/" + OtcConfig.ECSTASKID
@@ -318,16 +451,44 @@ class ecs(otcpluginbase):
 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Start VM instances",
+             examples=[
+                       {'Start VM instance":"otc ecs start-instances --instance-name testinstance '}
+                       ],
+             args = [ 
+                       arg(    '--instance-name',     dest='INSTANCE_NAME',     help='Instance name of the VM'),
+                       arg(    '--instance-ids',     dest='INSTANCE_ID',     help='Instance Id of the VM')
+                ])
     def start_instances():
         OtcConfig.ECSACTION = "os-start"
         ecs.ECSAction()
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Stop VM instances",
+             examples=[
+                       {'Stop VM instance":"otc ecs stop-instances --instance-name testinstance '}
+                       ],
+             args = [ 
+                       arg(    '--instance-name',     dest='INSTANCE_NAME',     help='Instance name of the VM'),
+                       arg(    '--instance-ids',     dest='INSTANCE_ID',     help='Instance Id of the VM')
+					   ])
     def stop_instances():
         OtcConfig.ECSACTION = "os-stop"
         ecs.ECSAction()
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Delete VM instance (public ip + EVS also)",
+             examples=[
+                       {'Delete VM instance (public ip + EVS also)":"otc ecs delete-instances --instance-name testinstance'}
+                       ],
+             args = [ 
+                       arg(    '--instance-name',     dest='INSTANCE_NAME',     help='Instance name of the VM')
+                ])       
+    ### DELETE_PUBLICIP
+    ### DELETE_VOLUME
     def delete_instances():
         if not OtcConfig.INSTANCE_NAME is None:
             ecs.convertINSTANCENameToId() 
@@ -341,6 +502,15 @@ class ecs(otcpluginbase):
         return ret
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Create VPC",
+             examples=[
+                       {'Create VPC": "otc ecs create-vpc --vpc-name testvpc'}
+                       ],
+             args = [ 
+                arg(    '--vpc-name',    dest='VPCNAME',     help='Name of the VPC reference will use during VM creation'),
+                arg(    '--cidr',    dest='CIDR',     help='CIDR of the subnet will use during subnet creation')]
+                )
     def create_vpc():
         REQ_CREATE_VPC = "{ \"vpc\": { \"name\": \"" + OtcConfig.VPCNAME + "\", \"cidr\": \"" + OtcConfig.CIDR + "\" } }"
         
@@ -350,6 +520,16 @@ class ecs(otcpluginbase):
         return ret
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Delete VPC",
+             examples=[
+                       {'Delete VPC":"otc ecs delete-vpc --vpc-name testvpc'}
+                       ],
+             args = [ 
+                arg(    '--vpc-name',    dest='VPCNAME',     help='Name of the VPC reference will use during VM creation'),
+                arg(    '--vpc-id',    dest='VPCID',     help='Id of the VPC will use during VM creation')
+                ]
+                )
     def delete_vpc():
         if not (OtcConfig.VPCNAME is None):
             ecs.convertVPCNameToId()
@@ -360,6 +540,23 @@ class ecs(otcpluginbase):
         return ret
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Create new subnet for VPC",
+             examples=[
+                       {'Create new subnet for VPC":"otc ecs create-subnet --subnet-name subnettest --cidr 192.168.1.0/16 --gateway-ip 192.168.1.2 --primary-dns 8.8.8.8 --secondary-dns 8.8.4.4 --availability-zone eu-de-01 --vpc-name default-vpc '}
+                       ],
+             args = [ 
+                    arg(    '--subnet-name',    dest='SUBNETNAME',     help='Name of the subnet reference will use during VM creation'),
+                    arg(    '--cidr',    dest='CIDR',     help='CIDR of the subnet will use during subnet creation'),
+                    arg('--vpc-name',dest='VPCNAME',     help='Name of the VPC reference will use during VM creation'),
+                    arg(      '--vpc-id',    dest='VPCID',     help='Id of the VPC will use during VM creation'),
+                    arg(    '--gateway-ip',    dest='GWIP',     help='Gateway Ip of the subnet'),
+                    arg(    '--primary-dns',    dest='PRIMARYDNS',     help='Primary dns of the subnet'),
+                    arg(    '--secondary-dns',    dest='SECDNS',     help='Secondary dns of the subnet'),
+                    arg(    '--availability-zone',    dest='AZ',     help='Availability-zone definition')
+
+                    ]
+                )
     def create_subnet():
         if not (OtcConfig.VPCNAME is None):
             ecs.convertVPCNameToId()
@@ -371,6 +568,17 @@ class ecs(otcpluginbase):
         return ret
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Delete subnet",
+             examples=[
+                       {'Delete subnet":"otc ecs delete-subnet --subnet-name testsubnet'}
+                       ],
+             args = [ 
+                    arg(    '--subnet-name',    dest='SUBNETNAME',     help='Name of the subnet reference will use during VM creation'),
+                    arg(    '--subnet-id',    dest='SUBNETID',     help='Id of the subnet will use during VM creation'),
+
+                ]
+                )
     def delete_subnet():
         if OtcConfig.SUBNETNAME:
             ecs.convertSUBNETNameToId()
@@ -382,6 +590,18 @@ class ecs(otcpluginbase):
 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Create new network interface",
+             examples=[
+                       ],
+             args = [ 
+                    arg(    '--instance-name',     dest='INSTANCE_NAME',     help='Instance name of the VM'),
+                    arg(    '--instance-ids',     dest='INSTANCE_ID',     help='Instance Id of the VM'),
+                    arg(    '--subnet-name',    dest='SUBNETNAME',     help='Name of the subnet reference will use during VM creation'),
+                    arg(    '--subnet-id',    dest='SUBNETID',     help='Id of the subnet will use during VM creation'),
+                    arg(    '--group-names',    dest='SECUGROUPNAME',     help='Name of the security group'),
+                    arg(    '--security-group-ids',    dest='SECUGROUP',     help='Id of the security group')
+                    ])
     def create_network_interface():
         if not (OtcConfig.VPCNAME is None):
             ecs.convertVPCNameToId()
@@ -401,6 +621,17 @@ class ecs(otcpluginbase):
         return ret
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Create new security group",
+             examples=[
+                       {'Create new security group":"otc ecs create-security-group --group-names test2 --vpc-name default-vpc'}
+                       ],             
+             args = [ 
+                    arg(    '--vpc-name',    dest='VPCNAME',     help='Name of the VPC reference will use during VM creation'),
+                    arg(      '--vpc-id',    dest='VPCID',     help='Id of the VPC will use during VM creation'),
+                    arg(    '--group-names',    dest='SECUGROUPNAME',     help='Name of the security group'),
+                    arg(    '--security-group-ids',    dest='SECUGROUP',     help='Id of the security group')
+                    ])    
     def create_security_group():
         if not (OtcConfig.VPCNAME is None):
             ecs.convertVPCNameToId()
@@ -411,6 +642,17 @@ class ecs(otcpluginbase):
         return ret
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Delete security group",
+             examples=[
+                       {'Delete security group":"otc ecs delete-security-group --group-names test2 --vpc-name default-vpc'}
+                       ],
+             args = [ 
+                    arg(    '--vpc-name',    dest='VPCNAME',     help='Name of the VPC reference will use during VM creation'),
+                    arg(      '--vpc-id',    dest='VPCID',     help='Id of the VPC will use during VM creation'),
+                    arg(    '--group-names',    dest='SECUGROUPNAME',     help='Name of the security group'),
+                    arg(    '--security-group-ids',    dest='SECUGROUP',     help='Id of the security group')
+                    ])
     def delete_security_group():
         if not (OtcConfig.VPCNAME is None):
             ecs.convertVPCNameToId()
@@ -424,11 +666,49 @@ class ecs(otcpluginbase):
 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Add new incomming rule to security-group",
+             examples=[
+                       {'Add new incomming rule to security-group":"otc ecs authorize-security-group-ingress --group-name test2 --vpc-name default-vpc --protocol tcp --ethertype IPv4 --portmin 22 --portmax 25      '}
+                       ], 
+             args = [ 
+                    arg(    '--vpc-name',    dest='VPCNAME',     help='Name of the VPC reference will use during VM creation'),
+                    arg(      '--vpc-id',    dest='VPCID',     help='Id of the VPC will use during VM creation'),
+                    arg(    '--group-names',    dest='SECUGROUPNAME',     help='Name of the security group'),
+                    arg(    '--security-group-ids',    dest='SECUGROUP',     help='Id of the security group'),
+                    arg(    '--direction',    dest='DIRECTION',     help='Direction of the security group rule'),
+                    arg(    '--portmin',    dest='PORTMIN',     help='Lower por of the specific security group rule'),
+                    arg(    '--portmax',    dest='PORTMAX',     help='Upper  port of the specific security group rule'),
+                    arg(    '--protocol',    dest='PROTOCOL',     help='Protocol of the specific security group rule'),
+                    arg(    '--ethertype',    dest='ETHERTYPE',     help='Ethertype of the specific security group rule'),
+                    arg(    '--cidr',    dest='CIDR',     help='CIDR of the subnet will use during subnet creation'),
+                    arg(    '--source-group-id',    dest='SOURCE_GROUP_ID',     help='Id of Source security group'),
+                    arg(    '--source-group',    dest='SOURCE_GROUP',     help='Name of Source security group')
+                    ])
     def authorize_security_group_ingress():
         OtcConfig.DIRECTION = "ingress"
         ecs._secgrouprulecreate()
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Add new outcomming rule to security-group",
+             examples=[
+                       {'Add new outcomming rule to security-group":"otc ecs authorize-security-group-ingress --group-name test2 --vpc-name default-vpc --protocol tcp --ethertype IPv4 --portmin 22 --portmax 25      '}
+                       ], 
+             args = [ 
+                    arg(    '--vpc-name',    dest='VPCNAME',     help='Name of the VPC reference will use during VM creation'),
+                    arg(      '--vpc-id',    dest='VPCID',     help='Id of the VPC will use during VM creation'),
+                    arg(    '--group-names',    dest='SECUGROUPNAME',     help='Name of the security group'),
+                    arg(    '--security-group-ids',    dest='SECUGROUP',     help='Id of the security group'),
+                    arg(    '--direction',    dest='DIRECTION',     help='Direction of the security group rule'),
+                    arg(    '--portmin',    dest='PORTMIN',     help='Lower por of the specific security group rule'),
+                    arg(    '--portmax',    dest='PORTMAX',     help='Upper  port of the specific security group rule'),
+                    arg(    '--protocol',    dest='PROTOCOL',     help='Protocol of the specific security group rule'),
+                    arg(    '--ethertype',    dest='ETHERTYPE',     help='Ethertype of the specific security group rule'),
+                    arg(    '--cidr',    dest='CIDR',     help='CIDR of the subnet will use during subnet creation'),
+                    arg(    '--source-group-id',    dest='SOURCE_GROUP_ID',     help='Id of Source security group'),
+                    arg(    '--source-group',    dest='SOURCE_GROUP',     help='Name of Source security group')
+                    ])
     def authorize_security_group_egress():
         OtcConfig.DIRECTION = "egress"
         ecs._secgrouprulecreate()
@@ -463,6 +743,41 @@ class ecs(otcpluginbase):
 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Create new VM instance with injected SSH keypair, with public ip, additional file injection, wait instance created and running",
+             examples=[
+                       {'Create new VM instance with injected SSH keypair, with public ip, additional file injection, wait instance created and running":"otc ecs run-instances --count 1  --admin-pass yourpass123! --instance-type c1.medium --instance-name instancename --image-name Standard_CentOS_6.7_latest --subnet-name testsubnet --vpc-name testvpc --group-name testsecgroup  --key-name testsshkeypair --file1 /otc/a=/otc/a --associate-public-ip-address  --wait-instance-running'}
+                       ], 
+             args = [ 
+                    arg(    '--vpc-name',    dest='VPCNAME',     help='Name of the VPC reference will use during VM creation'),
+                    arg(      '--vpc-id',    dest='VPCID',     help='Id of the VPC will use during VM creation'),
+                    arg(    '--group-names',    dest='SECUGROUPNAME',     help='Name of the security group'),
+                    arg(    '--security-group-ids',    dest='SECUGROUP',     help='Id of the security group'),
+                    
+                    arg(    '--subnet-name',    dest='SUBNETNAME',     help='Name of the subnet reference will use during VM creation'),
+                    arg(    '--availability-zone',    dest='AZ',     help='Availability-zone definition'),
+                    arg(    '--size',    dest='VOLUME_SIZE',     help='Size of the EVS disk'),
+                    arg(    '--volume-type',    dest='VOLUME_TYPE',     help='Volume type of the EVS disk [SSD SAS SATA]'),
+                    arg(    '--data-volumes',    dest='DATA_VOLUMES',     help='Attach data volumes while creating ECS(eg: SSD:10,SATA:20)'),
+                    arg(    '--user-data',    dest='USER_DATA_PATH',     help='Path to user-data file which will be used for cloud-init'),
+                    arg( '--instance-type',    dest='INSTANCE_TYPE_NAME',     help='Flavor type of the VM'),
+                    arg( '--image-name',    dest='IMAGENAME',     help='Name of the image reference will used during VM creation'),
+                    arg( '--image-id',    dest='IMAGE_ID',     help='Id of the image reference will use during VM creation'),
+                    arg(    '--instance-name',     dest='INSTANCE_NAME',     help='Instance name of the VM'),
+                    arg(    '--file1',     dest='FILE1',     help='Name of the #1 file to be injected to VM. Format: target=source'),
+                    arg(    '--file2',     dest='FILE2',     help='Name of the #2 file to be injected to VM. Format: target=source'),
+                    arg(    '--file3',    dest='FILE3',     help='Name of the #3 file to be injected to VM. Format: target=source'),
+                    arg(    '--file4',    dest='FILE4',     help='Name of the #4 file to be injected to VM. Format: target=source'),
+                    arg(    '--file5',    dest='FILE5',     help='Name of the #5 file to be injected to VM. Format: target=source'),
+                    arg(  '--subnet-name',    dest='SUBNETNAME',     help='Name of the subnet reference will use during VM creation'),
+                    arg(  '--subnet-id',    dest='SUBNETID',     help='Id of the subnet will use during VM creation'),
+
+
+                    arg(    '--admin-pass',     dest='ADMINPASS',     help='Admin password of the started VM'),
+                    arg('--count',    dest='NUMCOUNT',     help='Number of VM will be created'), 
+                    arg(    '--key-name',     dest='KEYNAME',     help='SSH key name| S3 Object key'),
+                    arg(    '--wait-instance-running',     dest='WAIT_CREATE',     help='Wait instance running (only for run-instance command)')
+                    ])
     def run_instances():
         
         if not OtcConfig.VPCNAME is None:
@@ -547,7 +862,7 @@ class ecs(otcpluginbase):
         print("ECS Creation status: " + OtcConfig.ECSCREATEJOBSTATUS)
         return ret
 
-    @staticmethod
+    @staticmethod    
     def getIamToken():
 #        if OtcConfig.PROJECT_NAME != None: 
 #            project = "\"name\": \"" + OtcConfig.PROJECT_NAME + "\" " 
@@ -700,6 +1015,13 @@ class ecs(otcpluginbase):
         return OtcConfig.SECUGROUP              
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Describe volumes",
+             examples=[
+                       {'Describe volumes":"otc ecs describe_volumes'}
+                       ],
+             args = [ 
+                ])   
     def describe_volumes():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/cloudvolumes"+ "/detail"
         ret = utils_http.get( url )
@@ -707,6 +1029,15 @@ class ecs(otcpluginbase):
         return ret
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="List volumes",
+             examples=[
+                       {'List volumes":"otc ecs list_volumes --instance-name testinstace'}
+                       ],
+             args = [ 
+                       arg(    '--instance-name',     dest='INSTANCE_NAME',     help='Instance name of the VM'),
+
+                ]) 
     def list_volumes():
         if not OtcConfig.INSTANCE_NAME is None:
             ecs.convertINSTANCENameToId() 
@@ -720,6 +1051,20 @@ class ecs(otcpluginbase):
 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Create volume",
+             examples=[
+                       {'Create volume from snapshot":"otc ecs create-volume   --volume-id b197b8af-fe63-465f-97b6-5e5b89exxx --snapshot-id 0c942ff7-454e-xxxx'},
+                        {'Create volume":"otc ecs create-volume   --count 1 --volume-name myvolume  --size 100 --volume-type SATA      Create new Volume [type: SSD,SAS,SATA]'}
+                       ],
+             args = [ 
+                    arg(    '--snapshot-id',    dest='SNAPSHOTID',     help='Snapshot id of the backup'),
+                    arg('--count',    dest='NUMCOUNT',     help='Number of VM will be created'), 
+                    arg(    '--availability-zone',    dest='AZ',     help='Availability-zone definition'),
+                    arg(    '--size',    dest='VOLUME_SIZE',     help='Size of the EVS disk'),
+                    arg(    '--volume-type',    dest='VOLUME_TYPE',     help='Volume type of the EVS disk [SSD SAS SATA]'),
+                    arg(    '--volume-name',    dest='VOLUME_NAME',     help='Volume name of the EVS disk')
+                ]) 
     def create_volume():        
         REQ_CREATE_CLOUDVOLUMES = "{ \"volume\": { \"backup_id\": " + OtcConfig.SNAPSHOTID + ", " + "\"count\": " + OtcConfig.NUMCOUNT + ", \"availability_zone\": \"" + OtcConfig.AZ + "\",\"description\": \"" + OtcConfig.VOLUME_NAME + "\", \"size\": " + OtcConfig.VOLUME_SIZE + ", \"name\": \"" + OtcConfig.VOLUME_NAME + "\", \"imageRef\": " + "null" + ", \"volume_type\": \"" + OtcConfig.VOLUME_TYPE + "\" } }"
         #print REQ_CREATE_CLOUDVOLUMES
@@ -730,6 +1075,15 @@ class ecs(otcpluginbase):
 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Attach volume",
+             examples=[
+                       {'Attach volume":"otc ecs attach-volume   --instance-ids f344b625-6f73-44f8-ad56-9fcb05a523c4 --volume-id 8c0de9a7-9f61-4613-a68a-21f456cb7298'}
+                       ],
+             args = [ 
+                    arg(    '--volume-id',     dest='VOLUME_ID',     help='Volume Id of the EVS volume'),
+                    arg(    '--device',     dest='EVS_DEVICE',     help='Device of the EVS volume')
+                ]) 
     def attach_volume():
         """ generated source for method AttachVolume """        
         REQ_ATTACH_CLOUDVOLUMES = "{ \"volumeAttachment\": { \"volumeId\": \"" + OtcConfig.VOLUME_ID + "\", \"device\": \"" + OtcConfig.EVS_DEVICE + "\" } }"
@@ -740,6 +1094,16 @@ class ecs(otcpluginbase):
 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Detach volume",
+             examples=[
+                       {'Detach volume":"otc ecs detach-volume   --instance-ids f344b625-6f73-44f8-ad56-9fcb05a523c4 --volume-id 8c0de9a7-9f61-4613-a68a-21f456cb7298'}
+                       ],
+             args = [ 
+                    arg(    '--volume-id',     dest='VOLUME_ID',     help='Volume Id of the EVS volume'),
+                    arg(    '--instance-name',     dest='INSTANCE_NAME',     help='Instance name of the VM'),
+                    arg(    '--instance-ids',     dest='INSTANCE_ID',     help='Instance Id of the VM')
+                ]) 
     def detach_volume():
         """ generated source for method DetachVolume """
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers/" + OtcConfig.INSTANCE_ID + "/detachvolume/" + OtcConfig.VOLUME_ID
@@ -748,6 +1112,14 @@ class ecs(otcpluginbase):
         return ret
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Delete volume",
+             examples=[
+                       {'Delete volume":"otc ecs delete-volume --volume-id 8c0de9a7-9f61-4613-a68a-21f456cb7298'}
+                       ],
+             args = [ 
+                    arg(    '--volume-id',     dest='VOLUME_ID',     help='Volume Id of the EVS volume')
+                    ])
     def delete_volume():
         if not OtcConfig.VOLUME_NAME is None:
             ecs.convertVOLUMENameToId() 
@@ -758,6 +1130,13 @@ class ecs(otcpluginbase):
 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Describe quotas",
+             examples=[
+                       {'Describe quotas":"otc ecs describe-quotas'}
+                       ],
+             args = [ 
+                    ])
     def describe_quotas():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers/limits"
         ret = utils_http.get(url)
@@ -766,6 +1145,13 @@ class ecs(otcpluginbase):
 
  
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Describe snapshots",
+             examples=[
+                       {'Describe snapshots":"otc ecs describe-snapshots'}
+                       ],
+             args = [ 
+                    ])
     def describe_snapshots():    
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/backups/detail"
         ret = utils_http.get(url)               
@@ -774,7 +1160,17 @@ class ecs(otcpluginbase):
 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Restore snapshots",
+             examples=[
+                       {'Restore snapshots":"otc ecs restore-snapshot --volume-id b197b8af-fe63-465f-97b6-5e5b89exxx --snapshot-id 0c942ff7-454e-xxxx'}
+                       ],
+             args = [ 
+                    arg(    '--snapshot-id',    dest='SNAPSHOTID',     help='Snapshot id of the  backup'),
+                    arg(    '--volume-id',     dest='VOLUME_ID',     help='Volume Id of the EVS volume'),
+                    arg(    '--volume-name',    dest='VOLUME_NAME',     help='Volume name of the EVS disk')
 
+                    ])
     def restore_snapshot():
         if not OtcConfig.VOLUME_NAME is None:
             ecs.convertVOLUMENameToId() 
@@ -793,6 +1189,14 @@ class ecs(otcpluginbase):
 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Delete snapshot",
+             examples=[
+                       {'Delete snapshot":"otc ecs delete-snapshot --snapshot-id 0c942ff7-454e-xxxx'}
+                       ],
+             args = [ 
+                    arg(    '--snapshot-id',    dest='SNAPSHOTID',     help='Snapshot id of the  backup')
+                    ])
     def delete_snapshot():        
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/cloudbackups"+ "/" + OtcConfig.SNAPSHOTID
         ret = utils_http.post( url , "")
@@ -801,6 +1205,17 @@ class ecs(otcpluginbase):
 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Create snapshot of volume",
+             examples=[
+                       {'Create snapshots of volume":"otc ecs create-snapshot --volume-id b197b8af-fe63-465f-97b6-5e5b89exxx --snapshot-id 0c942ff7-454e-xxxx'}
+                       ],
+             args = [ 
+                    arg(    '--snapshot-id',    dest='SNAPSHOTID',     help='Snapshot id of the  backup'),
+                    arg(    '--volume-id',     dest='VOLUME_ID',     help='Volume Id of the EVS volume'),
+                    arg(    '--volume-name',    dest='VOLUME_NAME',     help='Volume name of the EVS disk'),
+                    arg(    '--description',    dest='DESCRIPTION',     help='Description definition ( eg: backups)')
+                    ])
     def create_snapshot():
         if not OtcConfig.VOLUME_NAME is None:
             ecs.convertVOLUMENameToId() 
@@ -817,7 +1232,13 @@ class ecs(otcpluginbase):
         print (ret)
         return ret
 
-    @staticmethod 
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Describe Availability-zones",
+             examples=[
+                       {'Describe Availability-zones":"otc ecs describe_az'}
+                       ],
+             args = []) 
     def describe_az():         
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-availability-zone/detail"        
         ret = utils_http.get(url)
@@ -827,6 +1248,11 @@ class ecs(otcpluginbase):
 
 
     @staticmethod 
+    @otcfunc(plugin_name=__name__,
+             desc="List types",
+             examples=[
+                       {'List types":"otc ecs types'}
+                       ])
     def types():         
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/types"        
         ret = utils_http.get(url)

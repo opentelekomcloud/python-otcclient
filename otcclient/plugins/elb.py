@@ -15,7 +15,7 @@ import json
 import os
     
 class elb(otcpluginbase):
-    ar = {}    
+    ar = {}
     
     @staticmethod
     def otcOutputHandler(): 
@@ -33,6 +33,12 @@ class elb(otcpluginbase):
         raise RuntimeError("NOT IMPLEMENTED!")
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+         desc="Delete loadbalancers",
+         args = [
+            arg(    '--load-balancer-name',     dest='LOADBALANCER_NAME',     help='Loadbalancer name of the VM'),
+            arg(    '--load-balancer-id',     dest='LOADBALANCER_ID',     help='Loadbalancer Id of the VM') ]
+         ) 
     def delete_load_balancers():        
         if not (OtcConfig.LOADBALANCER_NAME is None):
             elb.convertELBNameToId()            
@@ -43,6 +49,12 @@ class elb(otcpluginbase):
         return ret
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+         desc="Describe listeners",
+         args = [
+            arg(    '--load-balancer-name',     dest='LOADBALANCER_NAME',     help='Loadbalancer name of the VM'),
+            arg(    '--load-balancer-id',     dest='LOADBALANCER_ID',     help='Loadbalancer Id of the VM') ]
+         )
     def describe_listeners():
         if not (OtcConfig.LOADBALANCER_NAME is None):
             elb.convertELBNameToId()
@@ -55,6 +67,12 @@ class elb(otcpluginbase):
         return ret
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+         desc="Describe listeners",
+         args = [
+            arg(    '--load-balancer-name',     dest='LOADBALANCER_NAME',     help='Loadbalancer name of the VM'),
+            arg(    '--load-balancer-id',     dest='LOADBALANCER_ID',     help='Loadbalancer Id of the VM') ]
+         )
     def describe_members():
         if not (OtcConfig.LISTENER_NAME is None):
             elb.convertLISTENERNameToId()
@@ -70,6 +88,13 @@ class elb(otcpluginbase):
 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+         desc="Describe health check",
+         args = [
+            arg(    '--healthcheck-id',     dest='HEALTHCHECK_ID',     help='healthcheck-id'),
+            arg(    '--load-balancer-name',     dest='LOADBALANCER_NAME',     help='Loadbalancer name of the VM'),
+            arg(    '--load-balancer-id',     dest='LOADBALANCER_ID',     help='Loadbalancer Id of the VM') ]
+         )
     def describe_health_check():
         if not (OtcConfig.LOADBALANCER_NAME is None):
             elb.convertELBNameToId()
@@ -84,6 +109,12 @@ class elb(otcpluginbase):
 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+         desc="Describe health check",
+         args = [
+            arg(    '--load-balancer-name',     dest='LOADBALANCER_NAME',     help='Loadbalancer name of the VM'),
+            arg(    '--load-balancer-id',     dest='LOADBALANCER_ID',     help='Loadbalancer Id of the VM') ]
+         )
     def describe_load_balancers():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/loadbalancers"        
         if not (OtcConfig.LOADBALANCER_NAME is None):
@@ -138,7 +169,18 @@ class elb(otcpluginbase):
         ret = OtcConfig.HEALTHCHECK_ID
         return ret   
 
-    @staticmethod 
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+         desc="Create load balancers",
+         args = [
+            arg(    '--vpc-name',    dest='VPCNAME',     help='Name of the VPC reference will use during VM creation'),
+            arg(    '--vpc-id',    dest='VPCID',     help='Id of the VPC will use during VM creation'),
+            arg(    '--description',    dest='DESCRIPTION',     help='Description definition ( eg: backups)'),
+            arg('--bandwidth', dest='BANDWIDTH', help='bandwidth'),      
+            arg(    '--healthcheck-id',     dest='HEALTHCHECK_ID',     help='healthcheck-id'),
+            arg(    '--load-balancer-name',     dest='LOADBALANCER_NAME',     help='Loadbalancer name of the VM')
+            ]
+         ) 
     def create_load_balancers():
         if not (OtcConfig.LOADBALANCER_NAME is None):
             elb.convertELBNameToId()
@@ -157,7 +199,23 @@ class elb(otcpluginbase):
 
 
 
-    @staticmethod 
+    @staticmethod  
+    @otcfunc(plugin_name=__name__,
+         desc="Create listener",
+         args = [
+                    arg(    '--listener-name',     dest='LISTENER_NAME',     help='Listener name of the VM'),
+					arg('--listener-description',     dest='LISTENER_DESCRIPTION',     help='listener-description'),
+                    arg('--listener-port',     dest='LISTENER_PORT',     help='listener-port'),
+                    arg('--backend-port',     dest='BACKEND_PORT',     help='backend-port'),
+                    arg(    '--lb-algorithm',     dest='LB_ALGORITHM',     help='lb-algorithm'),               
+                    arg(    '--protocol',    dest='PROTOCOL',     help='Protocol of the specific security group rule'),
+                    arg(    '--portmin',    dest='PORTMIN',     help='Lower por of the specific security group rule'),
+                    arg( '--listener-description', dest='LISTENER_DESCRIPTION', help='listener-description'),
+                    arg( '--session-sticky', dest='SESSION_STICKY', help='Specifies whether to enable the session persistence function.The value is true or false. The session persistence function is enabled when the value is true, and is disabled when the value is false.'),
+                    arg( '--sticky-session-type', dest='STICKY_SESSION_TYPE', help='Specifies the cookie processing method. The value is insert.insert indicates that the cookie is inserted by the load balancer. This parameter is valid when protocol is set to HTTP, and session_sticky to true. The default value is insert. This parameter is invalid when protocol is set to TCP. That means the parameter is empty.'),
+                    arg( '--cookie-timeout', dest='COOKIE_TIMEOUT', help='Specifies the cookie timeout period (s).The value ranges from 1 to 86,400. This parameter is valid when protocol is set to HTTP, session_sticky to true, and sticky_session_type to insert. This parameter is invalid when protocol is set to TCP.')   
+                    ]
+         )
     def create_listener():
         
         if not (OtcConfig.LOADBALANCER_NAME is None):
@@ -178,7 +236,11 @@ class elb(otcpluginbase):
         #ecs.otcOutputHandler().print_output(ret, mainkey="loadbalancer")
         return ret
 
-    @staticmethod
+    @staticmethod 
+    @otcfunc(plugin_name=__name__,
+             desc="Describe quotas",
+             examples=[ ],
+             args = [ ])  
     def describe_quotas():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/quotas"                           
         ret = utils_http.get(url)
@@ -201,6 +263,14 @@ class elb(otcpluginbase):
 #         return ret
 
     @staticmethod 
+    @otcfunc(plugin_name=__name__,
+             desc="Create backend member",
+             examples=[ ],
+             args = [ 
+                       arg(    '--instance-name',     dest='INSTANCE_NAME',     help='Instance name of the VM'),
+                       arg(    '--listener-name',     dest='LISTENER_NAME',     help='Listener name of the VM'),
+                       arg(    '--address',     dest='ADDRESS',     help='Specifies the private IP address of the backend member')
+                ])    
     def create_backend_member():
         if not (OtcConfig.LISTENER_NAME is None):
             elb.convertLISTENERNameToId()
@@ -208,11 +278,18 @@ class elb(otcpluginbase):
             getplugin("ecs").convertINSTANCENameToId() 
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1.0/" + OtcConfig.PROJECT_ID + "/elbaas/listeners/" + OtcConfig.LISTENER_ID + "/members"       
         REQ_CREATE_BACKEND_MEMBER = utils_templates.create_request("add_backend_member")           
-        ret = utils_http.post(url, REQ_CREATE_BACKEND_MEMBER)	
+        ret = utils_http.post(url, REQ_CREATE_BACKEND_MEMBER)    
         print(ret)
-        return ret		
+        return ret        
     
     @staticmethod 
+    @otcfunc(plugin_name=__name__,
+             desc="Delete backend member",
+             examples=[],
+             args = [ 
+                       arg(    '--instance-name',     dest='INSTANCE_NAME',     help='Instance name of the VM'),
+                       arg(    '--listener-name',     dest='LISTENER_NAME',     help='Listener name of the VM')
+                ])    
     def delete_backend_member():
         if not (OtcConfig.LISTENER_NAME is None):
             elb.convertLISTENERNameToId()
@@ -227,9 +304,22 @@ class elb(otcpluginbase):
         ret = utils_http.post(url, REQ_DELETE_BACKEND_MEMBER)
 
         print(ret)
-        return ret			
+        return ret            
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Create health check",
+             examples=[],
+             args = [ 
+                        arg(    '--listener-name',     dest='LISTENER_NAME',     help='Listener name of the VM'),
+                        arg('--healthcheck-connect-port',dest='HEALTHCHECK_CONNECT_PORT',help='Specifies the port for health check'),
+                        arg(    '--healthcheck-interval',     dest='HEALTHCHECK_INTERVAL',     help='Specifies the maximum interval for health check.The value ranges from 1 to 5(s)'),
+                        arg(    '--healthcheck-protocol',     dest='HEALTHCHECK_PROTOCOL',     help='Specifies the health check protocol.The value can be HTTP or TCP (case-insensitive)'),
+                        arg(    '--healthcheck-timeout',     dest='HEALTHCHECK_TIMEOUT',     help='Specifies the maximum timeout duration for health check. The value ranges from 1 to 50 (s)'),
+                        arg(    '--healthcheck-uri',     dest='HEALTHCHECK_URI',     help='Specifies the URI for health check. The value is a string of 1 to 80 characters that contain only letters'),
+                        arg(    '--healthy-threahold',     dest='HEALTHY_THREAHOLD',     help='Specifies the number of consecutive successful health checks for the health check result changing from fail to success. The value ranges from 1 to 10.'),        
+                        arg(    '--unhealthy-threshold',     dest='UNHEALTHY_THRESHOLD',     help='Specifies the number of consecutive successful health checks for the health check result changing from success to fail. The value ranges from 1 to 10.')             
+                ])      
     def create_health_check():
         if not (OtcConfig.LISTENER_NAME is None):
             elb.convertLISTENERNameToId()
@@ -242,7 +332,20 @@ class elb(otcpluginbase):
         return ret
 
 
-    @staticmethod
+    @staticmethod    
+    @otcfunc(plugin_name=__name__,
+             desc="Create health check",
+             examples=[],
+             args = [ 
+                        arg(    '--listener-name',     dest='LISTENER_NAME',     help='Listener name of the VM'),
+                        arg(    '--healthcheck-connect-port',     dest='HEALTHCHECK_CONNECT_PORT',     help='Specifies the port for health check'),
+                        arg(    '--healthcheck-interval',     dest='HEALTHCHECK_INTERVAL',     help='Specifies the maximum interval for health check.The value ranges from 1 to 5(s)'),
+                        arg(    '--healthcheck-protocol',     dest='HEALTHCHECK_PROTOCOL',     help='Specifies the health check protocol.The value can be HTTP or TCP (case-insensitive)'),
+                        arg(    '--healthcheck-timeout',     dest='HEALTHCHECK_TIMEOUT',     help='Specifies the maximum timeout duration for health check. The value ranges from 1 to 50 (s)'),
+                        arg(    '--healthcheck-uri',     dest='HEALTHCHECK_URI',     help='Specifies the URI for health check. The value is a string of 1 to 80 characters that contain only letters'),
+                        arg(    '--healthy-threahold',     dest='HEALTHY_THREAHOLD',     help='Specifies the number of consecutive successful health checks for the health check result changing from fail to success. The value ranges from 1 to 10.'),        
+                        arg(    '--unhealthy-threshold',     dest='UNHEALTHY_THRESHOLD',     help='Specifies the number of consecutive successful health checks for the health check result changing from success to fail. The value ranges from 1 to 10.')             
+                ])
     def modify_health_check():
         if not (OtcConfig.LOADBALANCER_NAME is None):
             elb.convertELBNameToId()
@@ -257,7 +360,17 @@ class elb(otcpluginbase):
         print(ret)
         return ret
 
-    @staticmethod 
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+         desc="Modify load balancers",
+         args = [
+            arg(    '--vpc-name',    dest='VPCNAME',     help='Name of the VPC reference will use during VM creation'),
+            arg(    '--vpc-id',    dest='VPCID',     help='Id of the VPC will use during VM creation'),
+            arg('--bandwidth', dest='BANDWIDTH', help='bandwidth'),      
+            arg(    '--listener-description',     dest='LISTENER_DESCRIPTION',     help='listener-description'),
+            arg(    '--load-balancer-name',     dest='LOADBALANCER_NAME',     help='Loadbalancer name of the VM')
+            ]
+         )
     def modify_load_balancers():
         if not (OtcConfig.LOADBALANCER_NAME is None):
             elb.convertELBNameToId()
@@ -277,6 +390,15 @@ class elb(otcpluginbase):
         return ret
 
     @staticmethod 
+    @otcfunc(plugin_name=__name__,
+         desc="Modify listener",
+         args = [
+                    arg(    '--listener-name',     dest='LISTENER_NAME',     help='Listener name of the VM'),
+                    arg('--listener-description',     dest='LISTENER_DESCRIPTION',     help='listener-description'),
+                    arg('--listener-port',     dest='LISTENER_PORT',     help='listener-port'),
+                    arg('--backend-port',     dest='BACKEND_PORT',     help='backend-port'),
+                    arg(    '--lb-algorithm',     dest='LB_ALGORITHM',     help='lb-algorithm')                   ]
+         )
     def modify_listeners():
         #if not (OtcConfig.LOADBALANCER_NAME is None):
         #    elb.convertELBNameToId()
@@ -293,13 +415,19 @@ class elb(otcpluginbase):
         maindata = json.loads(ret)
         if "code" in  maindata:            
             print("Can not create:" +maindata["message"])  
-            os._exit( 1 )             
+            os._exit( 1 )              
         
         print( ret )
         #ecs.otcOutputHandler().print_output(ret, mainkey="loadbalancer")
-        return ret		
+        return ret        
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+         desc="Delete listener",
+         args = [
+                    arg(    '--listener-name',     dest='LISTENER_NAME',     help='Listener name of the VM')
+                   ]
+         )
     def delete_listener():
         if not (OtcConfig.LISTENER_NAME is None):
             elb.convertLISTENERNameToId()
@@ -311,6 +439,13 @@ class elb(otcpluginbase):
         return ret
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+         desc="Delete health check",
+         args = [
+            arg(    '--healthcheck-id',     dest='HEALTHCHECK_ID',     help='healthcheck-id'),
+            arg(    '--load-balancer-name',     dest='LOADBALANCER_NAME',     help='Loadbalancer name of the VM'),
+            arg(    '--load-balancer-id',     dest='LOADBALANCER_ID',     help='Loadbalancer Id of the VM') ]
+         )
     def delete_health_check():
         if not (OtcConfig.LOADBALANCER_NAME is None):
             elb.convertELBNameToId()

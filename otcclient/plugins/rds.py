@@ -28,6 +28,13 @@ class rds(otcpluginbase):
 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Description of all DB instances",
+             examples=[
+                       {"List DB instances":"otc rds describe_db_instances"}
+                       ],
+             args = [ ]
+             )
     def describe_db_instances():
         url = "https://" + OtcConfig.DEFAULT_HOST + "/rds/v1/"+ OtcConfig.PROJECT_ID + "/instances"
         ret = utils_http.get(url)

@@ -11,9 +11,9 @@ import inspect
 # plugins/<plugin direcory>/templates/<template_name>.template
 # -------------------------------
 # old style tempalteing
-templateFolder = os.path.join( os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir)) , "templates")
+#templateFolder = os.path.join( os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir)) , "templates")
 # new style tempalteing 
-#templateFolder = os.path.join( os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir)) , "plugins")
+templateFolder = os.path.join( os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir)) , "plugins")
 # -------------------------------
  
 TEMPLATE_ENVIRONMENT = Environment(
@@ -29,9 +29,9 @@ def create_plugin_request(pluginname, template):
     # -----------------------------------------------------------
     # this have to change if using the new plugin arch. NZS
     # new style template handling 
-    #template_file_name = pluginname + "/templates/" + template + '.template'
+    template_file_name = pluginname + "/templates/" + template + '.template'
     # old style template        
-    template_file_name = template+ '.template'
+    #template_file_name = template+ '.template'
     # -----------------------------------------------------------
     if OtcConfig.CLIINPUTJSONFILE: 
         with open(OtcConfig.CLIINPUTJSONFILE, "rb") as _file:

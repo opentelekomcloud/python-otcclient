@@ -5,18 +5,18 @@
 # Copyright (C) 2016 T-systems Kurt Garloff, Zsolt Nagy
 
 import os
-from setuptools import setup
+from setuptools import setup, find_packages
 import platform
-
-data_file= None
-if platform.system() == 'Linux':
-	data_file = ('/usr/local/share/man/man1', ['man/otc.1'])
-elif platform.system() == 'Windows':
-	data_file = ('man/man1', ['man/otc.1'])
 	
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
+man_file= None
+if platform.system() == 'Linux':
+    man_file = ('/usr/local/share/man/man1', ['man/otc.1'])
+elif platform.system() == 'Windows':
+    man_file = ('man/man1', ['man/otc.1'])    
+    
 long_description = (
     read('README.rst')
     + '\n' +
@@ -32,13 +32,9 @@ setup(name='python-otcclient',
 			author='Zsolt Nagy',
 			author_email='Z.Nagy@t-systems.com',
 			license='MIT License',
-			packages=['otcclient','otcclient.utils','otcclient.core','otcclient.plugins','otcclient.bin','otcclient.tests','otcclient.templates'],
-			package_data={
-			   'otcclient.bin': ['*'],     # All files from folder A
-			   'otcclient.tests': ['*'],  #All text files from folder B
-			   'otcclient.templates': ['*']  #All text files from folder B
-			   },
-			# package_dir={'': 'otcclient'},
+			packages=find_packages(),
+            include_package_data=True, 
+
 			keywords="otc, openstack, huawei, cloud, devops, t-systems, s3, obs, containers, docker, rds",
 			classifiers=[
 				"Development Status :: 6 - Mature",
@@ -54,6 +50,6 @@ setup(name='python-otcclient',
 					'otc = otcclient.shell:main'
 				]
 			},
-			test_suite="tests",
-			data_files=[data_file]
+			test_suite="tests"
+            ,data_files=[man_file]
 		)

@@ -11,6 +11,7 @@ from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.pluginmanager import getplugin
 import json
 #from otcclient.plugins.ecs import ecs
+from otcclient.core.argmanager import arg, otcfunc    
     
 class cce(otcpluginbase):
     ar = {}    

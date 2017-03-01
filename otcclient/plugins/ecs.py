@@ -15,6 +15,7 @@ from time import sleep
 import sys
 import json
 import os
+from otcclient.core.argmanager import arg, otcfunc 
     
 class ecs(otcpluginbase):
     ar = {}    

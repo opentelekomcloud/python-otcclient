@@ -13,6 +13,7 @@ from otcclient.core.pluginmanager import getplugin
 
 import json
 
+from otcclient.core.argmanager import arg, otcfunc 
     
 class ims(otcpluginbase):
     ar = {}    
@@ -139,7 +140,14 @@ class ims(otcpluginbase):
                     metavar='image_id',
                     default=None,
                     help='Id of the image reference will use during VM creation'
-                )]
+                ),
+                arg(
+                    '--image-name',
+                    dest='IMAGENAME',
+                    metavar='<image-name>',
+                    default=None,
+                    help='description of the avaliable clusters'
+                ) ]
                 )
     def register_image():
         if not (OtcConfig.IMAGENAME is None):
@@ -161,7 +169,7 @@ class ims(otcpluginbase):
     @otcfunc(plugin_name=__name__,
              desc="Gets image data",
              examples=[
-                       {'Gets image data":"otc ims register_image --image-url testuser:c.qcow2'}
+                       {'Gets image data":"otc ims get_image --image-url testuser:c.qcow2'}
                        ],
              args = [ 
                 arg(
@@ -177,7 +185,14 @@ class ims(otcpluginbase):
                     metavar='image_id',
                     default=None,
                     help='Id of the image reference will use during VM creation'
-                )]
+                ),
+                arg(
+                    '--image-name',
+                    dest='IMAGENAME',
+                    metavar='<image-name>',
+                    default=None,
+                    help='description of the avaliable clusters'
+                ) ]
                 )
     def get_image():
         if not (OtcConfig.IMAGENAME is None):

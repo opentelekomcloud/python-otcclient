@@ -10,6 +10,8 @@ from otcclient.utils import utils_s3
 from otcclient.core.OtcConfig import OtcConfig
 from otcclient.core.pluginmanager import getplugin
 
+from otcclient.core.argmanager import arg, otcfunc 
+
 class s3(otcpluginbase):
     ar = {}
     @staticmethod

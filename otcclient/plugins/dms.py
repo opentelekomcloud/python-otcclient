@@ -10,7 +10,8 @@ from otcclient.utils import utils_http
 
 from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.pluginmanager import getplugin
-    
+from otcclient.core.argmanager import arg, otcfunc 
+
 class dms(otcpluginbase):
     ar = {}    
     

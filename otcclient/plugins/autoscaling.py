@@ -12,7 +12,8 @@ from otcclient.core.pluginmanager import getplugin
 import json
 from otcclient.utils import utils_templates 
 #from otcclient.plugins.ecs import ecs
-    
+from otcclient.core.argmanager import arg, otcfunc    
+	
 class autoscaling(otcpluginbase):
     ar = {}    
     

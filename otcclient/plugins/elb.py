@@ -11,8 +11,8 @@ from otcclient.utils import utils_templates
 from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.pluginmanager import getplugin
 import json
-
 import os
+from otcclient.core.argmanager import arg, otcfunc 
     
 class elb(otcpluginbase):
     ar = {}

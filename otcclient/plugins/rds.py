@@ -9,7 +9,9 @@ from otcclient.utils import utils_http, utils_templates
 
 from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.pluginmanager import getplugin
-    
+   
+from otcclient.core.argmanager import arg, otcfunc 
+ 
 class rds(otcpluginbase):
     ar = {}    
     

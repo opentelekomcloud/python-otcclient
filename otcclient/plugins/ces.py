@@ -14,6 +14,8 @@ from otcclient.utils import utils_http
 from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.pluginmanager import getplugin
 import json
+from otcclient.core.argmanager import arg, otcfunc 
+
 
 class ces(otcpluginbase):
     ar = {}    

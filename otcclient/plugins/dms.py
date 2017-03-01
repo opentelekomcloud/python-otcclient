@@ -10,7 +10,8 @@ from otcclient.utils import utils_http
 
 from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.pluginmanager import getplugin
-    
+from otcclient.core.argmanager import arg, otcfunc 
+
 class dms(otcpluginbase):
     ar = {}    
     
@@ -23,6 +24,13 @@ class dms(otcpluginbase):
 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+            desc="Description of all the queues",
+            examples=[
+                       {"List queues":"otc dms describe_queues"}                       
+                       ],
+            args = [ ]
+             )    
     def describe_queues():
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.0/" + OtcConfig.PROJECT_ID +  "/queues"    
         ret = utils_http.get(url)

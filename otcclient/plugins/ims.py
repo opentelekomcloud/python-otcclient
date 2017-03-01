@@ -13,6 +13,7 @@ from otcclient.core.pluginmanager import getplugin
 
 import json
 
+from otcclient.core.argmanager import arg, otcfunc 
     
 class ims(otcpluginbase):
     ar = {}    
@@ -31,6 +32,79 @@ class ims(otcpluginbase):
         ims.create_image_metadata()
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Creates image metadata",
+             examples=[
+                       {'Creates image metadata":"otc ims create_image_metadata  --image-name testimagenzs --os-version "Ubuntu 14.04 server 64bit" --container-format bare --disk-format raw --min-disk 1 --min-ram 1024 --tags "test,image" --visibility private --protected false'}
+                       ],
+             args = [ 
+                arg(
+                    '--os-version',
+                    dest='OS_VERSION',
+                    metavar='__os_version',
+                    default='Other Linux(64 bit)',
+                    help='Specifies the image OS version, if this  is not specified, the value will be set to Other Linux(64 bit)'
+                )
+                ,
+                arg(
+                    '--container-format',
+                    dest='CONTAINTER_FORMAT',
+                    metavar='container_format' ,
+                    default=None,
+                    help='Container format used during image creation'
+                )                                            
+                ,
+                arg(
+                    '--disk_format',
+                    dest='DISK_FORMAT',
+                    metavar='<disk_format>',
+                    default=None,
+                    help='Disk format used during image creation'
+                )                           ,
+                arg(
+                    '--min_disk',
+                    dest='MIN_DISK',
+                    metavar='<min_disk>',
+                    default=None,
+                    help='Min disk used during image creation'
+                )                           ,
+                arg(
+                    '--min_ram',
+                    dest='MIN_RAM',
+                    metavar='<min_ram>',
+                    default=None,
+                    help='Min ram used during image creation'
+                )                           ,
+                arg(
+                    '--image-name',
+                    dest='IMAGENAME',
+                    metavar='<image-name>',
+                    default=None,
+                    help='description of the avaliable clusters'
+                )                           ,
+                arg(
+                    '--tags',
+                    dest='TAG_LIST',
+                    metavar='<tags>',
+                    default=None,
+                    help='Tags of the image will used during Image creation'
+                )                           ,
+                arg(
+                    '--visibility',
+                    dest='IMAGE_VISIBILITY',
+                    metavar='<visibility>',
+                    default=None,
+                    help='Image visibility used during image creation'
+                )                           ,
+                arg(
+                    '--protected   ',
+                    dest='PROTECTED',
+                    metavar='<protected>',
+                    default=None,
+                    help='Protected status of  image used during VM creation'
+                )
+                ]                
+             )    
     def create_image_metadata():
                 
         # image id filled until now 
@@ -47,6 +121,34 @@ class ims(otcpluginbase):
         return ret
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Registers image",
+             examples=[
+                       {'Registers image":"otc ims register_image --image-url testuser:c.qcow2'}
+                       ],
+             args = [ 
+                arg(
+                    '--image-url',
+                    dest='IMAGE_URL',
+                    metavar='image_url',
+                    default=None,
+                    help='Url of the image used during Image creation'
+                ),
+                arg(
+                    '--image-id',
+                    dest='IMAGE_ID',
+                    metavar='image_id',
+                    default=None,
+                    help='Id of the image reference will use during VM creation'
+                ),
+                arg(
+                    '--image-name',
+                    dest='IMAGENAME',
+                    metavar='<image-name>',
+                    default=None,
+                    help='description of the avaliable clusters'
+                ) ]
+                )
     def register_image():
         if not (OtcConfig.IMAGENAME is None):
             getplugin("ecs").convertIMAGENameToId()
@@ -64,6 +166,34 @@ class ims(otcpluginbase):
         return ret
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Gets image data",
+             examples=[
+                       {'Gets image data":"otc ims get_image --image-url testuser:c.qcow2'}
+                       ],
+             args = [ 
+                arg(
+                    '--image-url',
+                    dest='IMAGE_URL',
+                    metavar='image_url',
+                    default=None,
+                    help='Url of the image used during Image creation'
+                ),
+                arg(
+                    '--image-id',
+                    dest='IMAGE_ID',
+                    metavar='image_id',
+                    default=None,
+                    help='Id of the image reference will use during VM creation'
+                ),
+                arg(
+                    '--image-name',
+                    dest='IMAGENAME',
+                    metavar='<image-name>',
+                    default=None,
+                    help='description of the avaliable clusters'
+                ) ]
+                )
     def get_image():
         if not (OtcConfig.IMAGENAME is None):
             getplugin("ecs").convertIMAGENameToId()
@@ -82,6 +212,85 @@ class ims(otcpluginbase):
 
 
     @staticmethod
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Creates image",
+             examples=[
+                       {'Creates image":"otc ims create_image --image-url testuser:c.qcow2 --image-name testimagenzs --os-version "Ubuntu 14.04 server 64bit" --container-format bare --disk-format raw --min-disk 1 --min-ram 1024 --tags "test,image" --visibility private --protected false'}
+                       ],
+             args = [ 
+                arg(
+                    '--os-version',
+                    dest='OS_VERSION',
+                    metavar='__os_version',
+                    default='Other Linux(64 bit)',
+                    help='Specifies the image OS version, if this  is not specified, the value will be set to Other Linux(64 bit)'
+                )
+                ,
+                arg(
+                    '--container-format',
+                    dest='CONTAINTER_FORMAT',
+                    metavar='container_format' ,
+                    default=None,
+                    help='Container format used during image creation'
+                ),
+                arg(
+                    '--disk_format',
+                    dest='DISK_FORMAT',
+                    metavar='<disk_format>',
+                    default=None,
+                    help='Disk format used during image creation'
+                )                           ,
+                arg(
+                    '--min_disk',
+                    dest='MIN_DISK',
+                    metavar='<min_disk>',
+                    default=None,
+                    help='Min disk used during image creation'
+                )                           ,
+                arg(
+                    '--min_ram',
+                    dest='MIN_RAM',
+                    metavar='<min_ram>',
+                    default=None,
+                    help='Min ram used during image creation'
+                )                           ,
+                arg(
+                    '--image-name',
+                    dest='IMAGENAME',
+                    metavar='<image-name>',
+                    default=None,
+                    help='description of the avaliable clusters'
+                )                           ,
+                arg(
+                    '--tags',
+                    dest='TAG_LIST',
+                    metavar='<tags>',
+                    default=None,
+                    help='Tags of the image will used during Image creation'
+                )                           ,
+                arg(
+                    '--visibility',
+                    dest='IMAGE_VISIBILITY',
+                    metavar='<visibility>',
+                    default=None,
+                    help='Image visibility used during image creation'
+                )                           ,
+                arg(
+                    '--protected   ',
+                    dest='PROTECTED',
+                    metavar='<protected>',
+                    default=None,
+                    help='Protected status of  image used during VM creation'
+                ),
+                arg(
+                    '--image-url',
+                    dest='IMAGE_URL',
+                    metavar='image_url',
+                    default=None,
+                    help='Url of the image used during Image creation'
+                )]
+                )     
     def create_image():        
         ims.create_image_metadata()        
         ret = ims.register_image()        

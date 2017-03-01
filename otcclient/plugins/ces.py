@@ -14,6 +14,8 @@ from otcclient.utils import utils_http
 from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.pluginmanager import getplugin
 import json
+from otcclient.core.argmanager import arg, otcfunc 
+
 
 class ces(otcpluginbase):
     ar = {}    
@@ -27,6 +29,10 @@ class ces(otcpluginbase):
 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+         desc="Describe alarms",
+         args = [ arg(    '--alarm-name',     dest='ALARM_NAME',     help='Alarm name') ]
+         ) 
     def describe_alarms():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/V1.0/" + OtcConfig.PROJECT_ID + "/alarms"
         if not (OtcConfig.ALARM_NAME is None):
@@ -40,6 +46,10 @@ class ces(otcpluginbase):
         return ret
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+         desc="List metric",
+         args = [ ]
+         ) 
     def list_metrics():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/V1.0/" + OtcConfig.PROJECT_ID + "/metrics"                           
         ret = utils_http.get(url)
@@ -47,6 +57,10 @@ class ces(otcpluginbase):
         return ret
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+         desc="List favourite metric",
+         args = [ ]
+         ) 
     def list_favorite_metrics():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/V1.0/" + OtcConfig.PROJECT_ID + "/favorite-metrics"                           
         ret = utils_http.get(url)
@@ -54,6 +68,10 @@ class ces(otcpluginbase):
         return ret
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+         desc="List metric",
+         args = [ ]
+         ) 
     def list_metric_data():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/V1.0/" + OtcConfig.PROJECT_ID + "/metric-data?namespace=SYS.ECS&metric_name=cpu_util&dim.0=instance_id,092cebda-839b-42f5-8819-8b440a48cac2&from=1442347449274&to=1442390649274&period=1200&filter=min"                           
         ret = utils_http.get(url)
@@ -62,6 +80,10 @@ class ces(otcpluginbase):
 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+         desc="Describ metric",
+         args = [ ]
+         )     
     def describe_metric():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/V1.0/" + OtcConfig.PROJECT_ID + "/metrics?namespace=SYS.ECS&metric_name=cpu_util&dim.0=instance_id,fc1a4d7f-44ea-4035-9e55-e29743252617&limit=10&order=desc"                           
         ret = utils_http.get(url)
@@ -72,6 +94,10 @@ class ces(otcpluginbase):
 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+         desc="Describ quotas",
+         args = [ ]
+         ) 
     def describe_quotas():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/V1.0/" + OtcConfig.PROJECT_ID + "/quotas"                           
         ret = utils_http.get(url)

@@ -10,6 +10,8 @@ from otcclient.utils import utils_s3
 from otcclient.core.OtcConfig import OtcConfig
 from otcclient.core.pluginmanager import getplugin
 
+from otcclient.core.argmanager import arg, otcfunc 
+
 class s3(otcpluginbase):
     ar = {}
     @staticmethod
@@ -30,6 +32,16 @@ class s3(otcpluginbase):
         return s3bucket, s3dir
     
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Create bucket",
+             examples=[
+                       {"List Buckets":"otc s3 ls"}, 
+                       {"List Bucket files":"otc s3 ls mybucket"}
+                       ],     
+             args = [ 
+                        arg(    '',    dest='SUBCOM_P1',     help='[optional Source/Target OBS directory]',metavar="Source/Target DIR")
+                ]                
+             )     
     def ls():        
         if OtcConfig.SUBCOM_P1 is None:   
             buckets = utils_s3.ls_buckets()            
@@ -40,22 +52,46 @@ class s3(otcpluginbase):
             s3.otcOutputHandler().print_output(buckets, mainkey = "", listkey={"Key","Size","LastModified"})
                 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Create bucket",
+             args = [ 
+                        arg(    '',    dest='SUBCOM_P1',     help='[optional Source/Target OBS directory]',metavar="Source/Target DIR")
+                ]                
+             )      
     def mb():
         s3bucket= s3.parse_bucket_uri(OtcConfig.SUBCOM_P1)[0]
         utils_s3.create_bucket(Bucket=s3bucket)
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Delete bucket",
+             args = [ 
+                        arg(    '',    dest='SUBCOM_P1',     help='[optional Source/Target OBS directory]',metavar="Source/Target DIR")
+                ]                
+             )      
     def rb():
         s3bucket = s3.parse_bucket_uri(OtcConfig.SUBCOM_P1)[0]
         utils_s3.delete_bucket(Bucket=s3bucket) 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Remove object",
+             args = [ 
+                        arg(    '',    dest='SUBCOM_P1',     help='[optional Source/Target OBS directory]',metavar="Source/Target DIR")
+                ]                
+             )  
     def rm():
         s3bucket, s3dir = s3.parse_bucket_uri(OtcConfig.SUBCOM_P1)
         utils_s3.delete_object(Bucket=s3bucket,Prefix=s3dir) 
 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Get Bucket versions",
+             args = [ 
+                        arg(    '',    dest='SUBCOM_P1',     help='[optional Source/Target OBS directory]',metavar="Source/Target DIR")
+                ]                
+             )  
     def get_bucket_versioning():
         s3bucket, s3dir = s3.parse_bucket_uri(OtcConfig.SUBCOM_P1)            # @UnusedVariable
         ver = utils_s3.get_bucket_versioning(Bucket=s3bucket,Prefix=s3dir)
@@ -63,12 +99,30 @@ class s3(otcpluginbase):
         s3.otcOutputHandler().print_output(ver, mainkey = "", listkey={"Key","Size","LastModified"}) 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="List Bucket file versions",
+             args = [ 
+                        arg(    '',    dest='SUBCOM_P1',     help='[optional Source/Target OBS directory]',metavar="Source/Target DIR")
+                ]                
+             )    
     def list_object_versions():
         s3bucket, s3dir = s3.parse_bucket_uri(OtcConfig.SUBCOM_P1)            # @UnusedVariable
         ver = utils_s3.list_object_versions(Bucket=s3bucket,Prefix=s3dir)
         s3.otcOutputHandler().print_output(ver, mainkey = "", listkey={"Key","Size","LastModified"}) 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Download / Upload file / directory to bucket",
+             examples=[
+                       {"Download from bucket to local":"otc s3 cp s3://bucketname/filename.txt /localdir/filename.txt"}, 
+                       {"Upload file / directory to bucket":"otc s3 cp /localdir/filename.txt s3://bucketname/filename.txt"}
+                       ],
+             args = [ 
+                        arg(    '--recursive',    dest='S3RECURSIVE',     help='S3 recursive operation'),
+                        arg(    '',    dest='SUBCOM_P1',     help='[optional Source/Target OBS directory]',metavar="Source/Target DIR"),    
+                        arg(    '',    dest='SUBCOM_P2',     help='[optional Source/Target OBS directory]', metavar="Source/Target DIR")    
+                ]                
+             )   
     def cp():        
         if( OtcConfig.SUBCOM_P1 is None or OtcConfig.SUBCOM_P2 is None):         
             raise RuntimeError("S3 Copy error. Please add s3 params correctly.")

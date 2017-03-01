@@ -9,7 +9,9 @@ from otcclient.utils import utils_http, utils_templates
 
 from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.pluginmanager import getplugin
-    
+   
+from otcclient.core.argmanager import arg, otcfunc 
+ 
 class rds(otcpluginbase):
     ar = {}    
     
@@ -28,6 +30,13 @@ class rds(otcpluginbase):
 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Description of all DB instances",
+             examples=[
+                       {"List DB instances":"otc rds describe_db_instances"}
+                       ],
+             args = [ ]
+             )
     def describe_db_instances():
         url = "https://" + OtcConfig.DEFAULT_HOST + "/rds/v1/"+ OtcConfig.PROJECT_ID + "/instances"
         ret = utils_http.get(url)

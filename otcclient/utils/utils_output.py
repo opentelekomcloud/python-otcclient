@@ -114,12 +114,18 @@ def printShortHelp():
     print("usage: otc [-h] [-V] [-d] [--configure [{user,proxy}]] <plugin name> <command>")
     print("Available plugin commands:")
     
-    for i in get_help_iter():
-        print("    "+ i["plugin_name"] + " " + i["func_name"])
+    tempdic = {} 
+    for i in get_help_iter():    
+        if not tempdic.get(i["plugin_name"] ): 
+            tempdic.update( { i["plugin_name"]: [] })  
+        tempdic[i["plugin_name"]].append( i["func_name"] )
     
-    indent = len("otc") * " "
-    sys.stderr.write("otc" + ": " + "\n")
-    sys.stderr.write(indent + "  for help use --help\n")
+    
+    for i,j in tempdic.items():
+        print i,j
+#    indent = len("otc") * " "
+#   sys.stderr.write("otc" + ": " + "\n")
+#   sys.stderr.write(indent + "  for help use --help\n")
         
     print("More information: ")        
     print("    otc --help")

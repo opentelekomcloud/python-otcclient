@@ -16,6 +16,7 @@ if platform.system() == 'Linux':
     man_file = ('/usr/local/share/man/man1', ['man/otc.1'])
 elif platform.system() == 'Windows':
     man_file = ('man/man1', ['man/otc.1'])    
+   
     
 long_description = (
     read('README.rst')
@@ -34,7 +35,9 @@ setup(name='python-otcclient',
 			license='MIT License',
 			packages=find_packages(),
             include_package_data=True, 
-
+            package_data={
+                '': ['*.template']
+                },
 			keywords="otc, openstack, huawei, cloud, devops, t-systems, s3, obs, containers, docker, rds",
 			classifiers=[
 				"Development Status :: 6 - Mature",

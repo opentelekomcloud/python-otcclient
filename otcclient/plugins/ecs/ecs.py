@@ -374,6 +374,8 @@ class ecs(otcpluginbase):
         """ generated source for method getECSJOBList """        
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/jobs/" + OtcConfig.ECSTASKID
         ret = utils_http.get(url)
+        if OtcConfig.DEBUG:
+            print ret
         newstatus = str( json.loads(ret)["status"]).upper()
         if newstatus != OtcConfig.ECSCREATEJOBSTATUS:
             sys.stdout.write( "\n" + newstatus )
@@ -846,7 +848,8 @@ class ecs(otcpluginbase):
         #print REQ_CREATE_VM
         ret = utils_http.post(url, REQ_CREATE_VM)       
         #print (ret)  
-
+        if OtcConfig.DEBUG:
+            print ret
         OtcConfig.ECSTASKID  = json.loads(ret)["job_id"]
 
         if OtcConfig.WAIT_CREATE:

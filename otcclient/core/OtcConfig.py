@@ -92,6 +92,7 @@ class OtcConfig(object):
     VOLUME_SIZE = int()
     VOLUME_TYPE = str()
     VOLUME_NAME = None
+    DATA_VOLUMES = None
     VOLUME_ID = None
     ATTACHMENT_ID = str()
     EVS_DEVICE = str()
@@ -352,6 +353,8 @@ class OtcConfig(object):
         self.VOLUME_SIZE = parser.VOLUME_SIZE                                   if parser.VOLUME_SIZE else str()
         self.VOLUME_TYPE = parser.VOLUME_TYPE                                   if parser.VOLUME_TYPE else None
         self.VOLUME_NAME = parser.VOLUME_NAME                                   if parser.VOLUME_NAME else None
+        self.DATA_VOLUMES = parser.DATA_VOLUMES                                   if parser.DATA_VOLUMES else None
+        
         self.VOLUME_ID = parser.VOLUME_ID                                       if parser.VOLUME_ID else None
         self.ATTACHMENT_ID = parser.ATTACHMENT_ID                               if parser.ATTACHMENT_ID else str()
         self.EVS_DEVICE = parser.EVS_DEVICE                                     if parser.EVS_DEVICE else str()

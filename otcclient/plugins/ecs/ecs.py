@@ -662,9 +662,11 @@ class ecs(otcpluginbase):
 
         if not (OtcConfig.SECUGROUPNAME is None):
             ecs.convertSECUGROUPNameToId()
-        
-        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2.0/security-groups" + "/"+ OtcConfig.SECUGROUP
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2.0" + "/security-groups" + "/"+ OtcConfig.SECUGROUP
         ret = utils_http.delete(url)
+        if OtcConfig.DEBUG:
+            print(url)
+            print(ret)        
         return ret
 
 

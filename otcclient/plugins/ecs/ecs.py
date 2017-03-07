@@ -632,16 +632,16 @@ class ecs(otcpluginbase):
              args = [ 
                     arg(    '--vpc-name',    dest='VPCNAME',     help='Name of the VPC reference will use during VM creation'),
                     arg(      '--vpc-id',    dest='VPCID',     help='Id of the VPC will use during VM creation'),
-                    arg(    '--group-names',    dest='SECUGROUPNAME',     help='Name of the security group'),
-                    arg(    '--security-group-ids',    dest='SECUGROUP',     help='Id of the security group')
+                    arg(    '--group-names',    dest='SECUGROUPNAME',     help='Name of the security group')
                     ])    
     def create_security_group():
         if not (OtcConfig.VPCNAME is None):
             ecs.convertVPCNameToId()
         
-        REQ_CREATE_SECGROUP = "{ \"security_group\": { \"name\":\"" + OtcConfig.SECUGROUPNAME + "\", \"vpc_id\" : \"" + OtcConfig.VPCID + "\" } }"
-        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/security-groups"
-        ret = utils_http.post(url, REQ_CREATE_SECGROUP)
+        req = utils_templates.create_request("add_sg")
+      
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-security-groups"
+        ret = utils_http.post(url, req)
         return ret
 
     @staticmethod

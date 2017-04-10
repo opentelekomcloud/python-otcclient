@@ -1,0 +1,12 @@
+{
+    "subnet": {
+        "name": "{{SUBNETNAME}}",
+        "cidr": "{{CIDR}}",
+        "gateway_ip": "{{GWIP}}",
+        "dhcp_enable": "true",
+        "primary_dns": "{{PRIMARYDNS}}",
+        "secondary_dns": "{{SECDNS}}",
+        "availability_zone": "{{AZ}}",
+        "vpc_id": "{{VPCID}}"
+    }
+}

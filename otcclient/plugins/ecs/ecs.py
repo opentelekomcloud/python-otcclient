@@ -419,21 +419,21 @@ class ecs(otcpluginbase):
             ar =  str(OtcConfig.FILE3).split("=")
             if len(FILECOLLECTIONJSON) > 0:
                 FILEJSONITEM = ","
-            FILEJSONITEM = ecs.getFileContentJSON(ar[1], ar[0])
+            FILEJSONITEM = FILEJSONITEM + ecs.getFileContentJSON(ar[1], ar[0])
         FILECOLLECTIONJSON = FILECOLLECTIONJSON + FILEJSONITEM
         FILEJSONITEM = ""
         if not OtcConfig.FILE4 is None:
             ar =  str(OtcConfig.FILE4).split("=")
             if len(FILECOLLECTIONJSON) > 0:
                 FILEJSONITEM = ","
-            FILEJSONITEM = ecs.getFileContentJSON(ar[1], ar[0])
+            FILEJSONITEM = FILEJSONITEM + ecs.getFileContentJSON(ar[1], ar[0])
         FILECOLLECTIONJSON = FILECOLLECTIONJSON + FILEJSONITEM
         FILEJSONITEM = ""
         if not OtcConfig.FILE5 is None:
             ar =  str(OtcConfig.FILE5).split("=")
             if len(FILECOLLECTIONJSON) > 0:
                 FILEJSONITEM = ","
-            FILEJSONITEM = ecs.getFileContentJSON(ar[1], ar[0])
+            FILEJSONITEM = FILEJSONITEM + ecs.getFileContentJSON(ar[1], ar[0])
         FILECOLLECTIONJSON = FILECOLLECTIONJSON + FILEJSONITEM
         PERSONALIZATION = ""
         if len(FILECOLLECTIONJSON) > 0:

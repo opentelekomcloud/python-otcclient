@@ -99,8 +99,14 @@ class configloader(object):
             OtcConfig.PROJECT_ID = Config.get("otc", "project_id", "") 
         else:
             OtcConfig.PROJECT_ID = str()
+
+        if(OtcConfig.DOMAIN is None):
+            OtcConfig.DOMAIN = Config.get("otc", "domain")                                    
+        
         if(OtcConfig.DOMAIN is None):
             OtcConfig.DOMAIN = str(OtcConfig.USERNAME).split(' ')[1]                                    
+
+            
 
     @staticmethod
     def persistProxyValues():
@@ -128,6 +134,7 @@ class configloader(object):
         Config.set('otc', "otc_secret_access_key", OtcConfig.sk)
         Config.set('otc', "username", OtcConfig.USERNAME)
         Config.set('otc', "apikey", OtcConfig.PASSWORD)
+        Config.set('otc', "domain", OtcConfig.DOMAIN)
         oldmask = os.umask(0o600);
         with open(OtcConfig.OTC_USER_FILE, 'w+') as cfgfile:
             try:

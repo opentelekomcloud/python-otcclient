@@ -15,7 +15,9 @@ from time import sleep
 import sys
 import json
 import os
-from otcclient.core.argmanager import arg, otcfunc 
+from otcclient.core.argmanager import arg, otcfunc
+
+ 
     
 class ecs(otcpluginbase):
     ar = {}    
@@ -564,9 +566,10 @@ class ecs(otcpluginbase):
         if not (OtcConfig.VPCNAME is None):
             ecs.convertVPCNameToId()
             
-        REQ_CREATE_SUBNET = "{ \"subnet\": { \"name\": \"" + OtcConfig.SUBNETNAME + "\", \"cidr\": \"" + OtcConfig.CIDR + "\", \"gateway_ip\": \"" + OtcConfig.GWIP + "\", \"dhcp_enable\": \"true\", \"primary_dns\": \"" + OtcConfig.PRIMARYDNS + "\", \"secondary_dns\": \"" + OtcConfig.SECDNS + "\", \"availability_zone\":\"" + OtcConfig.AZ + "\", \"vpc_id\":\"" + OtcConfig.VPCID + "\" } }"
-        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/subnets"
-        ret = utils_http.post(url, REQ_CREATE_SUBNET)
+        #REQ_CREATE_SUBNET = "{ \"subnet\": { \"name\": \"" + OtcConfig.SUBNETNAME + "\", \"cidr\": \"" + OtcConfig.CIDR + "\", \"gateway_ip\": \"" + OtcConfig.GWIP + "\", \"dhcp_enable\": \"true\", \"primary_dns\": \"" + OtcConfig.PRIMARYDNS + "\", \"secondary_dns\": \"" + OtcConfig.SECDNS + "\", \"availability_zone\":\"" + OtcConfig.AZ + "\", \"vpc_id\":\"" + OtcConfig.VPCID + "\" } }"
+        req = utils_templates.create_request("create_subnet")
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/subnets"        
+        ret = utils_http.post(url, req)
         print(ret)
         return ret
 
@@ -1261,3 +1264,4 @@ class ecs(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/types"        
         ret = utils_http.get(url)
         print (ret)
+    

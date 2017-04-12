@@ -62,21 +62,26 @@ class userconfigaction(argparse.Action):
                 os._exit(0)
                 
             
-        except Exception :
+        except Exception as e:        
+            if OtcConfig.DEBUG:
+                print e
             print("Configuration error. \nDefine ENV variables or run following command: \n    otc --configure [user | proxy]")            #raise
             os._exit(1)        
 
     @classmethod
     def getProxyKeys(cls):        
         OtcConfig.PROXY_URL = cls.getUserTypedValue("Enter a proxy host:", -1)
-        OtcConfig.PROXY_PORT = int(cls.getUserTypedValue("Enter a proxy port:", 4))
+        OtcConfig.PROXY_PORT = int(cls.getUserTypedValue("Enter a proxy port:", -1))
         
 
     @staticmethod
     def getAuthKeys():
-        OtcConfig.USERNAME = userconfigaction.getUserTypedValue("Enter a Username:", 32)
-        OtcConfig.PASSWORD = userconfigaction.getUserTypedValue("Enter a API Key:", 32)
-        OtcConfig.DOMAIN = OtcConfig.USERNAME.split(' ')[1]
+        OtcConfig.USERNAME = userconfigaction.getUserTypedValue("Enter a Username:", -1)
+        OtcConfig.PASSWORD = userconfigaction.getUserTypedValue("Enter a API Key:", -1)
+        if len( OtcConfig.USERNAME.split(' ') ) < 2 :
+            OtcConfig.DOMAIN = userconfigaction.getUserTypedValue("Enter a Domain Id:", -1)
+        else:
+            OtcConfig.DOMAIN = OtcConfig.USERNAME.split(' ')[-1]
         #  OtcConfig.PROJECT_ID = getUserTypedValue("Enter a Project ID:", 32);
         OtcConfig.ak = userconfigaction.getUserTypedValue("Enter a Access Key:", -1)
         OtcConfig.sk = userconfigaction.getUserTypedValue("Enter a Secret Key:", -1)

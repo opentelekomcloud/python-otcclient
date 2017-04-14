@@ -150,6 +150,11 @@ class ecs(otcpluginbase):
             if (not (OtcConfig.SECUGROUPNAME is None)):
                 ecs.convertSECUGROUPNameToId() 
                 
+            if OtcConfig.SECUGROUP is None:       
+                print("Security groups definition isn't correct! Check Security groups:")
+                print("otc ecs describe-security-groups")
+                os._exit(1)
+                
             url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2.0/security-group-rules?security_group_id=" + OtcConfig.SECUGROUP        
             ret = utils_http.get(url)                     
             ecs.otcOutputHandler().print_output(ret, mainkey= "security_group_rules", listkey={"id","direction", "protocol","port_range_min","port_range_max" })
@@ -1006,6 +1011,9 @@ class ecs(otcpluginbase):
         
     @staticmethod
     def convertSECUGROUPNameToId():
+        if OtcConfig.DEBUG:
+            print "convertSECUGROUPNameToId"
+            
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/security-groups"
         JSON = utils_http.get(url)
         parsed  = json.loads(JSON)
@@ -1015,11 +1023,41 @@ class ecs(otcpluginbase):
             ecs.convertVPCNameToId()
                 
         for security_group in security_groups:
-            if security_group.get("name") == OtcConfig.SECUGROUPNAME and ( security_group.get("vpc_id") == OtcConfig.VPCID or OtcConfig.VPCID is None ) :
+            if security_group.get("name") == OtcConfig.SECUGROUPNAME and OtcConfig.SECUGROUP is None:
                 OtcConfig.SECUGROUP = security_group["id"]
-            if security_group.get("name") == OtcConfig.SOURCE_GROUP and ( security_group.get("vpc_id") == OtcConfig.VPCID or OtcConfig.VPCID is None ) :
+                if OtcConfig.DEBUG:
+                    print "SECUGROUPNAME"
+                    print OtcConfig.SECUGROUP
+                    print OtcConfig.SOURCE_GROUP_ID
+                    print OtcConfig.VPCID   
+            if security_group.get("name") == OtcConfig.SECUGROUPNAME and ( security_group.get("vpc_id") == OtcConfig.VPCID) :
+                OtcConfig.SECUGROUP = security_group["id"]
+                if OtcConfig.DEBUG:
+                    print "SECUGROUPNAME + VPC"
+                    print OtcConfig.SECUGROUP
+                    print OtcConfig.SOURCE_GROUP_ID
+                    print OtcConfig.VPCID                   
+            if security_group.get("name") == OtcConfig.SOURCE_GROUP and OtcConfig.SOURCE_GROUP is None :
                 OtcConfig.SOURCE_GROUP_ID = security_group["id"]
+                if OtcConfig.DEBUG:
+                    print "SOURCE_GROUP"
+                    print OtcConfig.SECUGROUP
+                    print OtcConfig.SOURCE_GROUP_ID
+                    print OtcConfig.VPCID                   
+            if security_group.get("name") == OtcConfig.SOURCE_GROUP and ( security_group.get("vpc_id") == OtcConfig.VPC) :
+                OtcConfig.SOURCE_GROUP_ID = security_group["id"]
+                if OtcConfig.DEBUG:
+                    print "SOURCE_GROUP + VPC"
+                    print OtcConfig.SECUGROUP
+                    print OtcConfig.SOURCE_GROUP_ID
+                    print OtcConfig.VPCID                   
 
+
+        if OtcConfig.DEBUG:
+            print OtcConfig.SECUGROUP
+            print OtcConfig.SOURCE_GROUP_ID
+            print OtcConfig.VPCID
+            
         OtcConfig.SECUGROUP = OtcConfig.SECUGROUP
         return OtcConfig.SECUGROUP              
 

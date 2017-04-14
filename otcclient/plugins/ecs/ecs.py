@@ -587,15 +587,21 @@ class ecs(otcpluginbase):
              args = [ 
                     arg(    '--subnet-name',    dest='SUBNETNAME',     help='Name of the subnet reference will use during VM creation'),
                     arg(    '--subnet-id',    dest='SUBNETID',     help='Id of the subnet will use during VM creation'),
-
+                    arg('--vpc-name',dest='VPCNAME',     help='Name of the VPC reference will use during VM creation'),
+                    arg(      '--vpc-id',    dest='VPCID',     help='Id of the VPC will use during VM creation')
                 ]
                 )
     def delete_subnet():
+        if not (OtcConfig.VPCNAME is None):
+            ecs.convertVPCNameToId()
         if OtcConfig.SUBNETNAME:
             ecs.convertSUBNETNameToId()
         
-        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/subnets" + OtcConfig.SUBNETID
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/vpcs/" + OtcConfig.VPCID + "/subnets/" + OtcConfig.SUBNETID
         ret = utils_http.delete(url)
+        if OtcConfig.DEBUG:
+            print(url)
+            print(ret)           
         return ret
 
 
@@ -965,6 +971,7 @@ class ecs(otcpluginbase):
 
     @staticmethod
     def convertSUBNETNameToId():
+            
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/subnets"
         ar = []
         
@@ -982,7 +989,9 @@ class ecs(otcpluginbase):
                     if len(ret) > 0:
                         ret = ret + ","
                     ret = ret + subnet["id"]
-        OtcConfig.SUBNETID = ret        
+
+        OtcConfig.SUBNETID = ret    
+       
 
     @staticmethod
     def convertIMAGENameToId():

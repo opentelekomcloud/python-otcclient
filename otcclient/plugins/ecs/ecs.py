@@ -171,9 +171,9 @@ class ecs(otcpluginbase):
                        {'List subnets":"otc ecs describe_subnets'}
                        ])
     def describe_subnets():
-        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/subnets"
-        ret = utils_http.get(url)
-        ecs.otcOutputHandler().print_output(ret, mainkey="subnets", listkey={"id", "name", "cidr", "status", "vpc_id", "gateway_ip", "primary_dns", "availability_zone"})
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2.0/subnets"
+        ret = utils_http.get(url)        
+        ecs.otcOutputHandler().print_output(ret, mainkey="subnets", listkey={"id", "name", "cidr",  "allocation_pools"})
         return ret
 
     @staticmethod 

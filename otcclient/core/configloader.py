@@ -100,8 +100,10 @@ class configloader(object):
         else:
             OtcConfig.PROJECT_ID = str()
 
-        if(OtcConfig.DOMAIN is None):
+         
+        if(OtcConfig.DOMAIN is None and Config.has_option("otc", "domain")):
             OtcConfig.DOMAIN = Config.get("otc", "domain")                                    
+        
         
         if(OtcConfig.DOMAIN is None):
             OtcConfig.DOMAIN = str(OtcConfig.USERNAME).split(' ')[1]                                    

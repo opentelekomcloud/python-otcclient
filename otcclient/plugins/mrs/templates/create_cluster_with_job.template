@@ -1,0 +1,133 @@
+{#
+hadoop 
+hive 
+version kitoltve maunalisan by nzs 2017.05.03 23:30 
+#}
+{
+    "billing_type": 12, 
+    "data_center": "eu-de", 
+    "master_node_num": 2, 
+    "master_node_size": "c2.4xlarge.linux.mrs",    
+    "core_node_num": {{ NUMCOUNT|int +3 }}, 
+    "core_node_size": "c2.2xlarge.linux.mrs", 
+    "available_zone_id": "{{AZ}}", 
+    "cluster_name": "{{CLUSTER}}", 
+    "vpc": "{{VPCNAME}}",
+    "vpc_id": "{{VPCID}}",  
+    "subnet_id": "{{SUBNETID}}", 
+    "subnet_name": "{{SUBNETNAME}}",  
+    "volume_type": "SSD", 
+    "volume_size": 100, 
+    "node_public_cert_name": "{{KEYNAME}}", 
+    "safe_mode": 0, 
+    "component_list": [
+        {
+            "component_id": "MRS 1.2_001", 
+            "component_name": "Hadoop", 
+            "component_version": "", 
+            "component_desc": ""
+        }, 
+        {
+            "component_id": "MRS 1.2_002", 
+            "component_name": "Spark", 
+            "component_version": "1.5.1", 
+            "component_desc": ""
+        }, 
+        {
+            "component_id": "MRS 1.2_003", 
+            "component_name": "HBase", 
+            "component_version": "", 
+            "component_desc": ""
+        }, 
+        {
+            "component_id": "MRS 1.2_004", 
+            "component_name": "Hive", 
+            "component_version": "", 
+            "component_desc": ""
+        }
+    ], 
+    "add_jobs": [
+        {
+            "job_type": 1, 
+            "job_name": "tenji111", 
+            "jar_path": "s3n://bigdata/program/hadoop-mapreduce-examples-2.7.2.jar", 
+            "arguments": "wordcount", 
+            "input": "s3n://bigdata/input/wd_1k/", 
+            "output": "s3n://bigdata/ouput/", 
+            "job_log": "s3n://bigdata/log/", 
+            "shutdown_cluster": true, 
+            "file_action": "", 
+            "submit_job_once_cluster_run": true, 
+            "hql": "", 
+            "hive_script_path": ""
+        }
+    ]
+}
+
+
+
+
+{#
+
+{
+    "billing_type": 12, 
+    "data_center": "eu-de", 
+    "master_node_num": 2, 
+    "master_node_size": "c2.2xlarge.linux.mrs", 
+    "core_node_num": 3, 
+    "core_node_size": "c2.2xlarge.linux.mrs", 
+    "available_zone_id": "eu-de-01", 
+    "cluster_name": "newcluster", 
+    "vpc": "vpc1", 
+    "vpc_id": "5b7db34d-3534-4a6e-ac94-023cd36aaf74", 
+    "subnet_id": "815bece0-fd22-4b65-8a6e-15788c99ee43", 
+    "subnet_name": "subnet", 
+    "volume_type": "SSD", 
+    "volume_size": 100, 
+    "node_public_cert_name": "SSHkey-bba1", 
+    "safe_mode": 0, 
+    "component_list": [
+        {
+            "component_id": "MRS 1.2_001", 
+            "component_name": "Hadoop", 
+            "component_version": "", 
+            "component_desc": ""
+        }, 
+        {
+            "component_id": "MRS 1.2_002", 
+            "component_name": "Spark", 
+            "component_version": "1.5.1", 
+            "component_desc": ""
+        }, 
+        {
+            "component_id": "MRS 1.2_003", 
+            "component_name": "HBase", 
+            "component_version": "", 
+            "component_desc": ""
+        }, 
+        {
+            "component_id": "MRS 1.2_004", 
+            "component_name": "Hive", 
+            "component_version": "", 
+            "component_desc": ""
+        }
+    ], 
+    "add_jobs": [
+        {
+            "job_type": 1, 
+            "job_name": "tenji111", 
+            "jar_path": "s3n://bigdata/program/hadoop-mapreduce-examples-2.7.2.jar", 
+            "arguments": "wordcount", 
+            "input": "s3n://bigdata/input/wd_1k/", 
+            "output": "s3n://bigdata/ouput/", 
+            "job_log": "s3n://bigdata/log/", 
+            "shutdown_cluster": true, 
+            "file_action": "", 
+            "submit_job_once_cluster_run": true, 
+            "hql": "", 
+            "hive_script_path": ""
+        }
+    ]
+}
+
+#} 

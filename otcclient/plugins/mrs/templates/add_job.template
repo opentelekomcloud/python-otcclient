@@ -1,0 +1,30 @@
+{ 
+    "job_type": {{JOBTYPE}}, 
+    "job_name": {{JOBNAME}}"tenji111", 
+    "cluster_id": "{{CLUSTERID}}", 
+    "jar_path": "{{JARPATH}}", 
+    "arguments": "{{ARGUMENT}}", 
+    "input": "{{JOBINPUT}}", 
+    "output": "{{JOBOUTPUT}}", 
+    "job_log": "{{JOBLOG}}", 
+    "file_action": "{{FILEACTION}}", 
+    "hql": "{{MRSHQL}}", 
+    "hive_script_path": "{{HIVE_SCRIPT_PATH}}" 
+}
+
+{%
+{ 
+    "job_type": 1, 
+    "job_name": "tenji111", 
+    "cluster_id": "008a5947-2a84-40ea-9205-bb0e65475262", 
+    "jar_path": "s3n://bigdata/program/hadoop-mapreduce-examples-2.7.2.jar", 
+    "arguments": "wordcount", 
+    "input": "s3n://jp-test1/input/", 
+    "output": "s3n://jp-test1/output/", 
+    "job_log": "s3n://jp-test1/joblogs/", 
+    "file_action": "", 
+    "hql": "", 
+    "hive_script_path": "" 
+}
+
+%}

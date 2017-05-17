@@ -1,0 +1,11 @@
+{
+    "action" : "{{DCS_ACTION}}",
+    "instances" : ["{{INSTANCE_ID}}"]
+}
+
+{#
+{
+    "action" : "restart",
+    "instances" : ["54602a9d-5e22-4239-9123-77e350df4a34", "7166cdea-dbad-4d79-9610-7163e6f8b640"]
+}
+#}

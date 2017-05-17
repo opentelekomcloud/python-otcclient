@@ -1,0 +1,29 @@
+{
+    "name" : "{{INSTANCE_NAME}}",
+    "description" : "{{DESCRIPTION}}",
+    "engine" : "Redis",
+    "engine_version" : "3.0.7",
+    "capacity" : {{INSTANCE_DCS_SIZE}},
+    "password" : "{{ADMINPASS}}",
+    "vpc_id" : "{{VPCID}}",
+    "security_group_id" : "{{SECUGROUP}}",
+    "subnet_id" : "{{SUBNETID}}",
+    "available_zones" : ["{{AZ}}"],
+    "product_id" : "{{INSTANCE_DCS_TYPE}}"
+}
+
+{#
+{
+    "name" : "dcs-a11e",
+    "description" : "",
+    "engine" : "Redis",
+    "engine_version" : "3.0.7",
+    "capacity" : 1,
+    "password" : "*******",
+    "vpc_id" : "d3307c64-8d6c-4cf7-bdde-73c6adc3ac9b",
+    "security_group_id" : "e7e1c479-a909-4c43-9552-fd1166f83441",
+    "subnet_id" : "6e1dfbf9-d53f-4ffc-9254-477aebb0c25d",
+    "available_zones" : ["111"],
+    "product_id" : "OTC_DCS_SINGLE"
+}
+#}

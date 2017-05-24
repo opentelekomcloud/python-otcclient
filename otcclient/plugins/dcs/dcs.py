@@ -91,6 +91,8 @@ class dcs(otcpluginbase):
             getplugin("ecs").convertSUBNETNameToId()
         if not OtcConfig.SECUGROUPNAME is None:
             getplugin("ecs").convertSECUGROUPNameToId()
+        if not OtcConfig.AZ is None:
+            dcs.convertAZnameToId()
         if OtcConfig.INSTANCE_TYPE_NAME is None:
             OtcConfig.INSTANCE_TYPE_NAME = "OTC_DCS_SINGLE:1"
         if OtcConfig.INSTANCE_NAME is None:
@@ -206,10 +208,44 @@ class dcs(otcpluginbase):
                 ])    
     def describe_quotas():
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.0/" + OtcConfig.PROJECT_ID + "/quota"
-        print (url)
+        #print (url)
         ret = utils_http.get(url)
 
-        print (ret)
+        #print (ret)
+        dcs.otcOutputHandler().print_output(ret, mainkey = "")
+
+        return ret
+
+    @staticmethod
+    def convertAZnameToId():
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.0/" + "availableZones"
+        JSON = utils_http.get(url)
+        parsed  = json.loads(JSON)
+        azs = parsed["available_zones"]
+        ret = None
+        for az in azs:
+            if az.get("name") == OtcConfig.AZ:
+                ret = az["id"]
+        OtcConfig.AZID = ret
+
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="List availability zones",
+             examples=[
+                       {'Describe DCS quotas":"otc dcs describe-quotas'}
+                       ],
+             args = [ 
+                ])    
+    def describe_azs():
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.0/" + "availableZones"
+        #print (url)
+        ret = utils_http.get(url)
+
+        #print (ret)
+
+        dcs.otcOutputHandler().print_output(ret, mainkey = "")
 
         return ret
 

@@ -8,7 +8,7 @@
     "vpc_id" : "{{VPCID}}",
     "security_group_id" : "{{SECUGROUP}}",
     "subnet_id" : "{{SUBNETID}}",
-    "available_zones" : ["{{AZ}}"],
+    "available_zones" : ["{{AZID}}"],
     "product_id" : "{{INSTANCE_DCS_TYPE}}"
 }
 

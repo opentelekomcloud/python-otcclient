@@ -29,6 +29,8 @@ class dcs(otcpluginbase):
     def otctype(self):
         return "func" 
 
+    # url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-availability-zone/detail"
+
     @staticmethod 
     @otcfunc(plugin_name=__name__,
              desc="List instances",
@@ -43,7 +45,7 @@ class dcs(otcpluginbase):
         ret = utils_http.get(url)
         #print (url)
         #print (ret)        
-        dcs.otcOutputHandler().print_output(ret, mainkey = "instances", listkey={"instance_id", "name", "capacity","ip","port","used_memory","resource_spec_code","engine_version"})
+        dcs.otcOutputHandler().print_output(ret, mainkey = "instances", listkey={"instance_id", "name", "capacity","ip","port","used_memory","max_memory","resource_spec_code","engine_version","status","created_at"})
         
         return ret
 
@@ -193,3 +195,21 @@ class dcs(otcpluginbase):
         #print (ret)
 
         return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Describe quotas",
+             examples=[
+                       {'Describe DCS quotas":"otc dcs describe-quotas'}
+                       ],
+             args = [ 
+                ])    
+    def describe_quotas():
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.0/" + OtcConfig.PROJECT_ID + "/quota"
+        print (url)
+        ret = utils_http.get(url)
+
+        print (ret)
+
+        return ret
+

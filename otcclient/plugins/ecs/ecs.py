@@ -1184,6 +1184,25 @@ class ecs(otcpluginbase):
         print(ret)
         return ret
 
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Expand volume",
+             examples=[
+                       {'Expand volume":"otc ecs expand-volume --volume-id 8c0de9a7-9f61-4613-a68a-21f456cb7298 --size 200'}
+                       ],
+             args = [ 
+                    arg(    '--volume-id',     dest='VOLUME_ID',     help='Volume Id of the EVS volume'),
+                    arg(    '--size',          dest='VOLUME_SIZE',   help='New size of the EVS volume')
+                    ])
+    def expand_volume():
+        if not OtcConfig.VOLUME_NAME is None:
+            ecs.convertVOLUMENameToId() 
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/cloudvolumes" + "/" + OtcConfig.VOLUME_ID+ "/action"
+        REQ_EXPAND_VOLUME = "{ \"os-extend\":{ \"new_size\":\"" + OtcConfig.VOLUME_SIZE + "\" } }"
+        ret = utils_http.post(url, REQ_EXPAND_VOLUME)
+        print(ret)
+        return ret
+
 
     @staticmethod
     @otcfunc(plugin_name=__name__,

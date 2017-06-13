@@ -1,0 +1,7 @@
+{ 
+    "name": "{{DATASOURCE}}",  
+    "type": "{{MRS_TYPE}}",  
+    "url": "{{MRS_PATH}}",  
+    "description": "{{DESCRIPTION}}",  
+    "is_protected": true 
+}

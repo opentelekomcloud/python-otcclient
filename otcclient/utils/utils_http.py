@@ -60,8 +60,21 @@ def put( requestUrl, postbody):
         pass
     return ret
 
+def patch( requestUrl, postbody):
+    ret = None
+    try:
+        response = httpcall(requestUrl, datastr=str(postbody), patch=True)                          
+        token = response.headers.get('X-Subject-Token')   
+        if  token != None and len( response.headers.get('X-Subject-Token')) > 0:
+            OtcConfig.TOKEN = response.headers.get("X-Subject-Token")            
+        ret = response.text
+    except Exception as e:
+        print (str(e))
+    finally:
+        pass
+    return ret
 
-def httpcall( url, datastr=None, delete=None, put=None):            
+def httpcall( url, datastr=None, delete=None, put=None, patch=None):            
     s = requests.session()        
     headers = {'Content-Type': 'application/json',  'Accept': 'application/json' }
     
@@ -71,8 +84,10 @@ def httpcall( url, datastr=None, delete=None, put=None):
     if OtcConfig.CLUSTER_ID:
         headers['X-Cluster-Uuid'] = OtcConfig.CLUSTER_ID
 
-
-    if put:
+    if patch:
+        data = datastr        
+        response=s.patch(url, data, headers=headers, verify=False)
+    elif put:
         data = datastr        
         response=s.put(url, data, headers=headers, verify=False)
     elif datastr:

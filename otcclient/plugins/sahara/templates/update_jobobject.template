@@ -1,0 +1,21 @@
+{ 
+    "name": "{{JOB}}",  
+    "mains": [ {{ MAINS }}],  
+    "libs": [ {{ LIBS }} ],  
+    "is_protected": false,      
+    "is_public": false,  
+    "type": "{{MRS_TYPE}}",  
+    "description": "{{DESCRIPTION}}" 
+}
+
+{#
+{ 
+    "name": "public-pig-job-example",  
+    "type": "MapReduce",  
+    "description": "This is public pig job example",  
+    "mains": ["36dc7b90-d8a4-4e05-83ae-b1c03095c680"],  
+    "libs": [],  
+    "is_public": false,  
+    "is_protected": false   
+}
+#}

@@ -1053,7 +1053,7 @@ class ecs(otcpluginbase):
                     print OtcConfig.SECUGROUP
                     print OtcConfig.SOURCE_GROUP_ID
                     print OtcConfig.VPCID                   
-            if security_group.get("name") == OtcConfig.SOURCE_GROUP and ( security_group.get("vpc_id") == OtcConfig.VPC) :
+            if security_group.get("name") == OtcConfig.SOURCE_GROUP and ( security_group.get("vpc_id") == OtcConfig.VPCID) :
                 OtcConfig.SOURCE_GROUP_ID = security_group["id"]
                 if OtcConfig.DEBUG:
                     print "SOURCE_GROUP + VPC"

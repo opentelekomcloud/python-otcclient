@@ -1,0 +1,27 @@
+{ 
+    "name": "{{JOB}}",  
+    "mains": [ {{ MRS_MAINS if MRS_MAINS != None }}],  
+    "libs": [ {{ MRS_LIBS if MRS_LIBS != None}} ],  
+    "is_protected": false,  
+    "interface": [ ],  
+    "is_public": false,  
+    "type": "{{MRS_TYPE if MRS_TYPE != None }}",  
+    "description": "{{DESCRIPTION}}" 
+}
+
+{#
+{ 
+    "name": "my-job",  
+    "mains": [ ],  
+    "libs": [ 
+        "092b628b-26a3-4571-9ba4-f8d000df8877" 
+    ],  
+    "is_protected": false,  
+    "interface": [ ],  
+    "is_public": false,  
+    "type": "MapReduce",  
+    "description": "This is the Map Reduce job template" 
+}
+#}
+
+ 

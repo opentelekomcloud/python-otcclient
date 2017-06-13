@@ -1,0 +1,37 @@
+{
+    "cluster_id": "{{CLUSTER_ID}}",
+    "input_id": "{{JOBINPUT if JOBINPUT != None}}",
+    "output_id": "{{JOBOUTPUT if JOBOUTPUT != None }}",
+    "is_protected": false,
+    "is_public": false,
+    "job_configs": {
+        "configs": { {{MRS_CONFIGS if MRS_CONFIGS  != None }} },
+        "args": [{{MRS_ARGS if MRS_ARGS  != None }}],
+        "params": { {{MRS_PARAMS if MRS_PARAMS  != None }} }
+    }
+}
+
+{#
+
+{
+    "cluster_id": "811e1134-666f-4c48-bc92-afb5b10c9d8c",
+    "input_id": "3e1bc8e6-8c69-4749-8e52-90d9341d15bc",
+    "output_id": "52146b52-6540-4aac-a024-fee253cf52a9",
+    "is_protected": false,
+    "is_public": false,
+    "job_configs": {
+        "configs": 
+        {
+            "mapred.map.tasks": "1",
+            "mapred.reduce.tasks": "1"
+        },
+        "args": ["arg1","arg2"],
+        "params": 
+        {
+            "param2": "value2",
+            "param1": "value1"
+        }
+    }
+}
+
+#}

@@ -1,0 +1,19 @@
+{     
+    "name": "{{DATASOURCE}}",  
+    "type": "{{MRS_TYPE}}",  
+    "url": "{{MRS_PATH}}",  
+    "description": "{{DESCRIPTION}}",
+    "is_public": false,    
+    "is_protected": false
+         
+}
+{#
+{ 
+    "name": "my-input",  
+    "url": "hdfs://tmp/input",  
+    "is_protected": false,  
+    "is_public": false,  
+    "type": "hdfs",  
+    "description": "" 
+}
+#}

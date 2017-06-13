@@ -56,7 +56,7 @@ def main(argv=None): # IGNORE:C0111
         argv = sys.argv
     else:
         sys.argv.extend(argv)
-
+        
     program_name = os.path.basename(sys.argv[0])
     program_version = "v%s" % __version__
     program_build_date = str(__updated__)
@@ -70,7 +70,7 @@ def main(argv=None): # IGNORE:C0111
 #   
 # USAGE
 # ''' % (program_shortdesc, str(__date__))
-
+    
     try:
         # Setup argument parser        
         parser.add_argument('-V', '--version', action='version', version=program_version_message)        
@@ -82,7 +82,7 @@ def main(argv=None): # IGNORE:C0111
         # for S3 commands 
         parser.add_argument(dest="SUBCOM_P1", help="[optional Source/Target OBS directory]",  nargs='?', default='', metavar="Source/Target DIR")
         parser.add_argument(dest="SUBCOM_P2", help="[optional Source/Target OBS directory]",  nargs='?', default='', metavar="Source/Target DIR")                
-
+        
         parser.add_argument( "--project-name", dest="PROJECT_NAME", help="Project Name for Dedicated Compute Zone")
         parser.add_argument("-k", "--key-name", dest="KEYNAME", help="SSH key name| S3 Object key")
         parser.add_argument( "--public-key", dest="PUBLICKEY", help="Import public key for SSH keypairs")
@@ -309,9 +309,29 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( '--sticky-session-type', dest='STICKY_SESSION_TYPE', help='Specifies the cookie processing method. The value is insert.insert indicates that the cookie is inserted by the load balancer. This parameter is valid when protocol is set to HTTP, and session_sticky to true. The default value is insert. This parameter is invalid when protocol is set to TCP. That means the parameter is empty.')
         parser.add_argument( '--cookie-timeout', dest='COOKIE_TIMEOUT', help='Specifies the cookie timeout period (s).The value ranges from 1 to 86,400. This parameter is valid when protocol is set to HTTP, session_sticky to true, and sticky_session_type to insert. This parameter is invalid when protocol is set to TCP.')
 
-        
-        
-        
+        # MRS - SAHARA
+        parser.add_argument( '--job-binary', dest='JOBBINARY', help='Specifies the Job Binary')
+        parser.add_argument( '--job-binary-id', dest='JOBBINARY_ID', help='Specifies the Job Binary Id')
+        parser.add_argument( '--job', dest='JOB', help='Specifies the Job')
+        parser.add_argument( '--job-id', dest='JOB_ID', help='Specifies the Job  Id')
+        parser.add_argument( '--job-exec', dest='JOBEXEC', help='Specifies the Job Exec')
+        parser.add_argument( '--job-exec-id', dest='JOBEXEC_ID', help='Specifies the Job Exec Id')
+        parser.add_argument( '--datasource', dest='DATASOURCE', help='Specifies the Job DATASOURCE')
+        parser.add_argument( '--datasource-id', dest='DATASOURCE_ID', help='Specifies the Job DATASOURCE Id')
+        parser.add_argument( '--jobinput', dest='JOBINPUT', help='Specifies the JOB input')
+        parser.add_argument( '--joboutput', dest='JOBOUTPUT', help='Specifies the JOB output')
+        parser.add_argument( '--joblog', dest='JOBLOG', help='Specifies the JOB log')
+        parser.add_argument( '--type', dest='MRS_TYPE', help='Specifies the MRS Type')
+        parser.add_argument( '--mrs-path', dest='MRS_PATH', help='Specifies the MRS Path')
+        parser.add_argument( '--hql', dest='HQL', help='Specifies the MRS HQL')
+        parser.add_argument( '--mrs-args', dest='MRS_ARGS', help='Specifies the MRS ARGS')
+        parser.add_argument( '--mrs-file-action', dest='MRS_ACTION', help='Specifies the MRS File Action')
+        parser.add_argument( '--mrs-mains', dest='MRS_MAINS', help='Specifies the MRS Main Object List')
+        parser.add_argument( '--mrs-libs', dest='MRS_LIBS', help='Specifies the MRS Libs Object List')                
+        parser.add_argument( '--mrs-configs', dest='MRS_CONFIGS', help='Specifies the MRS Config List')
+        parser.add_argument( '--mrs-params', dest='MRS_PARAMS', help='Specifies the MRS Params List')                
+
+
         # Process arguments
         args = parser.parse_args()
         #args = parser.parse_known_args()

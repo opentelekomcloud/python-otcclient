@@ -1,0 +1,17 @@
+{ 
+    "name": "{{JOBBINARY}}",  
+    "url": "{{MRS_PATH}}",  
+    "is_protected": false,  
+    "is_public": false,  
+    "description": "{{DESCRIPTION}}" 
+}
+{#
+{ 
+    "name": "my-job-binary",  
+    "url": "hdfs://simple/mapreduce/input",  
+    "is_protected": false,  
+    "is_public": false,  
+    "description": "this is the job binary for map reduce job" 
+}
+
+#}

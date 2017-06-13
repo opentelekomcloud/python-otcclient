@@ -1,0 +1,14 @@
+{ 
+    "name": "{{JOBBINARY}}",  
+    "url": "{{MRS_PATH}}",  
+    "description": "{{DESCRIPTION}}" 
+}
+
+{# 
+{ 
+    "url": "hdfs://container/new-jar-example.jar",  
+    "name": "new-jar-example.jar",  
+    "description": "This is a new job binary" 
+}
+
+#}

@@ -64,7 +64,7 @@ otc ecs authorize-security-group-ingress --group-name test2 --vpc-name default-v
 otc ecs authorize-security-group-egress --group-name test2 --vpc-name default-vpc --protocol tcp --ethertype IPv4 --portmin 7000 --portmax 7001   Add new outcomming rule to security-group
 Keypair Commands:
 otc ecs describe-key-pairs                                           List key pairs
-otc ecs create-key-pair --key-name mykeypair "ssh-rsa AA..."       Create key pair
+otc ecs create-key-pair --key-name mykeypair --public-key "ssh-rsa AA..."       Create key pair
 Instance Commands:
 otc ecs describe-instances                                           List VM instances
 otc ecs describe-instances  --instance-ids 097da903-ab95-44f3-bb5d-5fc08dfb6cc3 --output Json     Detailed information of specific VM instance (JSON)

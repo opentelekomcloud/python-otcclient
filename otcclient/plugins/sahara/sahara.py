@@ -336,13 +336,13 @@ class sahara(otcpluginbase):
 
         if not (OtcConfig.JOB is None):
             getplugin("sahara").convertJOBNameToId()
-
         REQ_EXECUTE=utils_templates.create_request("execute_jobobject")                       
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.1/"+ OtcConfig.PROJECT_ID +"/jobs/" + OtcConfig.JOB_ID +"/execute"
-        ret = utils_http.post(url, REQ_EXECUTE)        
-        print REQ_EXECUTE
-        print (url)
-        print (ret)        
+        ret = utils_http.post(url, REQ_EXECUTE)
+        if OtcConfig.DEBUG:        
+            print REQ_EXECUTE
+            print (url)
+            print (ret)        
         sahara.otcOutputHandler().print_output(ret, mainkey = "")     
         return ret
 

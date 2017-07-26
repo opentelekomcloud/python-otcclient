@@ -1,19 +1,21 @@
-Otcclient
+OTCclient
 ==========
 
 [![PyPI version](https://badge.fury.io/py/python-otcclient.png)](https://badge.fury.io/py/python-otcclient)
 
-Open Telecom Cloud API tool 
+Open Telecom Cloud API tool
 -----------------------------------------------
 
 **#OTC #cloud #devops #IAAS #PAAS #DBAAS #BDAAS #container-services**
 
-Purposes of the OTC Tool to manage OTC cloud environment via command line similar way like AWS cli. OTC Cli provides common interface to operation and DEVOPS teams to manage their cloud services. 
+The purpose of the OTC Tool is to manage OTC cloud environments via the command line similar in a way to AWS CLI.
+OTC CLI provides a common interface to operation and DEVOPS teams to manage their cloud services.
 On top of that, the language implementations (Python at the moment) are secure and relatively fast.
 
 More at [OTC site](https://console.otc.t-systems.com/console/#/home)
 
-OTC makes it easy to use the cloud environment. It borrows the best parts from Huawei Service and Native Oenstack API.
+OTC makes it easy to use the cloud environment. It exposes Native OpenStack APIs which are enhanced with extra
+services and APIs from Huawei FusionSphere.
 
 
 Documentation
@@ -62,7 +64,7 @@ otc ecs authorize-security-group-ingress --group-name test2 --vpc-name default-v
 otc ecs authorize-security-group-egress --group-name test2 --vpc-name default-vpc --protocol tcp --ethertype IPv4 --portmin 7000 --portmax 7001   Add new outcomming rule to security-group
 Keypair Commands:
 otc ecs describe-key-pairs                                           List key pairs
-otc ecs create-key-pair --key-name mykeypair "ssh-rsa AA..."       Create key pair
+otc ecs create-key-pair --key-name mykeypair --public-key "ssh-rsa AA..."       Create key pair
 Instance Commands:
 otc ecs describe-instances                                           List VM instances
 otc ecs describe-instances  --instance-ids 097da903-ab95-44f3-bb5d-5fc08dfb6cc3 --output Json     Detailed information of specific VM instance (JSON)

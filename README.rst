@@ -1,27 +1,29 @@
-Otcclient
+OTCclient
 ==========
 
 [![Downloads](https://pypip.in/download/otcclient/badge.svg)](https://pypi.python.org/pypi/otcclient/)
 [![License](https://pypip.in/license/otcclient/badge.svg)](https://pypi.python.org/pypi/otcclient/)
 
 
-Open Telecom Cloud API tool 
+Open Telekom Cloud API tool
 -----------------------------------------------
 
 **#OTC #cloud #devops #IAAS #PAAS #DBAAS #BDAAS #container-services**
 
-Purposes of the OTC Tool to manage OTC cloud environment via command line similar way like AWS cli. OTC Cli provides common interface to operation and DEVOPS teams to manage their cloud services. 
+The purpose of the OTC Tool is to manage OTC cloud environments via the command line in a similar way to AWS CLI.
+The OTC CLI provides a common interface to operation and DEVOPS teams to manage their cloud services.
 On top of that, the language implementations (Python at the moment) are secure and relatively fast.
 
 More at [OTC site](https://console.otc.t-systems.com/console/#/home)
 
-OTC makes it easy to use the cloud environment. It borrows the best parts from Huawei Service and Native Oenstack API.
+OTC makes it easy to use the cloud environment. It exposes Native OpenStack APIs which are enhanced with extra
+services and APIs from Huawei FusionSphere.
 
 
 Documentation
 -------------
 
-[Otcclient Reference](https://docs.otc.t-systems.com/?locale=en-us)
+[OTCclient Reference](https://docs.otc.t-systems.com/?locale=en-us)
 
 Command line usage
 -----

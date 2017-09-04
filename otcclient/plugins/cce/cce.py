@@ -144,10 +144,15 @@ class cce(otcpluginbase):
             arg(    '--portmax',    dest='PORTMAX',     help='Upper  port of the specific security group rule')           
                 ]) 
     def create_cluster():
-        if OtcConfig.CLUSTER:
-            cce.convertClusterNameToId()
+        #vpc_id
+        if not (OtcConfig.VPCNAME is None):
+            getplugin("ecs").convertVPCNameToId()
+          
+        #network_id
+        if not OtcConfig.SUBNETNAME is None:
+            getplugin("ecs").convertSUBNETNameToId()
                  
-        url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/clusters"
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/clusters"
         req = utils_templates.create_request("cce_create_cluster")
         ret = utils_http.post(url, req)
         cce.otcOutputHandler().print_output(ret,mainkey="")     

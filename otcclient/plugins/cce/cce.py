@@ -136,6 +136,26 @@ class cce(otcpluginbase):
 
     @staticmethod
     @otcfunc(plugin_name=__name__,
+             desc="Create Clusters",
+             examples=[],
+            args = [ arg(    '--cluster-name',    dest='CLUSTER',     help='Name of the cluster'),
+            arg(    '--service-name',    dest='SERVICE_NAME',     help='CCE Service name'),
+            arg(    '--portmin',    dest='PORTMIN',     help='Lower por of the specific security group rule'),
+            arg(    '--portmax',    dest='PORTMAX',     help='Upper  port of the specific security group rule')           
+                ]) 
+    def create_cluster():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()
+                 
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/clusters"
+        req = utils_templates.create_request("cce_create_cluster")
+        ret = utils_http.post(url, req)
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
+        return ret
+
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
              desc="Modify services",
              examples=[],
             args = [ arg(    '--cluster-name',    dest='CLUSTER',     help='Name of the cluster'),

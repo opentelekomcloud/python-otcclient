@@ -1,0 +1,14 @@
+{ 
+    "kind": "cluster", 
+    "apiVersion": "v1", 
+    "metadata": { 
+        "name": "{{CLUSTER}}" 
+    }, 
+    "spec": { 
+        "description": "{{DESCRIPTION}}", 
+        "vpc": "{{VPCID}}", 
+        "subnet": "{{SUBNETID}}", 
+        "region": "eu-de", 
+        "az": "{{AZ}}"
+   } 
+}

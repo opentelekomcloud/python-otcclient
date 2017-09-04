@@ -1,0 +1,29 @@
+{
+	"instance": {
+		"name": "{{CLUSTER}}",
+		"datastore": {
+			"type": "MySQL",
+			"version": "5.6.30"
+		},
+		"flavorRef": "0d922098-553c-4124-80df-e627a1d41a0d",
+		"volume": {
+			"type": "COMMON",
+			"size": 100
+		},
+		"region": "eu-de",
+		"availabilityZone": "{{AZ}}",
+		"vpc": "{{VPCID}}",
+		"nics": {
+			"subnetId": "{{SUBNETID}}"
+		},
+		"securityGroup": {
+			"id": "{{SECUGROUPID}}"
+		},
+		"backupStrategy": {
+			"period": "1,2,3,4,5,6,7",
+			"startTime": "01:00:00",
+			"keepDays": 3
+		},
+		"dbRtPd": "Huawei@123"
+	}
+}

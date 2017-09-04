@@ -23,6 +23,38 @@ class rds(otcpluginbase):
         return "func" 
 
     @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="create rds cluster",
+             args = [ 
+                arg(
+                    '--cluster-name',
+                    dest='CLUSTER',
+                    help='create cluster'
+                )
+                ]                
+             )
+
+    def create_cluster():               
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.1/"+ OtcConfig.PROJECT_ID +"/run-job-flow"
+        #vpc_id
+        if not (OtcConfig.VPCNAME is None):
+            getplugin("ecs").convertVPCNameToId()
+          
+        #network_id
+        if not OtcConfig.SUBNETNAME is None:
+            getplugin("ecs").convertSUBNETNameToId()
+
+        
+        REQ_CREATE_CLUSTER=utils_templates.create_request("create_cluster")
+
+        ret = utils_http.post(url, REQ_CREATE_CLUSTER)
+        print REQ_CREATE_CLUSTER
+        print (url)
+        print (ret)        
+        rds.otcOutputHandler().print_output(ret, mainkey = "") 
+
+
+    @staticmethod
     def add():
         # TODO: NOT implemented         
         ret = utils_templates.create_request("as_modify")

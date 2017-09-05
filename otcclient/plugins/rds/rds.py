@@ -35,7 +35,7 @@ class rds(otcpluginbase):
              )
 
     def create_cluster():               
-        url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.1/"+ OtcConfig.PROJECT_ID +"/run-job-flow"
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/rds/v1/"+ OtcConfig.PROJECT_ID +"/instances"
         #vpc_id
         if not (OtcConfig.VPCNAME is None):
             getplugin("ecs").convertVPCNameToId()
@@ -43,6 +43,9 @@ class rds(otcpluginbase):
         #network_id
         if not OtcConfig.SUBNETNAME is None:
             getplugin("ecs").convertSUBNETNameToId()
+
+        if (not (OtcConfig.SECUGROUPNAME is None)):
+            getplugin("ecs").convertSECUGROUPNameToId() 
 
         
         REQ_CREATE_CLUSTER=utils_templates.create_request("create_cluster")

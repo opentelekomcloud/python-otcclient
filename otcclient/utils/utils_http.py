@@ -83,6 +83,9 @@ def httpcall( url, datastr=None, delete=None, put=None, patch=None):
 
     if OtcConfig.CLUSTER_ID:
         headers['X-Cluster-Uuid'] = OtcConfig.CLUSTER_ID
+    
+    headers['X-Language'] = "en-us"
+
 
     if patch:
         data = datastr        

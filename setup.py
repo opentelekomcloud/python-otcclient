@@ -54,5 +54,6 @@ setup(name='python-otcclient',
 				]
 			},
 			test_suite="tests"
-            ,data_files=[man_file]
+            ,data_files=[]
+            #,data_files=[man_file]
 		)

@@ -1,27 +1,25 @@
-{ 
-    "kind": "host", 
-    "apiVersion": "v1", 
-    "metadata": { 
-        "name": "{{INSTANCE_NAME}}",
-    }, 
+{
+    "kind": "host",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "{{INSTANCE_NAME}}"        
+    },
     "spec": {
         "clusteruuid": "{{CLUSTER_ID}}",
         "flavor": "s1.medium",
         "label": "",
-        "volume": [
-            {
-                "diskType": "root",
-                "diskSize": 40,
-                "volumeType": "SAS"
-            },
-            {
-                "diskType": "data",
-                "diskSize": 100,
-                "volumeType": "SATA"
-            }
-        ],
+        "volume": [{
+            "diskType": "root",
+            "diskSize": 40,
+            "volumeType": "SAS"
+        },
+        {
+            "diskType": "data",
+            "diskSize": 100,
+            "volumeType": "SATA"
+        }],
         "sshkey": "{{KEYNAME}}",
         "snat": false
-   },
-   "replicas": 1 
+    },
+    "replicas": 1
 }

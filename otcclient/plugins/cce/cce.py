@@ -29,8 +29,9 @@ class cce(otcpluginbase):
 
     @staticmethod
     def convertClusterNameToId():
-        url = "https://cce." + OtcConfig.DEFAULT_HOST + "/api/v1/clusters"
-        JSON = utils_http.get(url)        
+        url = "https://cce.eu-de.otc.t-systems.com" + "/api/v1/clusters"
+        JSON = utils_http.get(url)
+        # print JSON        
         parsed  = json.loads(JSON)
         clusters = parsed
         ret = None
@@ -152,10 +153,10 @@ class cce(otcpluginbase):
         if not OtcConfig.SUBNETNAME is None:
             getplugin("ecs").convertSUBNETNameToId()
                  
-        url = "https://cce." + OtcConfig.DEFAULT_HOST + "/api/v1/clusters"
+        url = "https://cce.eu-de.otc.t-systems.com/" + "/api/v1/clusters"
         req = utils_templates.create_request("cce_create_cluster")
-        print url 
-        print req        
+        #print url 
+        #print req        
         ret = utils_http.post(url, req)
         cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
@@ -174,7 +175,7 @@ class cce(otcpluginbase):
         if not (OtcConfig.VPCNAME is None):
             getplugin("cce").convertClusterNameToId()
                            
-        url = "https://cce." + OtcConfig.DEFAULT_HOST + "/api/v1/clusters" + OtcConfig.CLUSTER_ID  + "/hosts"
+        url = "https://cce.eu-de.otc.t-systems.com" + "/api/v1/clusters/" + OtcConfig.CLUSTER_ID  + "/hosts"
         req = utils_templates.create_request("cce_add_node")
         print url 
         print req        

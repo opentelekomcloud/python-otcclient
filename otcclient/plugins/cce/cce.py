@@ -29,7 +29,7 @@ class cce(otcpluginbase):
 
     @staticmethod
     def convertClusterNameToId():
-        url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/clusters"
+        url = "https://cce." + OtcConfig.DEFAULT_HOST + "/api/v1/clusters"
         JSON = utils_http.get(url)        
         parsed  = json.loads(JSON)
         clusters = parsed
@@ -152,11 +152,36 @@ class cce(otcpluginbase):
         if not OtcConfig.SUBNETNAME is None:
             getplugin("ecs").convertSUBNETNameToId()
                  
-        url = "https://" + OtcConfig.DEFAULT_HOST + "/clusters"
+        url = "https://cce." + OtcConfig.DEFAULT_HOST + "/api/v1/clusters"
         req = utils_templates.create_request("cce_create_cluster")
+        print url 
+        print req        
         ret = utils_http.post(url, req)
         cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Create Clusters",
+             examples=[],
+            args = [ arg(    '--cluster-name',    dest='CLUSTER',     help='Name of the cluster'),
+            arg(    '--service-name',    dest='SERVICE_NAME',     help='CCE Service name'),
+            arg(    '--portmin',    dest='PORTMIN',     help='Lower por of the specific security group rule'),
+            arg(    '--portmax',    dest='PORTMAX',     help='Upper  port of the specific security group rule')           
+                ]) 
+    def add_node():
+        #vpc_id
+        if not (OtcConfig.VPCNAME is None):
+            getplugin("cce").convertClusterNameToId()
+                           
+        url = "https://cce." + OtcConfig.DEFAULT_HOST + "/api/v1/clusters" + OtcConfig.CLUSTER_ID  + "/hosts"
+        req = utils_templates.create_request("cce_add_node")
+        print url 
+        print req        
+        ret = utils_http.post(url, req)
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
+        return ret
+
 
 
     @staticmethod

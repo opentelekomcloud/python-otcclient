@@ -68,10 +68,10 @@ class elb(otcpluginbase):
 
     @staticmethod
     @otcfunc(plugin_name=__name__,
-         desc="Describe listeners",
+         desc="Describe members",
          args = [
-            arg(    '--load-balancer-name',     dest='LOADBALANCER_NAME',     help='Loadbalancer name of the VM'),
-            arg(    '--load-balancer-id',     dest='LOADBALANCER_ID',     help='Loadbalancer Id of the VM') ]
+            arg(    '--listener-name',     dest='LISTENER_NAME',     help='Listener name'),
+            arg(    '--listener-id',     dest='LISTENER_ID',     help='Listener Id') ]
          )
     def describe_members():
         if not (OtcConfig.LISTENER_NAME is None):

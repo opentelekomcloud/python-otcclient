@@ -6,7 +6,7 @@
     },
     "spec": {
         "clusteruuid": "{{CLUSTER_ID}}",
-        "flavor": "s1.medium",
+        "flavor": "s1.large",
         "label": "",
         "volume": [{
             "diskType": "root",

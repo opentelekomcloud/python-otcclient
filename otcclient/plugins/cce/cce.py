@@ -48,7 +48,7 @@ class cce(otcpluginbase):
              examples=[],
              args = []) 
     def list_clusters():
-        url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/clusters"
+        url = "https://cce.eu-de.otc.t-systems.com" + "/api/v1/clusters"
         ret = utils_http.get(url)
         #print (ret)
         cce.otcOutputHandler().print_output(json.loads(ret), subkey="metadata", listkey={"name", "uuid", "createAt"})
@@ -215,6 +215,21 @@ class cce(otcpluginbase):
             cce.convertClusterNameToId()
                  
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/services/" + OtcConfig.SERVICE_NAME
+        ret = utils_http.delete(url)
+        cce.otcOutputHandler().print_output(ret,mainkey="")     
+        return ret
+
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Delete services",
+             examples=[],
+            args = [ arg(    '--cluster-name',    dest='CLUSTER',     help='Name of the cluster')])
+    def delete_cluster():
+        if OtcConfig.CLUSTER:
+            cce.convertClusterNameToId()
+                 
+        url = "https://cce.eu-de.otc.t-systems.com" + "/api/v1/clusters/" + OtcConfig.CLUSTER_ID
         ret = utils_http.delete(url)
         cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret

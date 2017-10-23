@@ -103,7 +103,7 @@ class dcs(otcpluginbase):
 
 	(OtcConfig.INSTANCE_DCS_TYPE,OtcConfig.INSTANCE_DCS_SIZE) = OtcConfig.INSTANCE_TYPE_NAME.split(':')
         REQ_CREATE_DCS=utils_templates.create_request("create_instance")
-        print (REQ_CREATE_DCS)
+        #print (REQ_CREATE_DCS)
         
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.0/" + OtcConfig.PROJECT_ID +  "/instances"
         url = string.replace(url, 'iam', 'dcs')

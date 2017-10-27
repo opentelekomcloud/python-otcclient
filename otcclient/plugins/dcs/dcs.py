@@ -15,6 +15,7 @@ from time import sleep
 import sys
 import json
 import os
+import string
 from otcclient.core.argmanager import arg, otcfunc
 
  
@@ -42,6 +43,7 @@ class dcs(otcpluginbase):
                 ])    
     def list_instances():
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.0/" + OtcConfig.PROJECT_ID +  "/instances"    
+        url = string.replace(url, 'iam', 'dcs')
         ret = utils_http.get(url)
         #print (url)
         #print (ret)        
@@ -61,8 +63,9 @@ class dcs(otcpluginbase):
                 ])    
     def describe_instance():
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.0/" + OtcConfig.PROJECT_ID +  "/instances"
+        url = string.replace(url, 'iam', 'dcs')
         ret = utils_http.get(url + '/' + OtcConfig.INSTANCE_ID )
-        #print (url)
+        print (url+ '/' + OtcConfig.INSTANCE_ID)
         #print (ret)        
         dcs.otcOutputHandler().print_output(ret, mainkey = "")
         
@@ -100,9 +103,10 @@ class dcs(otcpluginbase):
 
 	(OtcConfig.INSTANCE_DCS_TYPE,OtcConfig.INSTANCE_DCS_SIZE) = OtcConfig.INSTANCE_TYPE_NAME.split(':')
         REQ_CREATE_DCS=utils_templates.create_request("create_instance")
-        print (REQ_CREATE_DCS)
+        #print (REQ_CREATE_DCS)
         
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.0/" + OtcConfig.PROJECT_ID +  "/instances"
+        url = string.replace(url, 'iam', 'dcs')
         #print (url)
         ret = utils_http.post(url, REQ_CREATE_DCS )
 
@@ -122,6 +126,7 @@ class dcs(otcpluginbase):
                 ])    
     def delete_instance():
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.0/" + OtcConfig.PROJECT_ID +  "/instances"
+        url = string.replace(url, 'iam', 'dcs')
         ret = utils_http.delete(url + '/' + OtcConfig.INSTANCE_ID )
         #print (url)
         #print (ret)        
@@ -145,6 +150,7 @@ class dcs(otcpluginbase):
         #print (REQ_UPDATE_DCS)
         
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.0/" + OtcConfig.PROJECT_ID +  "/instances/status"
+        url = string.replace(url, 'iam', 'dcs')
         #print (url)
         ret = utils_http.put(url, REQ_UPDATE_DCS )
 
@@ -168,6 +174,7 @@ class dcs(otcpluginbase):
         #print (REQ_UPDATE_DCS)
         
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.0/" + OtcConfig.PROJECT_ID +  "/instances/status"
+        url = string.replace(url, 'iam', 'dcs')
         #print (url)
         ret = utils_http.put(url, REQ_UPDATE_DCS )
 
@@ -191,12 +198,36 @@ class dcs(otcpluginbase):
         #print (REQ_UPDATE_DCS)
         
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.0/" + OtcConfig.PROJECT_ID +  "/instances/status"
+        url = string.replace(url, 'iam', 'dcs')
         #print (url)
         ret = utils_http.put(url, REQ_UPDATE_DCS )
 
         #print (ret)
 
         return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="List Backups",
+             examples=[
+                       {'List backups":"otc dcs list_backups'},
+                       {'List the backups for a specific DCS instance: otc dcs list_backups --instance-ids 097da903-ab95-44f3-bb5d-5fc08dfb6cc3 '}
+                       ],
+             args = [ 
+                       arg(    '--instance-ids',     dest='INSTANCE_ID',     help='Instance ID of the DCS instance')
+                ])    
+    def list_backups():
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.0/" + OtcConfig.PROJECT_ID +  "/instances/" + OtcConfig.INSTANCE_ID + '/backups?start=1&limit=10&beginTime=&endTime='
+        url = string.replace(url, 'iam', 'dcs')
+        #print (url)
+        ret = utils_http.get(url)
+
+        #print (ret)
+
+        dcs.otcOutputHandler().print_output(ret, mainkey = "backup_record_response", listkey={"status","remark","period","progress","size","backup_id","created_at","updated_at","backup_type","backup_name","error_code"})
+
+        return ret
+
 
     @staticmethod
     @otcfunc(plugin_name=__name__,
@@ -208,6 +239,7 @@ class dcs(otcpluginbase):
                 ])    
     def describe_quotas():
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.0/" + OtcConfig.PROJECT_ID + "/quota"
+        url = string.replace(url, 'iam', 'dcs')
         #print (url)
         ret = utils_http.get(url)
 
@@ -219,6 +251,7 @@ class dcs(otcpluginbase):
     @staticmethod
     def convertAZnameToId():
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.0/" + "availableZones"
+        url = string.replace(url, 'iam', 'dcs')
         JSON = utils_http.get(url)
         parsed  = json.loads(JSON)
         azs = parsed["available_zones"]
@@ -240,6 +273,7 @@ class dcs(otcpluginbase):
                 ])    
     def describe_azs():
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.0/" + "availableZones"
+        url = string.replace(url, 'iam', 'dcs')
         #print (url)
         ret = utils_http.get(url)
 

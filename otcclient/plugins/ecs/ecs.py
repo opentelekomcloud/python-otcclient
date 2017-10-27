@@ -1349,7 +1349,7 @@ class ecs(otcpluginbase):
     @otcfunc(plugin_name=__name__,
              desc="Add Tag",
              examples=[
-                       {'Add-tag":"otc ecs add_tag'}
+                       {'Add-tag":"otc ecs add_tag TAG.VALUE'}
                        ],
              args = []) 
     def add_tag():         
@@ -1374,7 +1374,7 @@ class ecs(otcpluginbase):
     @otcfunc(plugin_name=__name__,
              desc="Delete Tag",
              examples=[
-                       {'Delete-tag":"otc ecs delete_tag'}
+                       {'Delete-tag":"otc ecs delete_tag TAG.VALUE'}
                        ],
              args = []) 
     def delete_tag():         

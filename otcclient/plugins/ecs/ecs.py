@@ -1328,7 +1328,9 @@ class ecs(otcpluginbase):
              examples=[
                        {'Decscribe-tags":"otc ecs describe_tags'}
                        ],
-             args = []) 
+             args = [
+                      arg(    '--instance-ids',    dest='INSTANCE_ID',     help='Instance id of the  ECS')
+                    ]) 
     def describe_tags():         
         if not OtcConfig.INSTANCE_NAME is None:
             ecs.convertINSTANCENameToId()
@@ -1337,6 +1339,7 @@ class ecs(otcpluginbase):
             return
 
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/servers/" + OtcConfig.INSTANCE_ID + "/tags"        
+        print url
         ret = utils_http.get(url)
         parsed = json.loads(ret)
         print (ret)
@@ -1349,9 +1352,14 @@ class ecs(otcpluginbase):
     @otcfunc(plugin_name=__name__,
              desc="Add Tag",
              examples=[
-                       {'Add-tag":"otc ecs add_tag TAG.VALUE'}
+                       {'Add-tag":"otc ecs add_tag --tag TAG.VALUE --instance-ids INSTANCE_ID',
+                        'otc ecs add-tag --tag CC.DDD --instance-ids 11053f4f-6e6f-4f13-8b4e-6da017529ebc'}
                        ],
-             args = []) 
+             args = [
+                      arg(    '--instance-ids',    dest='INSTANCE_ID',     help='Instance id of the  ECS'),
+                      arg(    '--tag',             dest='TAG_PAIR',        help='Instance id of the  ECS')
+                    ]) 
+
     def add_tag():         
         if not OtcConfig.INSTANCE_NAME is None:
             ecs.convertINSTANCENameToId()
@@ -1376,7 +1384,10 @@ class ecs(otcpluginbase):
              examples=[
                        {'Delete-tag":"otc ecs delete_tag TAG.VALUE'}
                        ],
-             args = []) 
+             args = [
+                      arg(    '--instance-ids',    dest='INSTANCE_ID',     help='Instance id of the  ECS'),
+                      arg(    '--tag',             dest='TAG_PAIR',        help='Instance id of the  ECS')
+                    ]) 
     def delete_tag():         
         if not OtcConfig.INSTANCE_NAME is None:
             ecs.convertINSTANCENameToId()

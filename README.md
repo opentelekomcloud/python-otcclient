@@ -76,6 +76,9 @@ otc ecs stop-instances   --instance-ids b6c602b1-06d0-4bdb-b764-5d43b47abc14    
 otc ecs start-instances  --instance-ids b6c602b1-06d0-4bdb-b764-5d43b47abc14        Start VM instance
 otc ecs reboot-instances --instance-ids b6c602b1-06d0-4bdb-b764-5d43b47abc14        Reboot VM instance
 otc ecs delete-instances --instance-ids b6c602b1-06d0-4bdb-b764-5d43b47abc14        Delete VM instance (public ip + EVS also)
+otc ecs describe-tags    --instance-ids 11053f4f-6e6f-4f13-8b4e-6da017529ebc        Describe the tags of an instance (also with --instance-name)
+otc ecs add-tag          --instance-ids 11053f4f-6e6f-4f13-8b4e-6da017529ebc --tag KEY.VALUE  Add Tag <KEY,VALUE> to the instance (also with --instance-name)
+otc ecs delete-tag       --instance-ids 11053f4f-6e6f-4f13-8b4e-6da017529ebc --tag KEY.VALUE  Delete Tag <KEY,VALUE> from the instance (also with --instance-name)
 Backup Commands:
 otc ecs create-snapshot  --volume-id b197b8af-fe63-465f-97b6-5e5b89exxxx  Create snapshot of volume
 otc ecs describe-snapshots                                           List backup volumes

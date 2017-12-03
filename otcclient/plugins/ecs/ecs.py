@@ -1342,8 +1342,8 @@ class ecs(otcpluginbase):
         print url
         ret = utils_http.get(url)
         parsed = json.loads(ret)
-        print (ret)
-        #print parsed["tags"]
+        #print (ret)
+        print parsed["tags"]
         #{"tags": ["Dept.411163", "Role.Test"]}
         return parsed
 
@@ -1417,3 +1417,7 @@ class ecs(otcpluginbase):
         ret = utils_http.get(url)
         print (ret)
     
+
+    #https://console.otc.t-systems.com/ces/rest/v1.0/ae8dfd5bffd543ffaa75685734775d7e/alarms
+    #{"alarm_name":"alarm-aoem","alarm_description":"test debug","metric":{"namespace":"SYS.ECS","dimensions":[{"name":"instance_id","value":"11053f4f-6e6f-4f13-8b4e-6da017529ebc"}],"metric_name":"cpu_util"},"condition":{"period":300,"filter":"average","comparison_operator":">=","value":90,"unit":"%","count":3},"alarm_enabled":true,"alarm_action_enabled":true,"alarm_actions":[{"type":"notification","notificationList":["urn:smn:eu-de:ae8dfd5bffd543ffaa75685734775d7e:DEMO"]}],"ok_actions":[{"type":"notification","notificationList":["urn:smn:eu-de:ae8dfd5bffd543ffaa75685734775d7e:DEMO"]}]}
+    #

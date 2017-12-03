@@ -1339,7 +1339,7 @@ class ecs(otcpluginbase):
             return
 
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/servers/" + OtcConfig.INSTANCE_ID + "/tags"        
-        print url
+        #print url
         ret = utils_http.get(url)
         parsed = json.loads(ret)
         #print (ret)

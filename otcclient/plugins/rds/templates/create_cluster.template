@@ -7,8 +7,8 @@
 		},
 		"flavorRef": "{{FLAVORID}}",
 		"volume": {
-			"type": "COMMON",
-			"size": 100
+			"type": "{{DISK_TYPE}}",
+			"size": "{{DISK_SIZE}}"
 		},
 		"region": "eu-de",
 		"availabilityZone": "{{AZ}}",

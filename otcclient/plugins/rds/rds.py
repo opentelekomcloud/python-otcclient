@@ -35,6 +35,11 @@ class rds(otcpluginbase):
                     '--cluster-name',
                     dest='CLUSTER',
                     help='create cluster'
+                ),
+                arg(
+                    '--disk-size',
+                    dest='DISK_SIZE',
+                    help='disk size'
                 )
                 ]                
              )
@@ -61,6 +66,12 @@ class rds(otcpluginbase):
 
         if (OtcConfig.DBVERSION is None):
             OtcConfig.DBVERSION = "5.7.20"
+
+        if (OtcConfig.DISK_SIZE is None):
+            OtcConfig.DISK_SIZE = 100
+
+        if (OtcConfig.DISK_TYPE is None):
+            OtcConfig.DISK_TYPE = "COMMON"
 
         REQ_CREATE_CLUSTER=utils_templates.create_request("create_cluster")
 

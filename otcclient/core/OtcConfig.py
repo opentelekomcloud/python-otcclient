@@ -424,7 +424,7 @@ class OtcConfig(object):
         #SCALINGGROUP_NAME
         #self.FLAVOR_REF = parser.FLAVOR_REF                                           if parser.FLAVOR_REF else None
         self.IMAGE_REF = parser.IMAGE_REF                                           if parser.IMAGE_REF else None
-        #self.DISK_SIZE = parser.DISK_SIZE                                           if parser.DISK_SIZE else None
+        self.DISK_SIZE = parser.DISK_SIZE                                           if parser.DISK_SIZE else None
         #VOLUME_TYPE
         self.DISK_TYPE = parser.DISK_TYPE                                           if parser.DISK_TYPE else None
         #KEYNAME

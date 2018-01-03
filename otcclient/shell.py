@@ -56,7 +56,7 @@ def main(argv=None): # IGNORE:C0111
         argv = sys.argv
     else:
         sys.argv.extend(argv)
-        
+
     program_name = os.path.basename(sys.argv[0])
     program_version = "v%s" % __version__
     program_build_date = str(__updated__)
@@ -70,7 +70,7 @@ def main(argv=None): # IGNORE:C0111
 #   
 # USAGE
 # ''' % (program_shortdesc, str(__date__))
-    
+
     try:
         # Setup argument parser        
         parser.add_argument('-V', '--version', action='version', version=program_version_message)        
@@ -309,6 +309,9 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( '--session-sticky', dest='SESSION_STICKY', help='Specifies whether to enable the session persistence function.The value is true or false. The session persistence function is enabled when the value is true, and is disabled when the value is false.')
         parser.add_argument( '--sticky-session-type', dest='STICKY_SESSION_TYPE', help='Specifies the cookie processing method. The value is insert.insert indicates that the cookie is inserted by the load balancer. This parameter is valid when protocol is set to HTTP, and session_sticky to true. The default value is insert. This parameter is invalid when protocol is set to TCP. That means the parameter is empty.')
         parser.add_argument( '--cookie-timeout', dest='COOKIE_TIMEOUT', help='Specifies the cookie timeout period (s).The value ranges from 1 to 86,400. This parameter is valid when protocol is set to HTTP, session_sticky to true, and sticky_session_type to insert. This parameter is invalid when protocol is set to TCP.')
+
+
+
 
         parser.add_argument( '--db-type', dest='DBTYPE', help='Specifies the RDS Engine type')
         parser.add_argument( '--db-version', dest='DBVERSION', help='Specifies the RDS Engine version')

@@ -54,6 +54,15 @@ class rds(otcpluginbase):
         if (not (OtcConfig.SECUGROUPNAME is None)):
             getplugin("ecs").convertSECUGROUPNameToId() 
 
+        if not OtcConfig.SUBNETNAME is None:
+            ecs.convertSUBNETNameToId()
+
+        if (OtcConfig.DBTYPE is None):
+            OtcConfig.DBTYPE = "MySQL"
+
+        if (OtcConfig.DBVERSION is None):
+            OtcConfig.DBVERSION = "5.7.20"
+
         
         REQ_CREATE_CLUSTER=utils_templates.create_request("create_cluster")
 

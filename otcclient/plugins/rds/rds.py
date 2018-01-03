@@ -11,6 +11,8 @@ from otcclient.core.otcpluginbase import otcpluginbase
 from otcclient.core.pluginmanager import getplugin
    
 from otcclient.core.argmanager import arg, otcfunc 
+
+import string
  
 class rds(otcpluginbase):
     ar = {}    
@@ -25,6 +27,9 @@ class rds(otcpluginbase):
     @staticmethod
     @otcfunc(plugin_name=__name__,
              desc="create rds cluster",
+             examples = [
+                 {'otc rds create_cluster --subnet-id  1111111-1111-1111-1111-a96f27f31111 --vpc-name MYVPC --group-names MYSECGROUP --cluster-name TEST --admin-pass Test1234+'}
+                 ],
              args = [ 
                 arg(
                     '--cluster-name',
@@ -36,6 +41,8 @@ class rds(otcpluginbase):
 
     def create_cluster():               
         url = "https://" + OtcConfig.DEFAULT_HOST + "/rds/v1/"+ OtcConfig.PROJECT_ID +"/instances"
+        url = string.replace(url, 'iam', 'rds')
+
         #vpc_id
         if not (OtcConfig.VPCNAME is None):
             getplugin("ecs").convertVPCNameToId()

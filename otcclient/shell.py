@@ -90,7 +90,9 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--instance-name", dest="INSTANCE_NAME", help="Instance name of the VM")
         parser.add_argument( "--instance-ids", dest="INSTANCE_ID", help="Instance Id of the VM")
         parser.add_argument( "--tag", dest="TAG_PAIR", help="Tag pair of the VM")
-
+        parser.add_argument( '--db-type', dest='DBTYPE', help='Specifies the RDS Engine type')
+        parser.add_argument( "--flavor-id", dest="FLAVORID", help="flavor-id")
+        parser.add_argument( '--db-version', dest='DBVERSION', help='Specifies the RDS Engine version')
         parser.add_argument( "--load-balancer-name", dest="LOADBALANCER_NAME", help="Loadbalancer name of the VM")
         parser.add_argument( "--load-balancer-id", dest="LOADBALANCER_ID", help="Loadbalancer Id of the VM")
         parser.add_argument( "--listener-name", dest="LISTENER_NAME", help="Listener name of the VM")

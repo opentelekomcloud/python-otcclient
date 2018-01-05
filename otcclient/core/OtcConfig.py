@@ -73,6 +73,7 @@ class OtcConfig(object):
     TAG_PAIR = None
     DBTYPE = None
     DBVERSION = None
+    DATASTORE_ID = None
     FLAVORID = None
 
     LOADBALANCER_NAME = None
@@ -331,6 +332,7 @@ class OtcConfig(object):
         self.TAG_PAIR = parser.TAG_PAIR                                         if parser.TAG_PAIR else None
         self.DBTYPE = parser.DBTYPE                                             if parser.DBTYPE else None
         self.DBVERSION = parser.DBVERSION                                       if parser.DBVERSION else None
+        self.DATASTORE_ID = parser.DATASTORE_ID                                 if parser.DATASTORE_ID else None
         self.FLAVORID = parser.FLAVORID                                         if parser.FLAVORID else None
         self.LOADBALANCER_NAME = parser.LOADBALANCER_NAME                               if parser.LOADBALANCER_NAME else None
         self.LOADBALANCER_ID = parser.LOADBALANCER_ID                                   if parser.LOADBALANCER_ID else None

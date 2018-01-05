@@ -130,7 +130,9 @@ class rds(otcpluginbase):
     def describe_flavors():
         if (OtcConfig.REGION is None):
             OtcConfig.REGION = "eu-de"
-        url = "https://" + OtcConfig.DEFAULT_HOST + "/rds/v1/"+ OtcConfig.PROJECT_ID + "/flavors?dbId=4f71c5b5-8939-424e-8825-8e3816e4303d&region=" + OtcConfig.REGION
+        if (OtcConfig.DATASTORE_ID is None):
+            OtcConfig.DATASTORE_ID = "4f71c5b5-8939-424e-8825-8e3816e4303d"
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/rds/v1/"+ OtcConfig.PROJECT_ID + "/flavors?dbId=" + OtcConfig.DATASTORE_ID + "&region=" + OtcConfig.REGION
         url = string.replace(url, 'iam', 'rds')
 
         ret = utils_http.get(url)

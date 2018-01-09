@@ -49,6 +49,7 @@ class OtcConfig(object):
     DOMAIN = str()
     ECSTASKID = str()
     SECUGROUPNAME = None
+    REGION = None
     VPCNAME = None
     SUBNETNAME = None
     IMAGENAME = None
@@ -70,6 +71,10 @@ class OtcConfig(object):
     INSTANCE_NAME = None
     INSTANCE_ID = None
     TAG_PAIR = None
+    DBTYPE = None
+    DBVERSION = None
+    DATASTORE_ID = None
+    FLAVORID = None
 
     LOADBALANCER_NAME = None
     LOADBALANCER_ID = None
@@ -302,6 +307,7 @@ class OtcConfig(object):
         self.DEBUG = parser.DEBUG                                               if parser.DEBUG else None
         
         self.SECUGROUPNAME = parser.SECUGROUPNAME                               if parser.SECUGROUPNAME else None
+        self.REGION = parser.REGION                                             if parser.REGION else None
         self.VPCNAME = parser.VPCNAME                                           if parser.VPCNAME else None
         self.SUBNETNAME = parser.SUBNETNAME                                     if parser.SUBNETNAME else None
         self.IMAGENAME = parser.IMAGENAME                                       if parser.IMAGENAME else None
@@ -324,6 +330,10 @@ class OtcConfig(object):
         self.INSTANCE_NAME = parser.INSTANCE_NAME                               if parser.INSTANCE_NAME else None
         self.INSTANCE_ID = parser.INSTANCE_ID                                   if parser.INSTANCE_ID else None
         self.TAG_PAIR = parser.TAG_PAIR                                         if parser.TAG_PAIR else None
+        self.DBTYPE = parser.DBTYPE                                             if parser.DBTYPE else None
+        self.DBVERSION = parser.DBVERSION                                       if parser.DBVERSION else None
+        self.DATASTORE_ID = parser.DATASTORE_ID                                 if parser.DATASTORE_ID else None
+        self.FLAVORID = parser.FLAVORID                                         if parser.FLAVORID else None
         self.LOADBALANCER_NAME = parser.LOADBALANCER_NAME                               if parser.LOADBALANCER_NAME else None
         self.LOADBALANCER_ID = parser.LOADBALANCER_ID                                   if parser.LOADBALANCER_ID else None
         self.LISTENER_NAME = parser.LISTENER_NAME                               if parser.LISTENER_NAME else None
@@ -416,7 +426,7 @@ class OtcConfig(object):
         #SCALINGGROUP_NAME
         #self.FLAVOR_REF = parser.FLAVOR_REF                                           if parser.FLAVOR_REF else None
         self.IMAGE_REF = parser.IMAGE_REF                                           if parser.IMAGE_REF else None
-        #self.DISK_SIZE = parser.DISK_SIZE                                           if parser.DISK_SIZE else None
+        self.DISK_SIZE = parser.DISK_SIZE                                           if parser.DISK_SIZE else None
         #VOLUME_TYPE
         self.DISK_TYPE = parser.DISK_TYPE                                           if parser.DISK_TYPE else None
         #KEYNAME

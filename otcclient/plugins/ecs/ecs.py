@@ -1339,8 +1339,8 @@ class ecs(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/servers/" + OtcConfig.INSTANCE_ID + "/tags"        
         ret = utils_http.get(url)
         parsed = json.loads(ret)
-        print (ret)
-        #print parsed["tags"]
+        #print (ret)
+        print parsed["tags"]
         #{"tags": ["Dept.411163", "Role.Test"]}
         return parsed
 

@@ -2,13 +2,13 @@
 	"instance": {
 		"name": "{{CLUSTER}}",
 		"datastore": {
-			"type": "MySQL",
-			"version": "5.6.30"
+			"type": "{{DBTYPE}}",
+			"version": "{{DBVERSION}}"
 		},
-		"flavorRef": "0d922098-553c-4124-80df-e627a1d41a0d",
+		"flavorRef": "{{FLAVORID}}",
 		"volume": {
-			"type": "COMMON",
-			"size": 100
+			"type": "{{DISK_TYPE}}",
+			"size": "{{DISK_SIZE}}"
 		},
 		"region": "eu-de",
 		"availabilityZone": "{{AZ}}",

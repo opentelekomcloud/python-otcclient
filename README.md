@@ -106,7 +106,7 @@ Writing clients
 	from otcclient.core.userconfigaction import userconfigaction
 	from otcclient.core.configloader import configloader
 	from otcclient.core.OtcConfig import OtcConfig
-	from otcclient.plugins.ecs import ecs
+	from otcclient.plugins.ecs.ecs import ecs
 	
 	if __name__ == '__main__':
 	    configloader.readUserValues() 

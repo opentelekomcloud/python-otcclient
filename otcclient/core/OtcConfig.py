@@ -49,6 +49,7 @@ class OtcConfig(object):
     DOMAIN = str()
     ECSTASKID = str()
     SECUGROUPNAME = None
+    REGION = None
     VPCNAME = None
     SUBNETNAME = None
     IMAGENAME = None
@@ -69,6 +70,11 @@ class OtcConfig(object):
     INSTANCE_TYPE_NAME = None
     INSTANCE_NAME = None
     INSTANCE_ID = None
+    TAG_PAIR = None
+    DBTYPE = None
+    DBVERSION = None
+    DATASTORE_ID = None
+    FLAVORID = None
 
     LOADBALANCER_NAME = None
     LOADBALANCER_ID = None
@@ -285,29 +291,7 @@ class OtcConfig(object):
     SESSION_STICKY = None
     STICKY_SESSION_TYPE = None
     COOKIE_TIMEOUT = None
-    
-    JOBBINARY = None
-    JOBBINARY_ID = None
-    JOB = None
-    JOB_ID = None
-    JOBEXEC = None
-    JOBEXEC_ID = None
-    DATASOURCE = None
-    DATASOURCE_ID = None
-    JOBINPUT = None
-    JOBOUTPUT = None
-    JOBLOG = None
-    MRS_TYPE  = None
-    MRS_PATH = None
-    HQL = None
-    MRS_ARGS = None
-    MRS_ACTION = None
-    MRS_MAINS = None
-    MRS_LIBS = None
 
-    MRS_CONFIGS = None    
-    MRS_PARAMS = None
-    
 
     
     @classmethod
@@ -323,6 +307,7 @@ class OtcConfig(object):
         self.DEBUG = parser.DEBUG                                               if parser.DEBUG else None
         
         self.SECUGROUPNAME = parser.SECUGROUPNAME                               if parser.SECUGROUPNAME else None
+        self.REGION = parser.REGION                                             if parser.REGION else None
         self.VPCNAME = parser.VPCNAME                                           if parser.VPCNAME else None
         self.SUBNETNAME = parser.SUBNETNAME                                     if parser.SUBNETNAME else None
         self.IMAGENAME = parser.IMAGENAME                                       if parser.IMAGENAME else None
@@ -344,6 +329,11 @@ class OtcConfig(object):
         self.INSTANCE_TYPE_NAME = parser.INSTANCE_TYPE_NAME                     if parser.INSTANCE_TYPE_NAME else str()
         self.INSTANCE_NAME = parser.INSTANCE_NAME                               if parser.INSTANCE_NAME else None
         self.INSTANCE_ID = parser.INSTANCE_ID                                   if parser.INSTANCE_ID else None
+        self.TAG_PAIR = parser.TAG_PAIR                                         if parser.TAG_PAIR else None
+        self.DBTYPE = parser.DBTYPE                                             if parser.DBTYPE else None
+        self.DBVERSION = parser.DBVERSION                                       if parser.DBVERSION else None
+        self.DATASTORE_ID = parser.DATASTORE_ID                                 if parser.DATASTORE_ID else None
+        self.FLAVORID = parser.FLAVORID                                         if parser.FLAVORID else None
         self.LOADBALANCER_NAME = parser.LOADBALANCER_NAME                               if parser.LOADBALANCER_NAME else None
         self.LOADBALANCER_ID = parser.LOADBALANCER_ID                                   if parser.LOADBALANCER_ID else None
         self.LISTENER_NAME = parser.LISTENER_NAME                               if parser.LISTENER_NAME else None
@@ -436,7 +426,7 @@ class OtcConfig(object):
         #SCALINGGROUP_NAME
         #self.FLAVOR_REF = parser.FLAVOR_REF                                           if parser.FLAVOR_REF else None
         self.IMAGE_REF = parser.IMAGE_REF                                           if parser.IMAGE_REF else None
-        #self.DISK_SIZE = parser.DISK_SIZE                                           if parser.DISK_SIZE else None
+        self.DISK_SIZE = parser.DISK_SIZE                                           if parser.DISK_SIZE else None
         #VOLUME_TYPE
         self.DISK_TYPE = parser.DISK_TYPE                                           if parser.DISK_TYPE else None
         #KEYNAME
@@ -547,28 +537,4 @@ class OtcConfig(object):
         self.STICKY_SESSION_TYPE = parser.STICKY_SESSION_TYPE                                           if parser.STICKY_SESSION_TYPE else None
         self.COOKIE_TIMEOUT = parser.COOKIE_TIMEOUT                                           if parser.COOKIE_TIMEOUT else None
         self.PROJECT_NAME = parser.PROJECT_NAME                                           if parser.PROJECT_NAME else OtcConfig.PROJECT_NAME
-
-
-        self.JOBBINARY = parser.JOBBINARY                                           if parser.JOBBINARY else OtcConfig.JOBBINARY
-        self.JOBBINARY_ID = parser.JOBBINARY_ID                                           if parser.JOBBINARY_ID else OtcConfig.JOBBINARY_ID
-        self.JOB = parser.JOB                                           if parser.JOB else OtcConfig.JOB
-        self.JOB_ID = parser.JOB_ID                                           if parser.JOB_ID else OtcConfig.JOB_ID
-        self.JOBEXEC = parser.JOBEXEC                                           if parser.JOBEXEC else OtcConfig.JOBEXEC
-        self.JOBEXEC_ID = parser.JOBEXEC_ID                                           if parser.JOBEXEC_ID else OtcConfig.JOBEXEC_ID
         
-        self.DATASOURCE = parser.DATASOURCE                                           if parser.DATASOURCE else OtcConfig.DATASOURCE
-        self.DATASOURCE_ID = parser.DATASOURCE_ID                                           if parser.DATASOURCE_ID else OtcConfig.DATASOURCE_ID
-        
-        self.JOBINPUT = parser.JOBINPUT                                           if parser.JOBINPUT else OtcConfig.JOBINPUT
-        self.JOBOUTPUT = parser.JOBOUTPUT                                           if parser.JOBOUTPUT else OtcConfig.JOBOUTPUT
-        self.JOBLOG = parser.JOBLOG                                           if parser.JOBLOG else OtcConfig.JOBLOG
-        self.MRS_TYPE = parser.MRS_TYPE                                           if parser.MRS_TYPE else OtcConfig.MRS_TYPE
-        self.MRS_PATH = parser.MRS_PATH                                           if parser.MRS_PATH else OtcConfig.MRS_PATH
-        self.HQL = parser.HQL                                           if parser.HQL else OtcConfig.HQL
-        self.MRS_ARGS = parser.MRS_ARGS                                           if parser.MRS_ARGS else OtcConfig.MRS_ARGS
-        self.MRS_ACTION = parser.MRS_ACTION                                           if parser.MRS_ACTION else OtcConfig.MRS_ACTION
-        self.MRS_MAINS = parser.MRS_MAINS                                           if parser.MRS_MAINS else OtcConfig.MRS_MAINS
-        self.MRS_LIBS = parser.MRS_LIBS                                           if parser.MRS_LIBS else OtcConfig.MRS_LIBS
-
-        self.MRS_CONFIGS = parser.MRS_CONFIGS                                           if parser.MRS_CONFIGS else OtcConfig.MRS_CONFIGS
-        self.MRS_PARAMS = parser.MRS_PARAMS                                           if parser.MRS_PARAMS else OtcConfig.MRS_PARAMS

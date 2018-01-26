@@ -4,6 +4,7 @@
 # otcclient.otcclient -- Client Tool for Open Telecom Cloud
 # Copyright (C) 2016 T-systems Kurt Garloff, Zsolt Nagy
 from otcclient.utils.utils_output import printShortHelp
+from otcclient.core.argmanager import add_to_parser
 
 '''
 otcclient.otcclient -- Client Tool for Open Telecom Cloud 
@@ -331,6 +332,8 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( '--mrs-configs', dest='MRS_CONFIGS', help='Specifies the MRS Config List')
         parser.add_argument( '--mrs-params', dest='MRS_PARAMS', help='Specifies the MRS Params List')                
 
+        # this is need if you want to use global decorator parser 
+        #add_to_parser( parser )
 
         # Process arguments
         args = parser.parse_args()

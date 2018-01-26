@@ -1213,9 +1213,10 @@ class ecs(otcpluginbase):
              args = [ 
                     ])
     def describe_quotas():
-        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers/limits"
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/quotas"
         ret = utils_http.get(url)
-        ecs.otcOutputHandler().print_output(ret, mainkey="absolute")
+        print ret
+        ecs.otcOutputHandler().print_output(ret, mainkey="quotas")
         return ret
 
  
@@ -1319,6 +1320,22 @@ class ecs(otcpluginbase):
         ret = utils_http.get(url)
         print (ret)
         ecs.otcOutputHandler().print_output(ret, mainkey="availabilityZoneInfo", listkey={"zoneState", "zoneName"})
+        return ret
+    
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Describe Users",
+             examples=[
+                       {'Describe Users":"otc ecs describe-users'}
+                       ],
+             args = [])    
+    def describe_users():         
+        #url = "https://" + OtcConfig.DEFAULT_HOST+ "/v3/users?domain_id=779b387a0d3143ec916cbbae9a863fa3"       
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v3/users?domain_id=779b387a0d3143ec916cbbae9a863fa3"
+        print url 
+        ret = utils_http.get(url)
+        print (ret)
+        ecs.otcOutputHandler().print_output(ret, mainkey="")
         return ret
 
 

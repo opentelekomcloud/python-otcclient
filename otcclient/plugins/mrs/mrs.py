@@ -55,20 +55,18 @@ class mrs(otcpluginbase):
                 )                                            
                 ]                
              )
-    def describe_clusters():
-        url = "https://" + OtcConfig.DEFAULT_HOST + "/bigdata/api/v1/clusters?pageSize=10&currentPage=1&clusterState=existing"
-        
+    def describe_clusters():        
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.1/"+ OtcConfig.PROJECT_ID +"/cluster_infos"
+        url = url.replace("iam", "mrs") 
         if OtcConfig.CLUSTER_ID is None: 
             ret = utils_http.get(url)
-            print (url)
-            print (ret)        
-            mrs.otcOutputHandler().print_output(ret, mainkey = "clusters", listkey={"id", "name"})
+            mrs.otcOutputHandler().print_output(ret, mainkey = "")
         else:            
-            ret = utils_http.get(url + '/' + OtcConfig.INSTANCE_ID )        
+            ret = utils_http.get(url + '/' + OtcConfig.CLUSTER_ID )        
             maindata = json.loads(ret)
             if "itemNotFound" in  maindata:
                 raise RuntimeError("Not found!")                      
-            mrs.otcOutputHandler().print_output(ret,mainkey="server") 
+            mrs.otcOutputHandler().print_output(ret,mainkey="") 
         return ret
 
 

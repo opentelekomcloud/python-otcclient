@@ -57,7 +57,7 @@ def main(argv=None): # IGNORE:C0111
         argv = sys.argv
     else:
         sys.argv.extend(argv)
-        
+
     program_name = os.path.basename(sys.argv[0])
     program_version = "v%s" % __version__
     program_build_date = str(__updated__)
@@ -71,7 +71,7 @@ def main(argv=None): # IGNORE:C0111
 #   
 # USAGE
 # ''' % (program_shortdesc, str(__date__))
-    
+
     try:
         # Setup argument parser        
         parser.add_argument('-V', '--version', action='version', version=program_version_message)        
@@ -83,14 +83,18 @@ def main(argv=None): # IGNORE:C0111
         # for S3 commands 
         parser.add_argument(dest="SUBCOM_P1", help="[optional Source/Target OBS directory]",  nargs='?', default='', metavar="Source/Target DIR")
         parser.add_argument(dest="SUBCOM_P2", help="[optional Source/Target OBS directory]",  nargs='?', default='', metavar="Source/Target DIR")                
-        
+
         parser.add_argument( "--project-name", dest="PROJECT_NAME", help="Project Name for Dedicated Compute Zone")
         parser.add_argument("-k", "--key-name", dest="KEYNAME", help="SSH key name| S3 Object key")
         parser.add_argument( "--public-key", dest="PUBLICKEY", help="Import public key for SSH keypairs")
         parser.add_argument( "--admin-pass", dest="ADMINPASS", help="Admin password of the started VM")
         parser.add_argument( "--instance-name", dest="INSTANCE_NAME", help="Instance name of the VM")
         parser.add_argument( "--instance-ids", dest="INSTANCE_ID", help="Instance Id of the VM")
-
+        parser.add_argument( "--tag", dest="TAG_PAIR", help="Tag pair of the VM")
+        parser.add_argument( '--db-type', dest='DBTYPE', help='Specifies the RDS Engine type')
+        parser.add_argument( "--flavor-id", dest="FLAVORID", help="flavor-id")
+        parser.add_argument( '--db-version', dest='DBVERSION', help='Specifies the RDS Engine version')
+        parser.add_argument( '--datastore-id', dest='DATASTORE_ID', help='Specifies the RDS datastore id')
         parser.add_argument( "--load-balancer-name", dest="LOADBALANCER_NAME", help="Loadbalancer name of the VM")
         parser.add_argument( "--load-balancer-id", dest="LOADBALANCER_ID", help="Loadbalancer Id of the VM")
         parser.add_argument( "--listener-name", dest="LISTENER_NAME", help="Listener name of the VM")

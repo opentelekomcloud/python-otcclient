@@ -11,7 +11,6 @@ import inspect
 # -------------------------------
 #templateFolder = os.path.join( os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir)) , "templates")
 # -------------------------------
-
 # plugins/<plugin direcory>/templates/<template_name>.template
 templateFolder = os.path.join(os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir)), "plugins")
 

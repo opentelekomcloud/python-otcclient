@@ -1053,7 +1053,7 @@ class ecs(otcpluginbase):
                     print OtcConfig.SECUGROUP
                     print OtcConfig.SOURCE_GROUP_ID
                     print OtcConfig.VPCID                   
-            if security_group.get("name") == OtcConfig.SOURCE_GROUP and ( security_group.get("vpc_id") == OtcConfig.VPCID) :
+            if security_group.get("name") == OtcConfig.SOURCE_GROUP and ( security_group.get("vpc_id") == OtcConfig.VPC) :
                 OtcConfig.SOURCE_GROUP_ID = security_group["id"]
                 if OtcConfig.DEBUG:
                     print "SOURCE_GROUP + VPC"
@@ -1338,6 +1338,79 @@ class ecs(otcpluginbase):
         ecs.otcOutputHandler().print_output(ret, mainkey="")
         return ret
 
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Describe Tags",
+             examples=[
+                       {'Decscribe-tags":"otc ecs describe_tags'}
+                       ],
+             args = []) 
+    def describe_tags():         
+        if not OtcConfig.INSTANCE_NAME is None:
+            ecs.convertINSTANCENameToId()
+
+        if OtcConfig.INSTANCE_ID is None:
+            return
+
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/servers/" + OtcConfig.INSTANCE_ID + "/tags"        
+        ret = utils_http.get(url)
+        parsed = json.loads(ret)
+        #print (ret)
+        print parsed["tags"]
+        #{"tags": ["Dept.411163", "Role.Test"]}
+        return parsed
+
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Add Tag",
+             examples=[
+                       {'Add-tag":"otc ecs add_tag TAG.VALUE'}
+                       ],
+             args = []) 
+    def add_tag():         
+        if not OtcConfig.INSTANCE_NAME is None:
+            ecs.convertINSTANCENameToId()
+
+        if OtcConfig.INSTANCE_ID is None:
+            return
+
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/servers/" + OtcConfig.INSTANCE_ID + "/tags"        
+        parsed = ecs.describe_tags()
+        #print (parsed)
+        parsed["tags"].append(OtcConfig.TAG_PAIR)
+        #print (parsed)
+	new_json = json.dumps(parsed)
+        #print new_json
+        ret = utils_http.put(url, new_json)
+        print (ret)
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Delete Tag",
+             examples=[
+                       {'Delete-tag":"otc ecs delete_tag TAG.VALUE'}
+                       ],
+             args = []) 
+    def delete_tag():         
+        if not OtcConfig.INSTANCE_NAME is None:
+            ecs.convertINSTANCENameToId()
+
+        if OtcConfig.INSTANCE_ID is None:
+            return
+
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/servers/" + OtcConfig.INSTANCE_ID + "/tags"        
+        parsed = ecs.describe_tags()
+        #print (parsed)
+        parsed["tags"].remove(OtcConfig.TAG_PAIR)
+        #print (parsed)
+	new_json = json.dumps(parsed)
+        #print new_json
+        ret = utils_http.put(url, new_json)
+        print (ret)
+        return ret
 
     @staticmethod 
     @otcfunc(plugin_name=__name__,

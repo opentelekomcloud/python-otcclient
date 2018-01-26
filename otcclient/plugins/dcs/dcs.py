@@ -100,8 +100,8 @@ class dcs(otcpluginbase):
             OtcConfig.INSTANCE_TYPE_NAME = "OTC_DCS_SINGLE:1"
         if OtcConfig.INSTANCE_NAME is None:
            OtcConfig.INSTANCE_NAME = "dcs"
-
-	(OtcConfig.INSTANCE_DCS_TYPE,OtcConfig.INSTANCE_DCS_SIZE) = OtcConfig.INSTANCE_TYPE_NAME.split(':')
+           
+        (OtcConfig.INSTANCE_DCS_TYPE,OtcConfig.INSTANCE_DCS_SIZE) = str(OtcConfig.INSTANCE_TYPE_NAME).split(':')
         REQ_CREATE_DCS=utils_templates.create_request("create_instance")
         #print (REQ_CREATE_DCS)
         

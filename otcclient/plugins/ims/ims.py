@@ -5,7 +5,7 @@
 # Copyright (C) 2016 T-systems Kurt Garloff, Zsolt Nagy
 
 
-from otcclient.core.OtcConfig import OtcConfig 
+from otcclient.core.OtcConfig import OtcConfig
 from otcclient.utils import utils_http
 
 from otcclient.core.otcpluginbase import otcpluginbase
@@ -13,17 +13,17 @@ from otcclient.core.pluginmanager import getplugin
 
 import json
 
-from otcclient.core.argmanager import arg, otcfunc 
-    
+from otcclient.core.argmanager import arg, otcfunc
+
 class ims(otcpluginbase):
-    ar = {}    
-    
+    ar = {}
+
     @staticmethod
-    def otcOutputHandler(): 
+    def otcOutputHandler():
         return getplugin(OtcConfig.OUTPUT_FORMAT)
- 
+
     def otctype(self):
-        return "func" 
+        return "func"
 
     @staticmethod
     def update_image_metadata():
@@ -37,7 +37,7 @@ class ims(otcpluginbase):
              examples=[
                        {'Creates image metadata":"otc ims create_image_metadata  --image-name testimagenzs --os-version "Ubuntu 14.04 server 64bit" --container-format bare --disk-format raw --min-disk 1 --min-ram 1024 --tags "test,image" --visibility private --protected false'}
                        ],
-             args = [ 
+             args = [
                 arg(
                     '--os-version',
                     dest='OS_VERSION',
@@ -52,7 +52,7 @@ class ims(otcpluginbase):
                     metavar='container_format' ,
                     default=None,
                     help='Container format used during image creation'
-                )                                            
+                )
                 ,
                 arg(
                     '--disk_format',
@@ -103,19 +103,19 @@ class ims(otcpluginbase):
                     default=None,
                     help='Protected status of  image used during VM creation'
                 )
-                ]                
-             )    
+                ]
+             )
     def create_image_metadata():
-                
-        # image id filled until now 
-        url = "https://" + OtcConfig.DEFAULT_HOST + "/v2/images" 
-        REQ_CREATE_META_IMAGE = "{    \"__os_version\": \"" + OtcConfig.OS_VERSION + "\",\"container_format\": \"" + OtcConfig.CONTAINTER_FORMAT +  "\",\"disk_format\": \"" + OtcConfig.DISK_FORMAT + "\",    \"min_disk\": " +  OtcConfig.MIN_DISK + ",\"min_ram\": " + OtcConfig.MIN_RAM + ",\"name\": \"" + OtcConfig.IMAGENAME + "\",\"tags\": [\"" + OtcConfig.TAG_LIST + "\",\"image\"],\"visibility\": \"" + OtcConfig.IMAGE_VISIBILITY + "\",\"protected\": " + OtcConfig.PROTECTED + "}"    
-        ret = utils_http.post(url, REQ_CREATE_META_IMAGE)        
-        ims.otcOutputHandler().print_output(ret, mainkey="") 
+
+        # image id filled until now
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/v2/images"
+        REQ_CREATE_META_IMAGE = "{    \"__os_version\": \"" + OtcConfig.OS_VERSION + "\",\"container_format\": \"" + OtcConfig.CONTAINTER_FORMAT +  "\",\"disk_format\": \"" + OtcConfig.DISK_FORMAT + "\",    \"min_disk\": " +  OtcConfig.MIN_DISK + ",\"min_ram\": " + OtcConfig.MIN_RAM + ",\"name\": \"" + OtcConfig.IMAGENAME + "\",\"tags\": [\"" + OtcConfig.TAG_LIST + "\",\"image\"],\"visibility\": \"" + OtcConfig.IMAGE_VISIBILITY + "\",\"protected\": " + OtcConfig.PROTECTED + "}"
+        ret = utils_http.post(url, REQ_CREATE_META_IMAGE)
+        ims.otcOutputHandler().print_output(ret, mainkey="")
 
         OtcConfig.IMAGE_ID = json.loads(ret)["id"]
-        
-        if OtcConfig.IMAGE_ID is None: 
+
+        if OtcConfig.IMAGE_ID is None:
             raise RuntimeError("Image not created! " + ret)
 
         return ret
@@ -126,7 +126,7 @@ class ims(otcpluginbase):
              examples=[
                        {'Registers image":"otc ims register_image --image-url testuser:c.qcow2'}
                        ],
-             args = [ 
+             args = [
                 arg(
                     '--image-url',
                     dest='IMAGE_URL',
@@ -152,17 +152,17 @@ class ims(otcpluginbase):
     def register_image():
         if not (OtcConfig.IMAGENAME is None):
             getplugin("ecs").convertIMAGENameToId()
-        
+
         if OtcConfig.IMAGE_ID is None:
-            # error handling 
+            # error handling
             raise RuntimeError("Please define image id!")
-        
-        # image id filled until now 
+
+        # image id filled until now
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v2/images/" + OtcConfig.IMAGE_ID + "/file"
         REQ_REG_IMAGE = "{\"image_url\":\"" + OtcConfig.IMAGE_URL + "\" }"
         ret = utils_http.put(url, REQ_REG_IMAGE)
-        if len(ret) != 0: 
-            print ("Image registration error!" + ret) 
+        if len(ret) != 0:
+            print("Image registration error!" + ret)
         return ret
 
     @staticmethod
@@ -171,7 +171,7 @@ class ims(otcpluginbase):
              examples=[
                        {'Gets image data":"otc ims get_image --image-url testuser:c.qcow2'}
                        ],
-             args = [ 
+             args = [
                 arg(
                     '--image-url',
                     dest='IMAGE_URL',
@@ -197,17 +197,17 @@ class ims(otcpluginbase):
     def get_image():
         if not (OtcConfig.IMAGENAME is None):
             getplugin("ecs").convertIMAGENameToId()
-        
+
         if OtcConfig.IMAGE_ID is None:
-            # error handling 
+            # error handling
             raise RuntimeError("Please define image id!")
-         
-        # image id filled until now 
+
+        # image id filled until now
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v2/images/" + OtcConfig.IMAGE_ID + "/file"
         REQ_REG_IMAGE = "{\"image_url\":\"" + OtcConfig.IMAGE_URL + "\" }"
         ret = utils_http.post(url, REQ_REG_IMAGE)
-        if len(ret) != 0: 
-            print ("Image registration error!" + ret) 
+        if len(ret) != 0:
+            print("Image registration error!" + ret)
         return ret
 
 
@@ -218,7 +218,7 @@ class ims(otcpluginbase):
              examples=[
                        {'Creates image":"otc ims create_image --image-url testuser:c.qcow2 --image-name testimagenzs --os-version "Ubuntu 14.04 server 64bit" --container-format bare --disk-format raw --min-disk 1 --min-ram 1024 --tags "test,image" --visibility private --protected false'}
                        ],
-             args = [ 
+             args = [
                 arg(
                     '--os-version',
                     dest='OS_VERSION',
@@ -290,8 +290,8 @@ class ims(otcpluginbase):
                     default=None,
                     help='Url of the image used during Image creation'
                 )]
-                )     
-    def create_image():        
-        ims.create_image_metadata()        
-        ret = ims.register_image()        
+                )
+    def create_image():
+        ims.create_image_metadata()
+        ret = ims.register_image()
         return ret

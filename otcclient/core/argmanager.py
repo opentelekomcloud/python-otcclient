@@ -50,18 +50,18 @@ def add_otc_func(func, *args, **kwargs):
         return;
 
     args_temp = dict( kwargs )
-    args_temp["func_name"] = func.func_name
-    key = kwargs.get("plugin_name") + "-" + func.func_name 
-    if not funclist.has_key(key):
+    args_temp["func_name"] = func.__name__
+    key = kwargs.get("plugin_name") + "-" + func.__name__ 
+    if key not in funclist:
         funclist[key] = args_temp      
 
 # 
 # add_to_parser( parser, "mrs-describe_clusters" )
 # add_to_parser( parserall  )
 def add_to_parser( myparser, key ='*' ):    
-    for fkey, fval in funclist.iteritems():
+    for fkey, fval in funclist.items():
         if fkey ==  key or fkey == '*':
-            print fval 
+            print(fval) 
             for myarg,mykwargs in fval["args"]:         
                 myparser.add_argument(  *myarg,**mykwargs  )
 
@@ -69,5 +69,5 @@ def add_to_parser( myparser, key ='*' ):
         pprint(funclist)
 
 def get_help_iter():
-    return  funclist.values()
+    return  list(funclist.values())
 

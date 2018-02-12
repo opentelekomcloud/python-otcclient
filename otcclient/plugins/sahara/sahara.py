@@ -54,7 +54,7 @@ class sahara(otcpluginbase):
         REQ_UPDADTE_DATASORCE=utils_templates.create_request("update_datasource")
 
         ret = utils_http.put(url, REQ_UPDADTE_DATASORCE)
-        print REQ_UPDADTE_DATASORCE
+        print(REQ_UPDADTE_DATASORCE)
         print (url)
         print (ret)        
         sahara.otcOutputHandler().print_output(ret, mainkey = "") 
@@ -126,7 +126,7 @@ class sahara(otcpluginbase):
         REQ_CREATE_CLUSTER=utils_templates.create_request("create_cluster_with_job")
 
         ret = utils_http.post(url, REQ_CREATE_CLUSTER)
-        print REQ_CREATE_CLUSTER
+        print(REQ_CREATE_CLUSTER)
         print (url)
         print (ret)        
         sahara.otcOutputHandler().print_output(ret, mainkey = "") 
@@ -268,7 +268,7 @@ class sahara(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.1/"+ OtcConfig.PROJECT_ID +"/jobs"
         ret = utils_http.post(url, REQ_ADD_JOB)
         if OtcConfig.DEBUG:
-            print REQ_ADD_JOB
+            print(REQ_ADD_JOB)
         #print (url)
         #print (ret)        
         sahara.otcOutputHandler().print_output(ret, mainkey = "") 
@@ -340,7 +340,7 @@ class sahara(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.1/"+ OtcConfig.PROJECT_ID +"/jobs/" + OtcConfig.JOB_ID +"/execute"
         ret = utils_http.post(url, REQ_EXECUTE)
         if OtcConfig.DEBUG:        
-            print REQ_EXECUTE
+            print(REQ_EXECUTE)
             print (url)
             print (ret)        
         sahara.otcOutputHandler().print_output(ret, mainkey = "")     

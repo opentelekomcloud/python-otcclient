@@ -73,8 +73,9 @@ class mrs(otcpluginbase):
     @staticmethod
     def convertCLUSTERNameToId():
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.1/"+ OtcConfig.PROJECT_ID +"/cluster_infos"
+        
         url = url.replace("iam", "mrs")        
-        JSON = utils_http.get(url)
+        JSON = utils_http.get(url)        
         parsed  = json.loads(JSON)        
         servers = parsed["clusters"]
 
@@ -113,8 +114,10 @@ class mrs(otcpluginbase):
             getplugin("mrs").convertCLUSTERNameToId()
          
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.1/"+ OtcConfig.PROJECT_ID +"/clusters/" + OtcConfig.CLUSTER_ID + "/hosts"        
-        url = url.replace("iam", "mrs")                             
-        ret = utils_http.get( url )                    
+        url = url.replace("iam", "mrs")
+                                     
+        ret = utils_http.get( url )
+                            
         mrs.otcOutputHandler().print_output(ret,mainkey="") 
         return ret
 

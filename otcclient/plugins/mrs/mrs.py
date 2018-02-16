@@ -47,7 +47,7 @@ class mrs(otcpluginbase):
                 )
                 ,
                 arg(
-                    '-cluster-id',
+                    '--cluster-id',
                     dest='CLUSTER_ID',
                     metavar='<cluster_id>',
                     default=None,
@@ -70,6 +70,53 @@ class mrs(otcpluginbase):
         return ret
 
 
+    @staticmethod
+    def convertCLUSTERNameToId():
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.1/"+ OtcConfig.PROJECT_ID +"/cluster_infos"
+        url = url.replace("iam", "mrs")        
+        JSON = utils_http.get(url)
+        parsed  = json.loads(JSON)        
+        servers = parsed["clusters"]
+
+        ret = None
+        for server in servers:
+            if server.get("clusterName") == OtcConfig.CLUSTER:
+                ret = server["clusterId"]
+        if ret:
+            OtcConfig.CLUSTER_ID = ret  
+    
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="description of the avaliable hosts in specified cluster",
+             examples=[
+                       {"List Clusters":"otc mrs describe_clusterhosts"}, 
+                       {"Show Cluster Details":"otc mrs describe_clusterhosts mycluster"}
+                       ],
+             args = [ 
+                arg(
+                    '--cluster-name',
+                    dest='CLUSTER',
+                    help='description of the avaliable clusters'
+                )
+                ,
+                arg(
+                    '--cluster-id',
+                    dest='CLUSTER_ID',
+                    metavar='<cluster_id>',
+                    default=None,
+                    help='description of the avaliable clusters'
+                )                                            
+                ]                
+             )
+    def describe_clusterhosts():                 
+        if not (OtcConfig.CLUSTER is None):
+            getplugin("mrs").convertCLUSTERNameToId()
+         
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.1/"+ OtcConfig.PROJECT_ID +"/clusters/" + OtcConfig.CLUSTER_ID + "/hosts"        
+        url = url.replace("iam", "mrs")                             
+        ret = utils_http.get( url )                    
+        mrs.otcOutputHandler().print_output(ret,mainkey="") 
+        return ret
 
 
     @staticmethod
@@ -80,7 +127,7 @@ class mrs(otcpluginbase):
                        ],
              args = [ 
                 arg(
-                    '-cluster-id',
+                    '--cluster-id',
                     dest='CLUSTER_ID',
                     metavar='<cluster_id>',
                     default=None,
@@ -231,7 +278,7 @@ class mrs(otcpluginbase):
                        ],
              args = [ 
                 arg(
-                    '-job-exec-id',
+                    '--job-exec-id',
                     dest='JOB_EXEC_ID',
                     help='id of the job'
                 )

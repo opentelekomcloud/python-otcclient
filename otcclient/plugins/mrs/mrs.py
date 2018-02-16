@@ -169,7 +169,7 @@ class mrs(otcpluginbase):
         REQ_CREATE_CLUSTER=utils_templates.create_request("create_cluster_with_job")
 
         ret = utils_http.post(url, REQ_CREATE_CLUSTER)
-        print REQ_CREATE_CLUSTER
+        print(REQ_CREATE_CLUSTER)
         print (url)
         print (ret)        
         mrs.otcOutputHandler().print_output(ret, mainkey = "") 

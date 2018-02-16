@@ -30,7 +30,7 @@ class smn(otcpluginbase):
         ret = utils_http.get(url)        
         smn.otcOutputHandler().print_output(ret, mainkey = "topics", listkey={"name","display_name","topic_urn"})
         maindata = json.loads(ret)
-        print maindata['topics'][0]['topic_urn']
+        print(maindata['topics'][0]['topic_urn'])
         for topic in maindata['topics']:
             topic_subs = smn.list_subscription(topic['topic_urn'])
             smn.otcOutputHandler().print_output(topic_subs, mainkey = "subscriptions", listkey={"topic_urn","subscription_urn","protocol","endpoint","status"})
@@ -48,8 +48,8 @@ class smn(otcpluginbase):
     @staticmethod 
     def list_subscriptions():  
         url = "https://" + OtcConfig.DEFAULT_HOST +  "/v2/" + OtcConfig.PROJECT_ID + "/notifications/topics?offset=0&limit=10"
-        print "PROJECT_ID="+OtcConfig.PROJECT_ID;
-        print "URL="+url;            
+        print("PROJECT_ID="+OtcConfig.PROJECT_ID);
+        print("URL="+url);            
         URN="urn:smn:eu-de:xxxx:CTS-Test"
         url = "https://" + OtcConfig.DEFAULT_HOST +  "/v2/" + OtcConfig.PROJECT_ID + "/notifications/topics/"+URN+"/subscriptions?offset=0&limit=10"
         
@@ -58,7 +58,7 @@ class smn(otcpluginbase):
 
         if OtcConfig.INSTANCE_ID is None: 
             ret = utils_http.get(url)        
-            print "RETURN="+ret;            
+            print("RETURN="+ret);            
             smn.otcOutputHandler().print_output(ret, mainkey = "subscriptions", listkey={"topic_urn","protocol","subscription_urn","endpoint","status"})
         else:            
             ret = utils_http.get(url + '/' + OtcConfig.INSTANCE_ID )        

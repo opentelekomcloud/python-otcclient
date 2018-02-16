@@ -7,7 +7,7 @@ from otcclient.utils.utils_output import printShortHelp
 from otcclient.core.argmanager import add_to_parser
 
 '''
-otcclient.otcclient -- Client Tool for Open Telecom Cloud 
+otcclient.otcclient -- Client Tool for Open Telecom Cloud
 @copyright:  2016 T-systems(c). All rights reserved.
 @contact:    Z.Nagy@t-systems.com
 '''
@@ -24,7 +24,7 @@ else:
 from otcclient.core.userconfigaction import userconfigaction
 from otcclient.core.configloader import configloader
 from otcclient.core.OtcConfig import OtcConfig
-from otcclient.core.pluginmanager import getFunc       
+from otcclient.core.pluginmanager import getFunc
 
 __all__ = []
 __version__ = 1.1
@@ -33,7 +33,7 @@ __updated__ = '2016-08-16'
 
 TESTRUN = 0
 PROFILE = 0
-parser = ArgumentParser(prog='otc' ,  formatter_class=RawTextHelpFormatter ) 
+parser = ArgumentParser(prog='otc' ,  formatter_class=RawTextHelpFormatter )
 
 class CLIError(Exception):
     '''Generic exception to raise and log different fatal errors.'''
@@ -50,7 +50,7 @@ def handleCommands(args):  # @DontTrace
         pass
     func = getFunc(command=OtcConfig.MAINCOM, subcommand=OtcConfig.SUBCOM)
     # call the function
-    (func)()  
+    (func)()
 
 def main(argv=None): # IGNORE:C0111
     if argv is None:
@@ -64,25 +64,25 @@ def main(argv=None): # IGNORE:C0111
     program_version_message = '%%(prog)s %s (%s)' % (program_version, program_build_date)
 #    program_shortdesc = __import__('__main__').__doc__.split("\n")[1]
 #     program_license = '''%s
-# 
+#
 #   Created by NZS on %s.
 #   Copyright 2016 T-systems(c). All rights reserved.
 #   Licensed under the MIT
-#   
+#
 # USAGE
 # ''' % (program_shortdesc, str(__date__))
 
     try:
-        # Setup argument parser        
-        parser.add_argument('-V', '--version', action='version', version=program_version_message)        
+        # Setup argument parser
+        parser.add_argument('-V', '--version', action='version', version=program_version_message)
         parser.add_argument('-d', '--debug', help='Debug mode', dest='DEBUG', action='store_true')
         parser.add_argument('--configure', nargs='?',action=userconfigaction,choices=['user', 'proxy'], default = "user")
         #parser.add_argument('--configure-proxy', nargs='+',action=userconfigaction , required = False)
         parser.add_argument(dest="MAINCOM", help="OTC Component Selector",  nargs='?', default='ecs', metavar="OtcComponent") #choices=['ecs', 's3']s
         parser.add_argument(dest="SUBCOM", help="OTC Command Selector",  nargs='?', default='', metavar="OtcCommand")
-        # for S3 commands 
+        # for S3 commands
         parser.add_argument(dest="SUBCOM_P1", help="[optional Source/Target OBS directory]",  nargs='?', default='', metavar="Source/Target DIR")
-        parser.add_argument(dest="SUBCOM_P2", help="[optional Source/Target OBS directory]",  nargs='?', default='', metavar="Source/Target DIR")                
+        parser.add_argument(dest="SUBCOM_P2", help="[optional Source/Target OBS directory]",  nargs='?', default='', metavar="Source/Target DIR")
 
         parser.add_argument( "--project-name", dest="PROJECT_NAME", help="Project Name for Dedicated Compute Zone")
         parser.add_argument("-k", "--key-name", dest="KEYNAME", help="SSH key name| S3 Object key")
@@ -101,8 +101,8 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--listener-id", dest="LISTENER_ID", help="Listener Id of the VM")
         parser.add_argument( "--alarm-name", dest="ALARM_NAME", help="Alarm name")
         parser.add_argument( "--alarm-id", dest="ALARM_ID", help="Alarm Id ")
-        
-        
+
+
         parser.add_argument( "--volume-id", dest="VOLUME_ID", help="Volume Id of the EVS volume")
         parser.add_argument( "--attachment-id", dest="ATTACHMENT_ID", help="Attachment Id of the EVS volume")
         parser.add_argument( "--device", dest="EVS_DEVICE", help="Device of the EVS volume")
@@ -121,15 +121,15 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--container-name",dest="CONTAINER_NAME", help="CCE POD container name")
         parser.add_argument( "--service-name",dest="SERVICE_NAME", help="CCE Service name")
         parser.add_argument( "--endpoint-name",dest="ENDPOINT_NAME", help="CCE endpoint name")
-        parser.add_argument( "--secret-name",dest="SECRET_NAME", help="CCE secret name")        
+        parser.add_argument( "--secret-name",dest="SECRET_NAME", help="CCE secret name")
         parser.add_argument( "--rc-name",dest="RC_NAME", help="CCE replication controller name")
-        
-        
+
+
         parser.add_argument( "--cli-input-json",dest="CLIINPUTJSONFILE", help="Input JSON file for every request")
-        
+
         parser.add_argument( "--user-data",dest="USER_DATA_PATH", help="Path to user-data file which will be used for cloud-init")
-        
-        
+
+
         parser.add_argument( "--image-url",dest="IMAGE_URL", help="Url of the image used during Image creation")
         parser.add_argument( "--tags",dest="TAG_LIST", help="Tags of the image will used during Image creation")
         parser.add_argument( "--protected",dest="PROTECTED", help="Protected status of  image used during VM creation")
@@ -139,8 +139,8 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--visibility",dest="IMAGE_VISIBILITY", help="Image visibility used during image creation")
         parser.add_argument( "--disk-format",dest="DISK_FORMAT", help="Disk format used during image creation")
         parser.add_argument( "--container-format",dest="CONTAINTER_FORMAT", help="Container format used during image creation")
-                
-        parser.add_argument("-n", "--count",dest="NUMCOUNT", help="Number of VM will be created")                
+
+        parser.add_argument("-n", "--count",dest="NUMCOUNT", help="Number of VM will be created")
         parser.add_argument( "--subnet-name",dest="SUBNETNAME", help="Name of the subnet reference will use during VM creation")
         parser.add_argument( "--subnet-id",dest="SUBNETID", help="Id of the subnet will use during VM creation")
         parser.add_argument( "--network-interface-id",dest="NETWORKINTERFACEID", help="Network interface Id of NIC")
@@ -154,20 +154,20 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--region",dest="REGION", help="Region definition")
         parser.add_argument( "--group-names",dest="SECUGROUPNAME", help="Name of the security group")
         parser.add_argument( "--security-group-ids",dest="SECUGROUP", help="Id of the security group")
-        
+
         parser.add_argument( "--source-group-id",dest="SOURCE_GROUP_ID", help="Id of Source security group")
         parser.add_argument( "--source-group",dest="SOURCE_GROUP", help="Name of Source security group")
 
         parser.add_argument( "--auto-scaling-group-name",dest="SCALINGGROUP_NAME", help="Name of Auto Scaling group")
         parser.add_argument( "--auto-scaling-group-id",dest="SCALINGGROUP_ID", help="Id of Auto Scaling group")
-        
+
         parser.add_argument( "--dim",dest="DIM", nargs='*', help="CES Dim definition")
         parser.add_argument( "--metric-name",dest="METRIC-NAME", help="CES Metric Name")
         parser.add_argument( "--namespace",dest="NAMESPACE", help="CES/CCE Namespace")
         parser.add_argument( "--period",dest="PERIOD", help="CES Period")
         parser.add_argument( "--filter",dest="FILTER", help="CES Filter")
 
-        
+
         parser.add_argument("-p", "--associate-public-ip-address", dest="CREATE_ECS_WITH_PUBLIC_IP", action='store_true',help="VM will get EIP public IP")
         parser.add_argument( "--public-ip",dest="PUBLICIP", help="Public IP for association")
         parser.add_argument( "--private-ip-id",dest="PRIVATEIPID", help="Private IP Id")
@@ -189,13 +189,13 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--description",dest="DESCRIPTION", help="Description definition ( eg: backups)")
         parser.add_argument( "--snapshot-id",dest="SNAPSHOTID", help="Snapshot id of the  backup")
         parser.add_argument( "--wait-instance-running", dest="WAIT_CREATE", action='store_true' , help="Wait instance running (only for run-instance command)")
-        
-        
+
+
         # GY
         #add_backend_member.template
         #delete_backend_member.template
         #INSTANCE_ID #parser.add_argument( "--server-id", dest="SERVER_ID", help="Specifies the backend member ID")
-        
+
         parser.add_argument( "--address", dest="ADDRESS", help="Specifies the private IP address of the backend member")
         #apply_private_ip_address.template
         #SUBNETID
@@ -238,7 +238,7 @@ def main(argv=None): # IGNORE:C0111
 
 
         #modify_information_listener.template
-        
+
         parser.add_argument( "--listener-description", dest="LISTENER_DESCRIPTION", help="listener-description")
         parser.add_argument( "--listener-port", dest="LISTENER_PORT", help="listener-port")
         parser.add_argument( "--backend-port", dest="BACKEND_PORT", help="backend-port")
@@ -308,7 +308,7 @@ def main(argv=None): # IGNORE:C0111
         #VOLUME_ID
         #update_evs_info.template
         #VOLUME_NAME
-        #DESCRIPTION        
+        #DESCRIPTION
         #create_listener.template
         parser.add_argument( '--session-sticky', dest='SESSION_STICKY', help='Specifies whether to enable the session persistence function.The value is true or false. The session persistence function is enabled when the value is true, and is disabled when the value is false.')
         parser.add_argument( '--sticky-session-type', dest='STICKY_SESSION_TYPE', help='Specifies the cookie processing method. The value is insert.insert indicates that the cookie is inserted by the load balancer. This parameter is valid when protocol is set to HTTP, and session_sticky to true. The default value is insert. This parameter is invalid when protocol is set to TCP. That means the parameter is empty.')
@@ -332,54 +332,53 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( '--mrs-args', dest='MRS_ARGS', help='Specifies the MRS ARGS')
         parser.add_argument( '--mrs-file-action', dest='MRS_ACTION', help='Specifies the MRS File Action')
         parser.add_argument( '--mrs-mains', dest='MRS_MAINS', help='Specifies the MRS Main Object List')
-        parser.add_argument( '--mrs-libs', dest='MRS_LIBS', help='Specifies the MRS Libs Object List')                
+        parser.add_argument( '--mrs-libs', dest='MRS_LIBS', help='Specifies the MRS Libs Object List')
         parser.add_argument( '--mrs-configs', dest='MRS_CONFIGS', help='Specifies the MRS Config List')
-        parser.add_argument( '--mrs-params', dest='MRS_PARAMS', help='Specifies the MRS Params List')                
+        parser.add_argument( '--mrs-params', dest='MRS_PARAMS', help='Specifies the MRS Params List')
 
-        # this is need if you want to use global decorator parser 
+        # this is need if you want to use global decorator parser
         #add_to_parser( parser )
 
         # Process arguments
         args = parser.parse_args()
         #args = parser.parse_known_args()
-        
+
         OtcConfig.copyfromparser( args )
-        
-        configloader.readUserValues() 
+
+        configloader.readUserValues()
         configloader.readProxyValues()
         configloader.validateConfig()
 
         handleCommands(argv)
-        
+
         return 0
     except KeyboardInterrupt as e:
-        print("KeyboardInterrupt" +  str(e))
+        print("KeyboardInterrupt" + str(e))
         ### handle keyboard interrupt ###
         return 1
 
     except NoSectionError as e:
         print("Configuration error. \nDefine ENV variables or run following command: \n    otc --configure [user | proxy]")
         return 1
-    except (KeyError,AttributeError) as e:
+    except (KeyError, AttributeError) as e:
         #errno, strerror = e.args
         print("Invalid command:" + str(e))
-        printShortHelp();
+        printShortHelp()
         #parser.print_help()
-        if OtcConfig.DEBUG or TESTRUN:        
+        if OtcConfig.DEBUG or TESTRUN:
             raise
         ### handle keyboard interrupt ###
         return 1
-    except ( Exception ) as e:
-    
+    except (Exception) as e:
         if OtcConfig.DEBUG or TESTRUN:
             raise e
         indent = len(program_name) * " "
         sys.stderr.write(program_name + ": " + repr(e) + "\n")
         sys.stderr.write(indent + "  for help use --help")
         return 2
-    except :
+    except:
         print("Other exception"  + "Unexpected error:", sys.exc_info()[0])
+
 
 if __name__ == "__main__":
     main()
-

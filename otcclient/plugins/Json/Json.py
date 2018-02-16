@@ -20,7 +20,7 @@ class Json(otcpluginbase):
     @staticmethod
     def print_output(respjson, **kwargs):
         
-        if isinstance(respjson, (str, str)):
+        if isinstance(respjson, str):
             if len(respjson.strip()) == 0:
                 return
 

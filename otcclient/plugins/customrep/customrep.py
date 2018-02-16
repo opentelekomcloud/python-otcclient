@@ -94,10 +94,10 @@ class customrep(otcpluginbase):
                 if v["status"] == "in-use": 
                     volumesum += v.get("size")
                     
-            print "SUMVMs:" , servercount 
-            print "SUM vCPU:", sumvcpus
-            print "SUM RAM:", sumram     
-            print "SUM Volume:", volumesum
+            print("SUMVMs:" , servercount) 
+            print("SUM vCPU:", sumvcpus)
+            print("SUM RAM:", sumram)     
+            print("SUM Volume:", volumesum)
 
             datecolumn = getcoldatehour55(datetime.now())
             update_xlsx(

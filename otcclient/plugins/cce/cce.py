@@ -177,8 +177,8 @@ class cce(otcpluginbase):
                            
         url = "https://cce.eu-de.otc.t-systems.com" + "/api/v1/clusters/" + OtcConfig.CLUSTER_ID  + "/hosts"
         req = utils_templates.create_request("cce_add_node")
-        print url 
-        print req        
+        print(url) 
+        print(req)        
         ret = utils_http.post(url, req)
         cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret

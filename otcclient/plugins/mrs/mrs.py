@@ -288,7 +288,7 @@ class mrs(otcpluginbase):
                 ]             
              )
     def describe_job_details():
-        url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.1/"+ OtcConfig.PROJECT_ID +"/job-exes/" + OtcConfig.JOB_EXEC_ID        
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.1/"+ OtcConfig.PROJECT_ID +"/job-exes/" + OtcConfig.JOB-EXEC-ID
         ret = utils_http.get(url)
         print (url)
         print (ret)        

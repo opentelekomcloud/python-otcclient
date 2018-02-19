@@ -361,16 +361,17 @@ def main(argv=None): # IGNORE:C0111
         print("Configuration error. \nDefine ENV variables or run following command: \n    otc --configure [user | proxy]")
         return 1
     except (KeyError, AttributeError) as e:
-        #errno, strerror = e.args
+        #errno, strerror = e.args    
         print("Invalid command:" + str(e))
         printShortHelp()
         #parser.print_help()
         if OtcConfig.DEBUG or TESTRUN:
+                               
             raise
         ### handle keyboard interrupt ###
         return 1
     except (Exception) as e:
-        if OtcConfig.DEBUG or TESTRUN:
+        if OtcConfig.DEBUG or TESTRUN:                     
             raise e
         indent = len(program_name) * " "
         sys.stderr.write(program_name + ": " + repr(e) + "\n")

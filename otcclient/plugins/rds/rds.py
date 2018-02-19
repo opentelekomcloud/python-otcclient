@@ -24,33 +24,15 @@ class rds(otcpluginbase):
         return "func"
 
     @staticmethod
-    @otcfunc(plugin_name=__name__,
-             desc="create rds cluster",
-             examples = [
-                 {'otc rds create_cluster --subnet-id  1111111-1111-1111-1111-a96f27f31111 --vpc-name MYVPC --group-names MYSECGROUP --cluster-name TEST --admin-pass Test1234+'}
-                 ],
-             args = [
-                arg(
-                    '--cluster-name',
-                    dest='CLUSTER',
-                    help='create cluster'
-                ),
-                arg(
-                    '--disk-size',
-                    dest='DISK_SIZE',
-                    help='disk size'
-                )
-                ]
-             )
-
-    def create_cluster():
+    def create_cluster():        
         url = "https://" + OtcConfig.DEFAULT_HOST + "/rds/v1/"+ OtcConfig.PROJECT_ID +"/instances"
         url = url.replace('iam', 'rds')
         # url = string.replace(url, 'iam', 'rds')
         #vpc_id
+        
         if not (OtcConfig.VPCNAME is None):
             getplugin("ecs").convertVPCNameToId()
-
+        
         #network_id
         if not OtcConfig.SUBNETNAME is None:
             getplugin("ecs").convertSUBNETNameToId()
@@ -58,8 +40,6 @@ class rds(otcpluginbase):
         if (not (OtcConfig.SECUGROUPNAME is None)):
             getplugin("ecs").convertSECUGROUPNameToId()
 
-        if not OtcConfig.SUBNETNAME is None:
-            ecs.convertSUBNETNameToId()
 
         if (OtcConfig.DBTYPE is None):
             OtcConfig.DBTYPE = "MySQL"
@@ -77,8 +57,6 @@ class rds(otcpluginbase):
 
         ret = utils_http.post(url, REQ_CREATE_CLUSTER)
         print(REQ_CREATE_CLUSTER)
-        print(url)
-        print(ret)
         rds.otcOutputHandler().print_output(ret, mainkey = "")
 
 
@@ -97,6 +75,7 @@ class rds(otcpluginbase):
                        ],
              args = [ ]
              )
+    
     def describe_db_instances():
         url = "https://" + OtcConfig.DEFAULT_HOST + "/rds/v1/"+ OtcConfig.PROJECT_ID + "/instances"
         url = url.replace('iam', 'rds')

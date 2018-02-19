@@ -23,6 +23,10 @@
 			"startTime": "01:00:00",
 			"keepDays": 3
 		},
-		"dbRtPd": "{{ADMINPASS}}"
+		"dbRtPd": "{{ADMINPASS}}",
+         "ha": {
+         "enable": true,
+         "replicationMode": "async"
+         }		
 	}
 }

@@ -1422,3 +1422,85 @@ class ecs(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/types"
         ret = utils_http.get(url)
         print (ret)
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Create new EVS replication relationship",
+             examples=[
+                       {'Create new subnet for VPC":"otc ecs create-subnet --subnet-name subnettest --cidr 192.168.1.0/16 --gateway-ip 192.168.1.2 --primary-dns 8.8.8.8 --secondary-dns 8.8.4.4 --availability-zone eu-de-01 --vpc-name default-vpc '}
+                       ],
+             args = [ 
+                    arg(    '--subnet-name',    dest='SUBNETNAME',     help='Name of the subnet reference will use during VM creation'),
+                    arg(    '--availability-zone',    dest='AZ',     help='Availability-zone definition')
+
+                    ]
+                )
+    def create_replication_pair():
+        if not (OtcConfig.VPCNAME is None):
+            ecs.convertVPCNameToId()
+            
+        req = utils_templates.create_request("create_evs_rep")
+        print req
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replications"        
+        url = string.replace(url, 'iam', 'evs')
+        print url
+        ret = utils_http.post(url, req)
+        print(ret)
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="List EVS replication relationship",
+             examples=[
+                       {'Create new subnet for VPC":"otc ecs create-subnet --subnet-name subnettest --cidr 192.168.1.0/16 --gateway-ip 192.168.1.2 --primary-dns 8.8.8.8 --secondary-dns 8.8.4.4 --availability-zone eu-de-01 --vpc-name default-vpc '}
+                       ],
+             args = [ 
+                    arg(    '--subnet-name',    dest='SUBNETNAME',     help='Name of the subnet reference will use during VM creation'),
+                    arg(    '--availability-zone',    dest='AZ',     help='Availability-zone definition')
+
+                    ]
+                )
+    def list_replication_pairs():
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replications"        
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.get(url)
+        print(ret)
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Show EVS replication relationship",
+             examples=[
+                       {'Create new subnet for VPC":"otc ecs create-subnet --subnet-name subnettest --cidr 192.168.1.0/16 --gateway-ip 192.168.1.2 --primary-dns 8.8.8.8 --secondary-dns 8.8.4.4 --availability-zone eu-de-01 --vpc-name default-vpc '}
+                       ],
+             args = [ 
+                    arg(    '--subnet-name',    dest='SUBNETNAME',     help='Name of the subnet reference will use during VM creation'),
+                    arg(    '--availability-zone',    dest='AZ',     help='Availability-zone definition')
+
+                    ]
+                )
+    def show_replication_pair():
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replications/" + OtcConfig.REPLICATION_ID
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.get(url)
+        print(ret)
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Delete EVS replication relationship",
+             examples=[
+                       {'Create new subnet for VPC":"otc ecs create-subnet --subnet-name subnettest --cidr 192.168.1.0/16 --gateway-ip 192.168.1.2 --primary-dns 8.8.8.8 --secondary-dns 8.8.4.4 --availability-zone eu-de-01 --vpc-name default-vpc '}
+                       ],
+             args = [ 
+                    arg(    '--subnet-name',    dest='SUBNETNAME',     help='Name of the subnet reference will use during VM creation'),
+                    arg(    '--availability-zone',    dest='AZ',     help='Availability-zone definition')
+
+                    ]
+                )
+    def delete_replication_pair():
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replications/" + OtcConfig.REPLICATION_ID
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.delete(url)
+        print(ret)
+        return ret

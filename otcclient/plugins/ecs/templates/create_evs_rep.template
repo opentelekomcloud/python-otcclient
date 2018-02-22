@@ -1,0 +1,12 @@
+{
+ "replication": {
+ "name": "{{VOLREP_NAME}}",
+ "description": "{{DESCRIPTION}}",
+ "volume_ids": [
+ "{{VOLUME_ID1}}",
+ "{{VOLUME_ID2}}"
+ ],
+ "priority_station": "{{VOLREP_PRI}}",
+ "replication_model": "hypermetro"
+ }
+}

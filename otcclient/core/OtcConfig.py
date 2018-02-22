@@ -102,6 +102,12 @@ class OtcConfig(object):
     VOLUME_ID = None
     ATTACHMENT_ID = str()
     EVS_DEVICE = str()
+    VOLREP_NAME = None
+    VOLREP_PRI = None
+    VOLUME_ID1 = None
+    VOLUME_ID2 = None
+    REPLICATION_ID = None
+
     # main commands
     MAINCOM = None
     SUBCOM = None
@@ -370,6 +376,11 @@ class OtcConfig(object):
         self.VOLUME_ID = parser.VOLUME_ID                                       if parser.VOLUME_ID else None
         self.ATTACHMENT_ID = parser.ATTACHMENT_ID                               if parser.ATTACHMENT_ID else str()
         self.EVS_DEVICE = parser.EVS_DEVICE                                     if parser.EVS_DEVICE else str()
+        self.VOLREP_NAME = parser.VOLREP_NAME                                   if parser.VOLREP_NAME else None
+        self.VOLREP_PRI = parser.VOLREP_PRI                                     if parser.VOLREP_PRI else None
+        self.VOLUME_ID1 = parser.VOLUME_ID1                                     if parser.VOLUME_ID1 else None
+        self.VOLUME_ID2 = parser.VOLUME_ID2                                     if parser.VOLUME_ID2 else None
+        self.REPLICATION_ID = parser.REPLICATION_ID                             if parser.REPLICATION_ID else None
         self.MAINCOM = parser.MAINCOM                                           if parser.MAINCOM else None
         self.SUBCOM = parser.SUBCOM                                              if parser.SUBCOM else None
         self.SUBCOM_P1 = parser.SUBCOM_P1                                        if parser.SUBCOM_P1 else None

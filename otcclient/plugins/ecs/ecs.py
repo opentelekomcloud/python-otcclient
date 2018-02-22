@@ -1647,7 +1647,7 @@ class ecs(otcpluginbase):
                     arg(    '--replication-id',    dest='REPLICATION_ID',     help='Replication id to show')
                     ]
                 )
-    def failover_consistency_group():
+    def reverse_consistency_group():
         req = "{ \"os-reverse-replication-consistency-group\": null }"
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replication-consistency-groups/" + OtcConfig.REPLICATION_ID + "/action"
         url = string.replace(url, 'iam', 'evs')

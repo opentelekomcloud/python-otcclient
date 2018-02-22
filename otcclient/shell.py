@@ -110,6 +110,7 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--volume-id1", dest="VOLUME_ID1", help="Volume Id of the source EVS volume")
         parser.add_argument( "--volume-id2", dest="VOLUME_ID2", help="Volume Id of the destination EVS volume")
         parser.add_argument( "--replication-id", dest="REPLICATION_ID", help="Replication Id ")
+        parser.add_argument( "--replication-ids", dest="VOLREP_IDS", help="Replication Ids ")
         parser.add_argument( "--device", dest="EVS_DEVICE", help="Device of the EVS volume")
         parser.add_argument( "--file1", dest="FILE1", help="Name of the #1 file to be injected to VM. Format: target=source")
         parser.add_argument( "--file2", dest="FILE2", help="Name of the #2 file to be injected to VM. Format: target=source")

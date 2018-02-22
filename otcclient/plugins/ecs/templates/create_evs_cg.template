@@ -1,0 +1,9 @@
+{
+ "replication_consistency_group": {
+ "name": "{{VOLREP_NAME}}",
+ "description": "{{DESCRIPTION}}",
+ "replication_ids": [ {{VOLREP_IDS}}],
+ "priority_station": "{{VOLREP_PRI}}",
+ "replication_model": "hypermetro"
+ }
+}

@@ -16,7 +16,7 @@ import sys
 import json
 import os
 from otcclient.core.argmanager import arg, otcfunc
-
+import string
 
 
 class ecs(otcpluginbase):
@@ -1361,6 +1361,31 @@ class ecs(otcpluginbase):
         #{"tags": ["Dept.411163", "Role.Test"]}
         return parsed
 
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Describe EVS Tags",
+             examples=[
+                       {'decscribe-evstags":"otc ecs describe_evstags'}
+                       ],
+             args = [
+                      arg(    '--instance-ids',    dest='INSTANCE_ID',     help='Instance id of the  ECS')
+                    ])
+    def describe_evstags():
+        if not OtcConfig.INSTANCE_NAME is None:
+            ecs.convertINSTANCENameToId()
+
+        if OtcConfig.INSTANCE_ID is None:
+            return
+
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-tags/volumes/" + OtcConfig.INSTANCE_ID
+        url = string.replace(url, 'iam', 'evs')
+        print url
+        ret = utils_http.get(url)
+        parsed = json.loads(ret)
+        print (ret)
+        return
+        print parsed["tags"]
+        return parsed
 
     @staticmethod
     @otcfunc(plugin_name=__name__,
@@ -1427,11 +1452,14 @@ class ecs(otcpluginbase):
     @otcfunc(plugin_name=__name__,
              desc="Create new EVS replication relationship",
              examples=[
-                       {'Create new subnet for VPC":"otc ecs create-subnet --subnet-name subnettest --cidr 192.168.1.0/16 --gateway-ip 192.168.1.2 --primary-dns 8.8.8.8 --secondary-dns 8.8.4.4 --availability-zone eu-de-01 --vpc-name default-vpc '}
+                       {'Create new replication relationship":"otc ecs create-replication-pair --volume-id1 8d3cc159-1da3-494e-a230-7e17bda05f44 --volume-id2 15161607-3c3f-48e8-bcd4-aa770e74d521 --volrep-primaryaz eu-de-01 --volrep-name MyTest --description myComment '}
                        ],
              args = [ 
-                    arg(    '--subnet-name',    dest='SUBNETNAME',     help='Name of the subnet reference will use during VM creation'),
-                    arg(    '--availability-zone',    dest='AZ',     help='Availability-zone definition')
+                    arg(    '--volume-id1',    dest='VOLUME_ID1',     help='ID of the source volume'),
+                    arg(    '--volume-id2',    dest='VOLUME_ID2',     help='ID of the destinatoin volume'),
+                    arg(    '--volrep-primaryaz', dest='VOLREP_PRI',  help='name of the primary AZ'),
+                    arg(    '--volrep-name',   dest='VOLREP_NAME',    help='NAME of the replication relationship'),
+                    arg(    '--description',   dest='DESCRIPTION',    help='Optional description')
 
                     ]
                 )
@@ -1452,30 +1480,27 @@ class ecs(otcpluginbase):
     @otcfunc(plugin_name=__name__,
              desc="List EVS replication relationship",
              examples=[
-                       {'Create new subnet for VPC":"otc ecs create-subnet --subnet-name subnettest --cidr 192.168.1.0/16 --gateway-ip 192.168.1.2 --primary-dns 8.8.8.8 --secondary-dns 8.8.4.4 --availability-zone eu-de-01 --vpc-name default-vpc '}
+                       {'List all replication relationships":"otc ecs list-replication-pairs'}
                        ],
              args = [ 
-                    arg(    '--subnet-name',    dest='SUBNETNAME',     help='Name of the subnet reference will use during VM creation'),
-                    arg(    '--availability-zone',    dest='AZ',     help='Availability-zone definition')
-
                     ]
                 )
     def list_replication_pairs():
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replications"        
         url = string.replace(url, 'iam', 'evs')
         ret = utils_http.get(url)
-        print(ret)
+        #ecs.otcOutputHandler().print_output(ret,mainkey="replications", listkey={"id", "name", "status", "replication_status", "replication_consistency_group_id", "priority_station", "volume_ids", "progress", "created_at", "description"})
+        ecs.otcOutputHandler().print_output(ret,mainkey="replications", listkey={"id", "name", "status", "replication_status", "replication_consistency_group_id", "priority_station", "progress"})
         return ret
 
     @staticmethod
     @otcfunc(plugin_name=__name__,
              desc="Show EVS replication relationship",
              examples=[
-                       {'Create new subnet for VPC":"otc ecs create-subnet --subnet-name subnettest --cidr 192.168.1.0/16 --gateway-ip 192.168.1.2 --primary-dns 8.8.8.8 --secondary-dns 8.8.4.4 --availability-zone eu-de-01 --vpc-name default-vpc '}
+                       {'Create new replication relationship":"otc ecs show-replication-pair --replication-id caf6b0c0-181e-4a0c-bbc5-eba338cf087e '}
                        ],
              args = [ 
-                    arg(    '--subnet-name',    dest='SUBNETNAME',     help='Name of the subnet reference will use during VM creation'),
-                    arg(    '--availability-zone',    dest='AZ',     help='Availability-zone definition')
+                    arg(    '--replication-id',    dest='REPLICATION_ID',     help='Replication id to show')
 
                     ]
                 )
@@ -1483,18 +1508,17 @@ class ecs(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replications/" + OtcConfig.REPLICATION_ID
         url = string.replace(url, 'iam', 'evs')
         ret = utils_http.get(url)
-        print(ret)
+        ecs.otcOutputHandler().print_output(ret, mainkey="")
         return ret
 
     @staticmethod
     @otcfunc(plugin_name=__name__,
              desc="Delete EVS replication relationship",
              examples=[
-                       {'Create new subnet for VPC":"otc ecs create-subnet --subnet-name subnettest --cidr 192.168.1.0/16 --gateway-ip 192.168.1.2 --primary-dns 8.8.8.8 --secondary-dns 8.8.4.4 --availability-zone eu-de-01 --vpc-name default-vpc '}
+                       {'Delete a replication relationship":"otc ecs delete-replication-pair --replication-id caf6b0c0-181e-4a0c-bbc5-eba338cf087e '}
                        ],
              args = [ 
-                    arg(    '--subnet-name',    dest='SUBNETNAME',     help='Name of the subnet reference will use during VM creation'),
-                    arg(    '--availability-zone',    dest='AZ',     help='Availability-zone definition')
+                    arg(    '--replication-id',    dest='REPLICATION_ID',     help='Replication id to delete')
 
                     ]
                 )
@@ -1502,5 +1526,5 @@ class ecs(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replications/" + OtcConfig.REPLICATION_ID
         url = string.replace(url, 'iam', 'evs')
         ret = utils_http.delete(url)
-        print(ret)
+        #print(ret)
         return ret

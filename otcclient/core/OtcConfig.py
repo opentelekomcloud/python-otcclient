@@ -108,6 +108,9 @@ class OtcConfig(object):
     VOLUME_ID2 = None
     REPLICATION_ID = None
     VOLREP_IDS = None
+    VOLTRSF_NAME = None
+    VOLTRSF_ID = None
+    AUTH_KEY = None
 
     # main commands
     MAINCOM = None
@@ -383,6 +386,9 @@ class OtcConfig(object):
         self.VOLUME_ID2 = parser.VOLUME_ID2                                     if parser.VOLUME_ID2 else None
         self.REPLICATION_ID = parser.REPLICATION_ID                             if parser.REPLICATION_ID else None
         self.VOLREP_IDS = parser.VOLREP_IDS                                     if parser.VOLREP_IDS else None
+        self.VOLTRSF_NAME = parser.VOLTRSF_NAME                                 if parser.VOLTRSF_NAME else None
+        self.VOLTRSF_ID = parser.VOLTRSF_ID                                     if parser.VOLTRSF_ID else None
+        self.AUTH_KEY = parser.AUTH_KEY                                         if parser.AUTH_KEY else None
         self.MAINCOM = parser.MAINCOM                                           if parser.MAINCOM else None
         self.SUBCOM = parser.SUBCOM                                              if parser.SUBCOM else None
         self.SUBCOM_P1 = parser.SUBCOM_P1                                        if parser.SUBCOM_P1 else None

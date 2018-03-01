@@ -1691,3 +1691,96 @@ class ecs(otcpluginbase):
         print(ret)
         return ret
 
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Create an EVS Disk Transfer - as source tenant",
+             examples=[
+                       {'Create new EVS Disk Transfer":"otc ecs create-evs-transfer --tenant-id OTC-T11010000019798 --volume-id1 '}
+                       ],
+             args = [
+                    arg(    '--volume-id',    dest='VOLUME_ID',       help='ID of the volume to be transferred'),
+                    arg(    '--tenant-id',    dest='TENANT_ID',       help='ID of the destination tenant'),
+                    arg(    '--voltrsf-name', dest='VOLTRSF_NAME',    help='NAME of the EVS transfer'),
+                    ]
+                )
+    def create_evs_transfer():
+        req = utils_templates.create_request("create_trf_req")
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-volume-transfer"
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.post(url, req)
+        print(ret)
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Accept an EV Transfer - as destination tenant",
+             examples=[
+                       {'Accept EV Transfer":"otc ecs accept-evs-transfer --transfer-id caf6b0c0-181e-4a0c-bbc5-eba338cf087e --auth-key 9266c59563c84664  '}
+                       ],
+             args = [
+                    arg(    '--transfer-id',  dest='VOLTRSF_ID',   help='ID of the volume transfer'),
+                    arg(    '--auth-key',     dest='AUTH_KEY',       help='authentication key of the EVS disk transfer')
+                    ]
+                )
+    def accept_evs_transfer():
+        req = utils_templates.create_request("accept_evs_tr")
+        print req
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-volume-transfer/" +  OtcConfig.VOLTRSF_ID + "/accept"
+        url = string.replace(url, 'iam', 'evs')
+        print url
+        ret = utils_http.post(url, req)
+        ecs.otcOutputHandler().print_output(ret, mainkey="")
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Delete an EV Transfer - as source tenant, if not accepted",
+             examples=[
+                       {'Delete EV Transfer":"otc ecs delete-evs-transfer  --transfer-id cac5c677-73a9-4288-bb9c-b2ebfb547377  '}
+                       ],
+             args = [
+                     arg(    '--transfer-id',  dest='VOLTRSF_ID', help='ID of the volume transfer')
+                    ]
+                )
+    def delete_evs_transfer():
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-volume-transfer/" + OtcConfig.VOLTRSF_ID
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.delete(url)
+        return ret
+
+ # 4. Query Details of an Transfer
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Query an EV Transfer ",
+             examples=[
+                       {'Query EV Transfer-details" otc ecs query-evs-transfer --transfer-id cac5c677-73a9-4288-bb9c-b2ebfb547377 '}
+                       ],
+             args = [
+                     arg(    '--transfer-id',  dest='VOLTRANSF_ID',   help='ID of the volume transfer')
+                    ]
+                )
+    def query_evs_transfer():
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-transfer/" + OtcConfig.VOLTRSF_ID
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.get(url)
+        ecs.otcOutputHandler().print_output(ret, mainkey="transfer", listkey={"id", "created_at", "name", "volume_id"})
+        return ret
+
+ # 4. Show all EVS Transfers of a Tenant
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Query all EVS Disk Transfers from Tenant ",
+             examples=[
+                       {'Query all EVS Disk Transfers ":" otc ecs list-evs-transfers '}
+                       ],
+             args = []
+                )
+    def list_evs_transfers():
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-volume-transfer"
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.get(url)
+        ecs.otcOutputHandler().print_output(ret, mainkey="transfers", listkey={"id", "name", "volume_id"})
+        return ret
+

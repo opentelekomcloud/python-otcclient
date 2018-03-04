@@ -148,16 +148,15 @@ class cce(otcpluginbase):
         #vpc_id
         if not (OtcConfig.VPCNAME is None):
             getplugin("ecs").convertVPCNameToId()
-          
+                  
         #network_id
         if not OtcConfig.SUBNETNAME is None:
             getplugin("ecs").convertSUBNETNameToId()
-                 
         url = "https://cce.eu-de.otc.t-systems.com" + "/api/v1/clusters"
         req = utils_templates.create_request("cce_create_cluster")
-        #print url 
-        #print req        
+
         ret = utils_http.post(url, req)
+        print ret 
         cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
 
@@ -177,8 +176,6 @@ class cce(otcpluginbase):
                            
         url = "https://cce.eu-de.otc.t-systems.com" + "/api/v1/clusters/" + OtcConfig.CLUSTER_ID  + "/hosts"
         req = utils_templates.create_request("cce_add_node")
-        print(url) 
-        print(req)        
         ret = utils_http.post(url, req)
         cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret

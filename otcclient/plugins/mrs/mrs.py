@@ -75,8 +75,10 @@ class mrs(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.1/"+ OtcConfig.PROJECT_ID +"/cluster_infos"
         
         url = url.replace("iam", "mrs")        
-        JSON = utils_http.get(url)        
-        parsed  = json.loads(JSON)        
+        JSON = utils_http.get(url)
+        print JSON         
+        parsed  = json.loads(JSON)  
+              
         servers = parsed["clusters"]
 
         ret = None
@@ -141,6 +143,37 @@ class mrs(otcpluginbase):
     def add_nodes():
         REQ_ADD_NODE=utils_templates.create_request("add_node")               
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.1/"+ OtcConfig.PROJECT_ID +"/cluster_infos/" + OtcConfig.CLUSTER_ID 
+        ret = utils_http.post(url, REQ_ADD_NODE)
+        print (url)
+        print (ret)        
+        mrs.otcOutputHandler().print_output(ret, mainkey = "") 
+
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="add new node(s) to cluster",
+             examples=[
+                       {"add node(s)":"otc mrs add-node MYCLUSTER_ID NUM OF NODE"}
+                       ],
+             args = [ 
+                arg(
+                    '--cluster-id',
+                    dest='CLUSTER_ID',
+                    metavar='<cluster_id>',
+                    default=None,
+                    help='id of the cluster'
+                )                                            
+                ]                   
+             )
+    def add_as():
+        if not (OtcConfig.CLUSTER is None):
+            getplugin("mrs").convertCLUSTERNameToId()
+         
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.1/"+ OtcConfig.PROJECT_ID +"/autoscaling-policy/" + OtcConfig.CLUSTER_ID         
+        url = url.replace("iam", "mrs")
+                                                
+        REQ_ADD_NODE=utils_templates.create_request("add_as")               
+         
         ret = utils_http.post(url, REQ_ADD_NODE)
         print (url)
         print (ret)        

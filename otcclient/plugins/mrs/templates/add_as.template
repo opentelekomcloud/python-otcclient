@@ -1,0 +1,31 @@
+{
+  "auto_scaling_policy": {
+      "auto_scaling_enable": true,
+      "min_capacity": 1,
+      "max_capacity": "3",
+      "rules": [{
+         "name": "default-expand-1",
+         "adjustment_type": "scale_out",
+         "cool_down_minutes": 5,
+         "scaling_adjustment": 1,
+         "trigger": {
+            "metric_name": "YARNMemoryAvailablePercentage",
+            "metric_value": "25",
+            "comparison_operator": "LT",
+            "evaluation_periods": 10
+            }
+          },
+         {
+          "name": "default-shrink-1",
+          "adjustment_type": "scale_in",
+          "cool_down_minutes": 5,
+          "scaling_adjustment": 1,
+          "trigger": {
+             "metric_name": "YARNMemoryAvailablePercentage",
+             "metric_value": "70",
+             "comparison_operator": "GT",
+             "evaluation_periods": 10
+              }
+           }]
+     }
+}

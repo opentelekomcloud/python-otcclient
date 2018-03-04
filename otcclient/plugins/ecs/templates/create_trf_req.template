@@ -1,0 +1,6 @@
+{ 
+    "transfer": { 
+        "volume_id": "{{VOLUME_ID}}",  
+        "name": "{{VOLTRSF_NAME}}" 
+    } 
+}

@@ -1,0 +1,6 @@
+{
+"accept": { 
+        "auth_key": "{{AUTH_KEY}}" 
+    } 
+}
+

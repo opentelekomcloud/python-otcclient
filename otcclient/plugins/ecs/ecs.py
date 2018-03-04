@@ -16,7 +16,7 @@ import sys
 import json
 import os
 from otcclient.core.argmanager import arg, otcfunc
-
+import string
 
 
 class ecs(otcpluginbase):
@@ -1361,6 +1361,31 @@ class ecs(otcpluginbase):
         #{"tags": ["Dept.411163", "Role.Test"]}
         return parsed
 
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Describe EVS Tags",
+             examples=[
+                       {'decscribe-evstags":"otc ecs describe_evstags'}
+                       ],
+             args = [
+                      arg(    '--instance-ids',    dest='INSTANCE_ID',     help='Instance id of the  ECS')
+                    ])
+    def describe_evstags():
+        if not OtcConfig.INSTANCE_NAME is None:
+            ecs.convertINSTANCENameToId()
+
+        if OtcConfig.INSTANCE_ID is None:
+            return
+
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-tags/volumes/" + OtcConfig.INSTANCE_ID
+        url = string.replace(url, 'iam', 'evs')
+        print url
+        ret = utils_http.get(url)
+        parsed = json.loads(ret)
+        print (ret)
+        return
+        print parsed["tags"]
+        return parsed
 
     @staticmethod
     @otcfunc(plugin_name=__name__,
@@ -1422,3 +1447,340 @@ class ecs(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/types"
         ret = utils_http.get(url)
         print (ret)
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Create new EVS replication relationship",
+             examples=[
+                       {'Create new replication relationship":"otc ecs create-replication-pair --volume-id1 8d3cc159-1da3-494e-a230-7e17bda05f44 --volume-id2 15161607-3c3f-48e8-bcd4-aa770e74d521 --volrep-primaryaz eu-de-01 --volrep-name MyTest --description myComment '}
+                       ],
+             args = [ 
+                    arg(    '--volume-id1',    dest='VOLUME_ID1',     help='ID of the source volume'),
+                    arg(    '--volume-id2',    dest='VOLUME_ID2',     help='ID of the destinatoin volume'),
+                    arg(    '--volrep-primaryaz', dest='VOLREP_PRI',  help='name of the primary AZ'),
+                    arg(    '--volrep-name',   dest='VOLREP_NAME',    help='NAME of the replication relationship'),
+                    arg(    '--description',   dest='DESCRIPTION',    help='Optional description')
+
+                    ]
+                )
+    def create_replication_pair():
+        if not (OtcConfig.VPCNAME is None):
+            ecs.convertVPCNameToId()
+            
+        req = utils_templates.create_request("create_evs_rep")
+        print req
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replications"        
+        url = string.replace(url, 'iam', 'evs')
+        print url
+        ret = utils_http.post(url, req)
+        print(ret)
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="List EVS replication relationship",
+             examples=[
+                       {'List all replication relationships":"otc ecs list-replication-pairs'}
+                       ],
+             args = [ 
+                    ]
+                )
+    def list_replication_pairs():
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replications"        
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.get(url)
+        #ecs.otcOutputHandler().print_output(ret,mainkey="replications", listkey={"id", "name", "status", "replication_status", "replication_consistency_group_id", "priority_station", "volume_ids", "progress", "created_at", "description"})
+        ecs.otcOutputHandler().print_output(ret,mainkey="replications", listkey={"id", "name", "status", "replication_status", "replication_consistency_group_id", "priority_station", "progress"})
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Show EVS replication relationship",
+             examples=[
+                       {'Create new replication relationship":"otc ecs show-replication-pair --replication-id caf6b0c0-181e-4a0c-bbc5-eba338cf087e '}
+                       ],
+             args = [ 
+                    arg(    '--replication-id',    dest='REPLICATION_ID',     help='Replication id to show')
+
+                    ]
+                )
+    def show_replication_pair():
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replications/" + OtcConfig.REPLICATION_ID
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.get(url)
+        ecs.otcOutputHandler().print_output(ret, mainkey="")
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Delete EVS replication relationship",
+             examples=[
+                       {'Delete a replication relationship":"otc ecs delete-replication-pair --replication-id caf6b0c0-181e-4a0c-bbc5-eba338cf087e '}
+                       ],
+             args = [ 
+                    arg(    '--replication-id',    dest='REPLICATION_ID',     help='Replication id to delete')
+
+                    ]
+                )
+    def delete_replication_pair():
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replications/" + OtcConfig.REPLICATION_ID
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.delete(url)
+        #print(ret)
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Create new Replication Consistency Group",
+             examples=[
+                       {'Create new Replication Consistency Group":"otc ecs create-replication-consistency-group --replication-ids '"caf6b0c0-181e-4a0c-bbc5-eba338cf087e"' --volrep-primaryaz eu-de-01 --volrep-name MyTest --description myComment '}
+                       ],
+             args = [ 
+                    arg(    '--replication-ids', dest='VOLREP_IDS',   help='ID of the source volume'),
+                    arg(    '--volrep-primaryaz', dest='VOLREP_PRI',  help='name of the primary AZ'),
+                    arg(    '--volrep-name',   dest='VOLREP_NAME',    help='NAME of the replication relationship'),
+                    arg(    '--description',   dest='DESCRIPTION',    help='Optional description')
+
+                    ]
+                )
+    def create_replication_consistency_group():
+        req = utils_templates.create_request("create_evs_cg")
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replication-consistency-groups"
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.post(url, req)
+        print(ret)
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Delete EVS replication consistency group",
+             examples=[
+                       {'Delete a replication consistency group":"otc ecs delete-replication-consistency-group --replication-id caf6b0c0-181e-4a0c-bbc5-eba338cf087e '}
+                       ],
+             args = [ 
+                    arg(    '--replication-id',    dest='REPLICATION_ID',     help='Replication id to delete')
+
+                    ]
+                )
+    def delete_replication_consistency_group():
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replication-consistency-groups/" + OtcConfig.REPLICATION_ID
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.delete(url)
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="List EVS replication consistency groups",
+             examples=[
+                       {'List all replication consistency groups":"otc ecs list-consistency-groups'}
+                       ],
+             args = [ 
+                    ]
+                )
+    def list_consistency_groups():
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replication-consistency-groups"        
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.get(url)
+        ecs.otcOutputHandler().print_output(ret,mainkey="replication_consistency_groups", listkey={"id", "name", "status", "replication_status", "replication_ids", "priority_station", "progress"})
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Show EVS Consistency Group",
+             examples=[
+                       {'Show Consistency Group details":"otc ecs show-consistency-group --replication-id caf6b0c0-181e-4a0c-bbc5-eba338cf087e '}
+                       ],
+             args = [ 
+                    arg(    '--replication-id',    dest='REPLICATION_ID',     help='Replication id to show')
+                    ]
+                )
+    def show_consistency_group():
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replication-consistency-groups/" + OtcConfig.REPLICATION_ID
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.get(url)
+        ecs.otcOutputHandler().print_output(ret, mainkey="")
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Sync new Replication Consistency Group",
+             examples=[
+                       {'Sync Replication Consistency Group":"otc ecs sync-consistency-group --replication-id caf6b0c0-181e-4a0c-bbc5-eba338cf087e '}
+                       ],
+             args = [ 
+                    arg(    '--replication-id',    dest='REPLICATION_ID',     help='Replication id to show')
+                    ]
+                )
+    def sync_consistency_group():
+        req = "{ \"os-sync-replication-consistency-group\": null }"
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replication-consistency-groups/" + OtcConfig.REPLICATION_ID + "/action"
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.post(url, req)
+        print(ret)
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Fail-over Replication Consistency Group",
+             examples=[
+                       {'Fail-over Replication Consistency Group":"otc ecs failover-consistency-group --replication-id caf6b0c0-181e-4a0c-bbc5-eba338cf087e '}
+                       ],
+             args = [ 
+                    arg(    '--replication-id',    dest='REPLICATION_ID',     help='Replication id to show')
+                    ]
+                )
+    def failover_consistency_group():
+        req = "{ \"os-failover-replication-consistency-group\": null }"
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replication-consistency-groups/" + OtcConfig.REPLICATION_ID + "/action"
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.post(url, req)
+        print(ret)
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Reverse Replication Consistency Group",
+             examples=[
+                       {'Reverse Replication Consistency Group":"otc ecs reverse-consistency-group --replication-id caf6b0c0-181e-4a0c-bbc5-eba338cf087e '}
+                       ],
+             args = [ 
+                    arg(    '--replication-id',    dest='REPLICATION_ID',     help='Replication id to show')
+                    ]
+                )
+    def reverse_consistency_group():
+        req = "{ \"os-reverse-replication-consistency-group\": null }"
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replication-consistency-groups/" + OtcConfig.REPLICATION_ID + "/action"
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.post(url, req)
+        print(ret)
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Stop Replication Consistency Group",
+             examples=[
+                       {'Stop Replication Consistency Group":"otc ecs stop-consistency-group --replication-id caf6b0c0-181e-4a0c-bbc5-eba338cf087e '}
+                       ],
+             args = [ 
+                    arg(    '--replication-id',    dest='REPLICATION_ID',     help='Replication id to show')
+                    ]
+                )
+    def stop_consistency_group():
+        req = "{ \"os-stop-replication-consistency-group\": null }"
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replication-consistency-groups/" + OtcConfig.REPLICATION_ID + "/action"
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.post(url, req)
+        print(ret)
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Reprotect Replication Consistency Group",
+             examples=[
+                       {'Reprotect Replication Consistency Group":"otc ecs reprotect-consistency-group --replication-id caf6b0c0-181e-4a0c-bbc5-eba338cf087e '}
+                       ],
+             args = [ 
+                    arg(    '--replication-id',    dest='REPLICATION_ID',     help='Replication id to show')
+                    ]
+                )
+    def reprotect_consistency_group():
+        req = "{ \"os-reprotect-replication-consistency-group\": null }"
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replication-consistency-groups/" + OtcConfig.REPLICATION_ID + "/action"
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.post(url, req)
+        print(ret)
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Create an EVS Disk Transfer - as source tenant",
+             examples=[
+                       {'Create new EVS Disk Transfer":"otc ecs create-evs-transfer --tenant-id OTC-T11010000019798 --volume-id1 '}
+                       ],
+             args = [
+                    arg(    '--volume-id',    dest='VOLUME_ID',       help='ID of the volume to be transferred'),
+                    arg(    '--tenant-id',    dest='TENANT_ID',       help='ID of the destination tenant'),
+                    arg(    '--voltrsf-name', dest='VOLTRSF_NAME',    help='NAME of the EVS transfer'),
+                    ]
+                )
+    def create_evs_transfer():
+        req = utils_templates.create_request("create_trf_req")
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-volume-transfer"
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.post(url, req)
+        print(ret)
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Accept an EV Transfer - as destination tenant",
+             examples=[
+                       {'Accept EV Transfer":"otc ecs accept-evs-transfer --transfer-id caf6b0c0-181e-4a0c-bbc5-eba338cf087e --auth-key 9266c59563c84664  '}
+                       ],
+             args = [
+                    arg(    '--transfer-id',  dest='VOLTRSF_ID',   help='ID of the volume transfer'),
+                    arg(    '--auth-key',     dest='AUTH_KEY',       help='authentication key of the EVS disk transfer')
+                    ]
+                )
+    def accept_evs_transfer():
+        req = utils_templates.create_request("accept_evs_tr")
+        print req
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-volume-transfer/" +  OtcConfig.VOLTRSF_ID + "/accept"
+        url = string.replace(url, 'iam', 'evs')
+        print url
+        ret = utils_http.post(url, req)
+        ecs.otcOutputHandler().print_output(ret, mainkey="")
+        return ret
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Delete an EV Transfer - as source tenant, if not accepted",
+             examples=[
+                       {'Delete EV Transfer":"otc ecs delete-evs-transfer  --transfer-id cac5c677-73a9-4288-bb9c-b2ebfb547377  '}
+                       ],
+             args = [
+                     arg(    '--transfer-id',  dest='VOLTRSF_ID', help='ID of the volume transfer')
+                    ]
+                )
+    def delete_evs_transfer():
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-volume-transfer/" + OtcConfig.VOLTRSF_ID
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.delete(url)
+        return ret
+
+ # 4. Query Details of an Transfer
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Query an EV Transfer ",
+             examples=[
+                       {'Query EV Transfer-details" otc ecs query-evs-transfer --transfer-id cac5c677-73a9-4288-bb9c-b2ebfb547377 '}
+                       ],
+             args = [
+                     arg(    '--transfer-id',  dest='VOLTRANSF_ID',   help='ID of the volume transfer')
+                    ]
+                )
+    def query_evs_transfer():
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-transfer/" + OtcConfig.VOLTRSF_ID
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.get(url)
+        ecs.otcOutputHandler().print_output(ret, mainkey="transfer", listkey={"id", "created_at", "name", "volume_id"})
+        return ret
+
+ # 4. Show all EVS Transfers of a Tenant
+
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="Query all EVS Disk Transfers from Tenant ",
+             examples=[
+                       {'Query all EVS Disk Transfers ":" otc ecs list-evs-transfers '}
+                       ],
+             args = []
+                )
+    def list_evs_transfers():
+        url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-volume-transfer"
+        url = string.replace(url, 'iam', 'evs')
+        ret = utils_http.get(url)
+        ecs.otcOutputHandler().print_output(ret, mainkey="transfers", listkey={"id", "name", "volume_id"})
+        return ret
+

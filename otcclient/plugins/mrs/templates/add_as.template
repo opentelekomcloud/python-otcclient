@@ -1,8 +1,8 @@
 {
   "auto_scaling_policy": {
       "auto_scaling_enable": true,
-      "min_capacity": 1,
-      "max_capacity": "3",
+      "min_capacity": 0,
+      "max_capacity": "2",
       "rules": [{
          "name": "default-expand-1",
          "adjustment_type": "scale_out",

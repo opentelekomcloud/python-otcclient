@@ -76,7 +76,7 @@ class mrs(otcpluginbase):
         
         url = url.replace("iam", "mrs")        
         JSON = utils_http.get(url)
-        print JSON         
+        print(JSON)
         parsed  = json.loads(JSON)  
               
         servers = parsed["clusters"]

@@ -39,7 +39,7 @@ class userconfigaction(argparse.Action):
         for name, value in sorted(locals().items()):
             if name == 'self' or value is None:
                 continue
-#            print '  %s = %r' % (name, value)
+#            print('  %s = %r' % (name, value))
         return
 
     def __call__(self, parser, namespace, values, option_string=None):
@@ -50,7 +50,7 @@ class userconfigaction(argparse.Action):
         elif values:
             values = values.lower()
             OtcConfig.MAINCOM = values
-            #print values
+            #print(values)
 
         try:
             if OtcConfig.MAINCOM == "user":

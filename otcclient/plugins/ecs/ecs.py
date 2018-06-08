@@ -324,7 +324,7 @@ class ecs(otcpluginbase):
                        ])
     def associate_address():
         REQ_ASSOCIATE_PUBLICIP = "{ \"publicip\": { \"port_id\": \"" + OtcConfig.NETWORKINTERFACEID + "\" } }"
-        #print REQ_ASSOCIATE_PUBLICIP
+        #print(REQ_ASSOCIATE_PUBLICIP)
         if not (OtcConfig.PUBLICIP is None):
             ecs.convertPublicIpNameToId()
 
@@ -755,7 +755,7 @@ class ecs(otcpluginbase):
         #REQ_CREATE_SECGROUPRULE = "{\"security_group_rule\":{ \"direction\":\"" + OtcConfig.DIRECTION + "\", \"port_range_min\":\"" + OtcConfig.PORTMIN  + "\", \"ethertype\":\"" + OtcConfig.ETHERTYPE + "\", \"port_range_max\":\"" ''+ OtcConfig.PORTMAX+ "\", \"protocol\":\""+ OtcConfig.PROTOCOL+ remoteGroup  + sourceIp+ "\"  , \"security_group_id\":\""+ OtcConfig.SECUGROUP + "\" } }"
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2.0/security-group-rules"
         ret = utils_http.post(url, REQ_CREATE_SECGROUPRULE)
-        #print REQ_CREATE_SECGROUPRULE
+        #print(REQ_CREATE_SECGROUPRULE)
         print (ret)
         ecs.otcOutputHandler().print_output(ret, mainkey="security_group_rule")
         return ret
@@ -861,7 +861,7 @@ class ecs(otcpluginbase):
         REQ_CREATE_VM=utils_templates.create_request("create_vm")
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v1/" + OtcConfig.PROJECT_ID + "/cloudservers"
 
-        #print REQ_CREATE_VM
+        #print(REQ_CREATE_VM)
         ret = utils_http.post(url, REQ_CREATE_VM)
         #print (ret)
         if OtcConfig.DEBUG:
@@ -960,7 +960,7 @@ class ecs(otcpluginbase):
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/cloudvolumes"
         JSON = utils_http.get(url)
         parsed  = json.loads(JSON)
-        #print JSON
+        #print(JSON)
         cloudvolumes = parsed["volumes"]
         ret = None
         for cloudvolume in cloudvolumes:
@@ -1123,7 +1123,7 @@ class ecs(otcpluginbase):
                 ])
     def create_volume():
         REQ_CREATE_CLOUDVOLUMES = "{ \"volume\": { \"backup_id\": " + OtcConfig.SNAPSHOTID + ", " + "\"count\": " + OtcConfig.NUMCOUNT + ", \"availability_zone\": \"" + OtcConfig.AZ + "\",\"description\": \"" + OtcConfig.VOLUME_NAME + "\", \"size\": " + OtcConfig.VOLUME_SIZE + ", \"name\": \"" + OtcConfig.VOLUME_NAME + "\", \"imageRef\": " + "null" + ", \"volume_type\": \"" + OtcConfig.VOLUME_TYPE + "\" } }"
-        #print REQ_CREATE_CLOUDVOLUMES
+        #print(REQ_CREATE_CLOUDVOLUMES)
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/cloudvolumes"
         ret = utils_http.post(url, REQ_CREATE_CLOUDVOLUMES)
         print(ret)
@@ -1257,7 +1257,7 @@ class ecs(otcpluginbase):
             os._exit(1)
 
         REQ_RESTORE_BACKUP = "{ \"restore\":{ \"volume_id\":\"" + OtcConfig.VOLUME_ID + "\" } }"
-        #print REQ_RESTORE_BACKUP
+        #print(REQ_RESTORE_BACKUP)
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/cloudbackups" +"/" + OtcConfig.SNAPSHOTID + "/restore"
         ret = utils_http.post(url, REQ_RESTORE_BACKUP)
         print(ret)
@@ -1302,7 +1302,7 @@ class ecs(otcpluginbase):
                 OtcConfig.DESCRIPTION = OtcConfig.VOLUME_NAME
 
         REQ_CREATE_BACKUP = "{ \"backup\":{ \"" + "volume_id\":\"" + OtcConfig.VOLUME_ID + "\", " + "\"name\":\"" + OtcConfig.DESCRIPTION + "\", \"description\":\"" + OtcConfig.DESCRIPTION + "\" } }"
-        #print REQ_CREATE_BACKUP
+        #print(REQ_CREATE_BACKUP)
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/cloudbackups"
         ret = utils_http.post(url, REQ_CREATE_BACKUP)
         print (ret)
@@ -1379,12 +1379,12 @@ class ecs(otcpluginbase):
 
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-tags/volumes/" + OtcConfig.INSTANCE_ID
         url = string.replace(url, 'iam', 'evs')
-        print url
+        print(url)
         ret = utils_http.get(url)
         parsed = json.loads(ret)
         print (ret)
         return
-        print parsed["tags"]
+        print(parsed["tags"])
         return parsed
 
     @staticmethod
@@ -1407,7 +1407,7 @@ class ecs(otcpluginbase):
         parsed["tags"].append(OtcConfig.TAG_PAIR)
         #print (parsed)
         new_json = json.dumps(parsed)
-        #print new_json
+        #print(new_json)
         ret = utils_http.put(url, new_json)
         print (ret)
         return ret
@@ -1432,7 +1432,7 @@ class ecs(otcpluginbase):
         parsed["tags"].remove(OtcConfig.TAG_PAIR)
         #print (parsed)
         new_json = json.dumps(parsed)
-        #print new_json
+        #print(new_json)
         ret = utils_http.put(url, new_json)
         print (ret)
         return ret
@@ -1468,10 +1468,10 @@ class ecs(otcpluginbase):
             ecs.convertVPCNameToId()
             
         req = utils_templates.create_request("create_evs_rep")
-        print req
+        print(req)
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replications"        
         url = string.replace(url, 'iam', 'evs')
-        print url
+        print(url)
         ret = utils_http.post(url, req)
         print(ret)
         return ret
@@ -1724,10 +1724,10 @@ class ecs(otcpluginbase):
                 )
     def accept_evs_transfer():
         req = utils_templates.create_request("accept_evs_tr")
-        print req
+        print(req)
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-volume-transfer/" +  OtcConfig.VOLTRSF_ID + "/accept"
         url = string.replace(url, 'iam', 'evs')
-        print url
+        print(url)
         ret = utils_http.post(url, req)
         ecs.otcOutputHandler().print_output(ret, mainkey="")
         return ret

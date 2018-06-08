@@ -46,7 +46,7 @@ class customrep(otcpluginbase):
         ret = utils_http.get(url)
         quotas = json.loads(ret)
         for q in quotas["quotas"]:
-            #print q
+            #print(q)
             pass
         #customrep.otcOutputHandler().print_output(ret, mainkey="quotas")    
     """                     
@@ -77,7 +77,7 @@ class customrep(otcpluginbase):
 
             url = "https://" + OtcConfig.DEFAULT_HOST + "/v2/" + OtcConfig.PROJECT_ID + "/servers/detail"                        
             ret = utils_http.get(url)
-            print ret
+            print(ret)
             servers = json.loads(ret)
             servercount = len(servers["servers"])
             

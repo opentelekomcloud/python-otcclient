@@ -1379,12 +1379,10 @@ class ecs(otcpluginbase):
 
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-tags/volumes/" + OtcConfig.INSTANCE_ID
         url = string.replace(url, 'iam', 'evs')
-        print url
         ret = utils_http.get(url)
         parsed = json.loads(ret)
         print (ret)
-        return
-        print parsed["tags"]
+        print (parsed["tags"])
         return parsed
 
     @staticmethod
@@ -1467,11 +1465,9 @@ class ecs(otcpluginbase):
         if not (OtcConfig.VPCNAME is None):
             ecs.convertVPCNameToId()
             
-        req = utils_templates.create_request("create_evs_rep")
-        print req
+        req = utils_templates.create_request("create_evs_rep")        
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-vendor-replications"        
-        url = string.replace(url, 'iam', 'evs')
-        print url
+        url = string.replace(url, 'iam', 'evs')        
         ret = utils_http.post(url, req)
         print(ret)
         return ret
@@ -1724,10 +1720,8 @@ class ecs(otcpluginbase):
                 )
     def accept_evs_transfer():
         req = utils_templates.create_request("accept_evs_tr")
-        print req
         url = "https://" + OtcConfig.DEFAULT_HOST+ "/v2/" + OtcConfig.PROJECT_ID + "/os-volume-transfer/" +  OtcConfig.VOLTRSF_ID + "/accept"
         url = string.replace(url, 'iam', 'evs')
-        print url
         ret = utils_http.post(url, req)
         ecs.otcOutputHandler().print_output(ret, mainkey="")
         return ret

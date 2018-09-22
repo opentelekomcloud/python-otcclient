@@ -155,8 +155,7 @@ class cce(otcpluginbase):
         url = "https://cce.eu-de.otc.t-systems.com" + "/api/v1/clusters"
         req = utils_templates.create_request("cce_create_cluster")
 
-        ret = utils_http.post(url, req)
-        print ret 
+        ret = utils_http.post(url, req)         
         cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
 

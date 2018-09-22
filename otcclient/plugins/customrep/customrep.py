@@ -76,8 +76,7 @@ class customrep(otcpluginbase):
             sumram = 0
 
             url = "https://" + OtcConfig.DEFAULT_HOST + "/v2/" + OtcConfig.PROJECT_ID + "/servers/detail"                        
-            ret = utils_http.get(url)
-            print ret
+            ret = utils_http.get(url)        
             servers = json.loads(ret)
             servercount = len(servers["servers"])
             

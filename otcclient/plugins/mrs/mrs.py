@@ -58,7 +58,8 @@ class mrs(otcpluginbase):
     def describe_clusters():        
         url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.1/"+ OtcConfig.PROJECT_ID +"/cluster_infos"
         url = url.replace("iam", "mrs") 
-        if OtcConfig.CLUSTER_ID is None: 
+        if OtcConfig.CLUSTER_ID is None:
+            print(url) 
             ret = utils_http.get(url)
             mrs.otcOutputHandler().print_output(ret, mainkey = "")
         else:            
@@ -72,7 +73,7 @@ class mrs(otcpluginbase):
 
     @staticmethod
     def convertCLUSTERNameToId():
-        url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.1/"+ OtcConfig.PROJECT_ID +"/cluster_infos"
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.1/"+ OtcConfig.PROJECT_ID +"/    "
         
         url = url.replace("iam", "mrs")        
         JSON = utils_http.get(url)

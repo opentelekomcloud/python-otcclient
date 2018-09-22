@@ -1,4 +1,5 @@
 {
+   "node_group":"task_node_default_group",
   "auto_scaling_policy": {
       "auto_scaling_enable": true,
       "min_capacity": 0,

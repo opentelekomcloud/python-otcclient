@@ -302,7 +302,7 @@ class OtcConfig(object):
     STICKY_SESSION_TYPE = None
     COOKIE_TIMEOUT = None
 
-
+    JOB_EXEC_ID=None
     
     @classmethod
     def isdefined(self, value):
@@ -556,4 +556,5 @@ class OtcConfig(object):
         self.STICKY_SESSION_TYPE = parser.STICKY_SESSION_TYPE                                           if parser.STICKY_SESSION_TYPE else None
         self.COOKIE_TIMEOUT = parser.COOKIE_TIMEOUT                                           if parser.COOKIE_TIMEOUT else None
         self.PROJECT_NAME = parser.PROJECT_NAME                                           if parser.PROJECT_NAME else OtcConfig.PROJECT_NAME
+        self.JOB_EXEC_ID = parser.JOB_EXEC_ID                                           if parser.JOB_EXEC_ID else OtcConfig.JOB_EXEC_ID
         

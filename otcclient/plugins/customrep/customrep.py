@@ -46,7 +46,7 @@ class customrep(otcpluginbase):
         ret = utils_http.get(url)
         quotas = json.loads(ret)
         for q in quotas["quotas"]:
-            #print q
+            #print(q)
             pass
         #customrep.otcOutputHandler().print_output(ret, mainkey="quotas")    
     """                     

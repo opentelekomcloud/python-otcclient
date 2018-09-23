@@ -77,7 +77,6 @@ class mrs(otcpluginbase):
         
         url = url.replace("iam", "mrs")        
         JSON = utils_http.get(url)
-        #print JSON         
         parsed  = json.loads(JSON)  
               
         servers = parsed["clusters"]
@@ -321,11 +320,9 @@ class mrs(otcpluginbase):
                 )
                 ]             
              )
-    def describe_job_details():
-        url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.1/"+ OtcConfig.PROJECT_ID +"/job-exes/" + OtcConfig.JOB-EXEC-ID
+    def describe_job_details():    
+        url = "https://" + OtcConfig.DEFAULT_HOST + "/v1.1/"+ OtcConfig.PROJECT_ID +"/job-exes/" + OtcConfig.JOB_EXEC_ID
         ret = utils_http.get(url)
-        print (url)
-        print (ret)        
         mrs.otcOutputHandler().print_output(ret, mainkey = "") 
         return ret
 

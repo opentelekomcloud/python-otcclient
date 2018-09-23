@@ -31,7 +31,7 @@ class cce(otcpluginbase):
     def convertClusterNameToId():
         url = "https://cce.eu-de.otc.t-systems.com" + "/api/v1/clusters"
         JSON = utils_http.get(url)
-        # print JSON        
+        # print(JSON)
         parsed  = json.loads(JSON)
         clusters = parsed
         ret = None
@@ -243,8 +243,8 @@ class cce(otcpluginbase):
             cce.convertClusterNameToId()         
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces"
         req = utils_templates.create_request("create_namespace")
-        #print req
-        #print OtcConfig.NAMESPACE
+        #print(req)
+        #print(OtcConfig.NAMESPACE)
         ret = utils_http.post(url, req)
         #print (ret)
         cce.otcOutputHandler().print_output(ret,mainkey="")     
@@ -538,7 +538,7 @@ class cce(otcpluginbase):
         
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/secrets"
         req = utils_templates.create_request("cce_create_secret")
-        #print req        
+        #print(req)
         ret = utils_http.post(url, req)
         cce.otcOutputHandler().print_output(ret,mainkey="")    
         return ret
@@ -609,7 +609,7 @@ class cce(otcpluginbase):
         
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/replicationcontrollers"
         req = utils_templates.create_request("cce_create_rc")
-        #print req        
+        #print(req)
         ret = utils_http.post(url, req)
         cce.otcOutputHandler().print_output(ret,mainkey="")    
         return ret
@@ -634,7 +634,7 @@ class cce(otcpluginbase):
         
         url = "https://" + OtcConfig.DEFAULT_HOST + "/api/v1/namespaces/" + OtcConfig.NAMESPACE + "/replicationcontrollers/" + OtcConfig.RC_NAME
         req = utils_templates.create_request("cce_create_rc")
-        #print req        
+        #print(req)
         ret = utils_http.put(url, req)
         cce.otcOutputHandler().print_output(ret,mainkey="")    
         return ret
@@ -657,4 +657,4 @@ class cce(otcpluginbase):
         ret = utils_http.delete(url)
         cce.otcOutputHandler().print_output(ret,mainkey="")     
         return ret
-                
+

@@ -58,7 +58,48 @@ class ecs(otcpluginbase):
             ecs.otcOutputHandler().print_output(ret,mainkey="server")
         return ret
 
+    @staticmethod
+    @otcfunc(plugin_name=__name__,
+             desc="List instances with tags",
+             examples=[
+                       {'Describe instances":"otc ecs describe_instances_with_tags'},
+                       {'Detailed information of specific VM instance (JSON): otc ecs describe_instances --instance-ids 097da903-ab95-44f3-bb5d-5fc08dfb6cc3 --output json     '}
+                       ],
+             args = [
+                       arg(    '--instance-name',     dest='INSTANCE_NAME',     help='Instance name of the VM'),
+                       arg(    '--instance-id',     dest='INSTANCE_ID',     help='Instance ID of the VM')
 
+                ])
+    def describe_instances_with_tags():
+        url = "https://" + OtcConfig.DEFAULT_HOST +  "/v2/" + OtcConfig.PROJECT_ID + "/servers"
+
+        JSON = utils_http.get(url)
+        parsed  = json.loads(JSON)
+        servers = parsed["servers"]
+        serverlist = []        
+        ret = None
+        for server in servers:
+            serverid = server.get("id")
+            servername = server.get("name")
+            urltag = "https://" + OtcConfig.DEFAULT_HOST +  "/v2/" + OtcConfig.PROJECT_ID + "/servers/"+serverid+"/tags" 
+            JSONTAG = utils_http.get(urltag)
+            
+            parsedtags  = json.loads(JSONTAG)
+            tagstr = ""            
+            for t in parsedtags["tags"]:
+                if len(tagstr) > 0:
+                    tagstr += ','
+                tagstr += t
+            
+            tagjson = { "tags": tagstr ,"id": serverid, "name": servername}
+            serverlist.append(tagjson)
+            
+        serversjson =  json.dumps( { "servers": serverlist} ) 
+            
+        #ret = utils_http.get(url)
+        #ret = utils_http.get(url)
+        ecs.otcOutputHandler().print_output(serversjson , mainkey = "servers", listkey={"tags", "name","id"})
+        return ret
 
     @staticmethod
     @otcfunc(plugin_name=__name__,

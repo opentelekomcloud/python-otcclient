@@ -62,7 +62,7 @@ def download_dir(Bucket = None, Prefix = None, Local=None):
 
 def upload_dir(Bucket = None, Prefix = None, Local=None):
     s3client = s3init()
-    __download_dir(s3client, Prefix,Local, Bucket)
+    __upload_dir(s3client, Prefix,Local, Bucket)
 
 def __upload_dir(client, dist, local='/tmp', bucket='your_bucket'):
     # enumerate local files recursively

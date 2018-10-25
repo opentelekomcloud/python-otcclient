@@ -60,11 +60,11 @@ def download_dir(Bucket = None, Prefix = None, Local=None):
     s3client = s3init()
     __download_dir(s3client, Prefix,Local, Bucket)
 
-def upload_dir(Bucket = None, Prefix = None, Local=None):
+def upload_dir(Bucket = None, Prefix = None, Local=None, Encryption=False):
     s3client = s3init()
-    __upload_dir(s3client, Prefix,Local, Bucket)
+    __upload_dir(s3client, Prefix,Local, Bucket, Encryption)
 
-def __upload_dir(client, dist, local='/tmp', bucket='your_bucket'):
+def __upload_dir(client, dist, local='/tmp', bucket='your_bucket', encryption=False):
     # enumerate local files recursively
     for root, dirs, files in os.walk(local):    # @UnusedVariable
         for filename in files:
@@ -86,7 +86,10 @@ def __upload_dir(client, dist, local='/tmp', bucket='your_bucket'):
                     # print ("Unable to delete %s..." % s3_path)
             except:
                 print("Uploading %s..." % s3_path)
-                client.upload_file(local_path, bucket, s3_path)
+                if encryption:
+                    client.upload_file(local_path, bucket, s3_path, ExtraArgs={'ServerSideEncryption': 'aws:kms'})
+                else:
+                    client.upload_file(local_path, bucket, s3_path)
 
 def create_bucket(Bucket = None):
     s3client = s3init()
@@ -116,9 +119,12 @@ def delete_object(Bucket = None, Prefix = None):
         print(s3client.Object(bucket.name, obj.key).etag[1 :-1])
         s3client.Object(bucket.name, obj.key).delete()
 
-def upload_file(File=None,Bucket = None, Prefix = None):
+def upload_file(File=None,Bucket = None, Prefix = None, Encryption=False):
     s3client = s3init()
-    s3client.upload_file(File, Bucket, Prefix)
+    if Encryption:
+        s3client.upload_file(File, Bucket, Prefix, ExtraArgs={'ServerSideEncryption': 'aws:kms'})
+    else:
+        s3client.upload_file(File, Bucket, Prefix)
 
 def download_file(Bucket = None, Prefix = None, File=None):
     s3client = s3init()

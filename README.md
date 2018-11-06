@@ -1,4 +1,4 @@
-OTCclient
+:no_entry: [DEPRECATED] OTCclient
 ==========
 
 [![PyPI version](https://badge.fury.io/py/python-otcclient.png)](https://badge.fury.io/py/python-otcclient)
@@ -17,6 +17,7 @@ More at [OTC site](https://console.otc.t-systems.com/console/#/home)
 OTC makes it easy to use the cloud environment. It exposes Native OpenStack APIs which are enhanced with extra
 services and APIs from Huawei FusionSphere.
 
+deprecated / obsolete
 
 Documentation
 -------------

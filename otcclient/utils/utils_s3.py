@@ -124,7 +124,7 @@ def upload_file(File=None,Bucket = None, Prefix = None, Encryption=False):
     if Encryption:
         s3client.upload_file(File, Bucket, Prefix, ExtraArgs={'ServerSideEncryption': 'aws:kms'})
     else:
-        s3client.upload_file(File, Bucket, Prefix)
+        s3client.upload_file(File, Bucket, Prefix, Callback=ProgressPercentage(File))
 
 def download_file(Bucket = None, Prefix = None, File=None):
     s3client = s3init()
@@ -132,3 +132,28 @@ def download_file(Bucket = None, Prefix = None, File=None):
 
 def sync():
     raise RuntimeError( "not implemented yet")
+
+
+###########
+import sys
+import threading
+
+class ProgressPercentage(object):
+    def __init__(self, filename):
+        self._filename = filename
+        self._size = float(os.path.getsize(filename))
+        self._seen_so_far = 0
+        self._lock = threading.Lock()
+
+    def __call__(self, bytes_amount):
+        # To simplify we'll assume this is hooked up
+        # to a single filename.
+        with self._lock:
+            self._seen_so_far += bytes_amount
+            percentage = (self._seen_so_far / self._size) * 100
+            sys.stdout.write(
+                "\r%s  %s / %s  (%.2f%%)" % (
+                    self._filename, self._seen_so_far, self._size,
+                    percentage))
+            sys.stdout.flush()
+

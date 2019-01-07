@@ -7,6 +7,7 @@ import boto3
 from botocore.exceptions import ClientError
 from otcclient.core.OtcConfig import OtcConfig
 import os
+import sys, threading
 
 
 def createclient( ak , sk, region ):
@@ -133,10 +134,6 @@ def download_file(Bucket = None, Prefix = None, File=None):
 def sync():
     raise RuntimeError( "not implemented yet")
 
-
-###########
-import sys
-import threading
 
 class ProgressPercentage(object):
     def __init__(self, filename):

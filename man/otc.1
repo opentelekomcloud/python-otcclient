@@ -31,7 +31,7 @@
     [--metric-name METRIC-NAME] [--namespace NAMESPACE] [--period PERIOD]
     [--filter FILTER] [-p] [--public-ip PUBLICIP]
     [--private-ip-id PRIVATEIPID] [--allocation-id PUBLICIPID]
-    [--bucket S3BUCKET] [--key S3OBJECT] [--recursive S3RECURSIVE]
+    [--bucket S3BUCKET] [--key S3OBJECT] [--recursive S3RECURSIVE] [--encrypted S3ENCRYPTED]
     [--direction DIRECTION] [--portmin PORTMIN] [--portmax PORTMAX]
     [--protocol PROTOCOL] [--ethertype ETHERTYPE] [--output {Json,table,text}]
     [--query QUERY] [--size VOLUME_SIZE] [--volume-type VOLUME_TYPE]
@@ -502,6 +502,8 @@ Download
                         S3 Object Name
   \fB--recursive\fR \fI\s-1S3RECURSIVE\s0\fR
                         S3 recursive operation
+  \fB--encrypted\fR \fI\s-1S3ENCRYPTED\s0\fR
+                        S3 serverside encryption
   \fB--direction\fR \fI\s-1DIRECTION\s0\fR
                         Direction of the security group rule
   \fB--portmin\fR \fI\s-1PORTMIN\s0\fR

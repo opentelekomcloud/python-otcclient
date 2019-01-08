@@ -184,6 +184,7 @@ def main(argv=None): # IGNORE:C0111
         parser.add_argument( "--bucket",dest="S3BUCKET", help="S3 Bucket")
         parser.add_argument( "--key",dest="S3OBJECT", help="S3 Object Name")
         parser.add_argument( "--recursive",dest="S3RECURSIVE", help="S3 recursive operation")
+        parser.add_argument( "--encrypted",dest="S3ENCRYPTED", help="Serverside encryption of S3 uploads via KMS")
         parser.add_argument( "--direction",dest="DIRECTION", help="Direction of the security group rule")
         parser.add_argument( "--portmin",dest="PORTMIN", help="Lower por of the specific security group rule")
         parser.add_argument( "--portmax",dest="PORTMAX", help="Upper  port of the specific security group rule")

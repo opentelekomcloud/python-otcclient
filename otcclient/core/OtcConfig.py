@@ -153,6 +153,7 @@ class OtcConfig(object):
     S3BUCKET = str()
     S3OBJECT = str()
     S3RECURSIVE = False
+    S3ENCRYPTED = False
     OUTPUT_FORMAT = "table"
     #  backups 
     SNAPSHOTID = "null"
@@ -418,6 +419,7 @@ class OtcConfig(object):
         self.S3BUCKET = parser.S3BUCKET                                         if parser.S3BUCKET else str()
         self.S3OBJECT = parser.S3OBJECT                                         if parser.S3OBJECT else str()
         self.S3RECURSIVE = parser.S3RECURSIVE                                   if parser.S3RECURSIVE else False
+        self.S3ENCRYPTED = parser.S3ENCRYPTED                                   if parser.S3ENCRYPTED else False
         self.OUTPUT_FORMAT = parser.OUTPUT_FORMAT                               if parser.OUTPUT_FORMAT else self.OUTPUT_FORMAT 
         self.SNAPSHOTID = parser.SNAPSHOTID                                     if parser.SNAPSHOTID else "null"
         self.DESCRIPTION = parser.DESCRIPTION                                   if parser.DESCRIPTION else str()

@@ -119,6 +119,7 @@ class s3(otcpluginbase):
                        ],
              args = [ 
                         arg(    '--recursive',    dest='S3RECURSIVE',     help='S3 recursive operation'),
+                        arg(    '--encrypted',    dest='S3ENCRYPTED',     help='S3 enrypting operation'),
                         arg(    '',    dest='SUBCOM_P1',     help='[optional Source/Target OBS directory]',metavar="Source/Target DIR"),    
                         arg(    '',    dest='SUBCOM_P2',     help='[optional Source/Target OBS directory]', metavar="Source/Target DIR")    
                 ]                
@@ -128,17 +129,17 @@ class s3(otcpluginbase):
             raise RuntimeError("S3 Copy error. Please add s3 params correctly.")
         elif( str(OtcConfig.SUBCOM_P1).startswith("s3://") and OtcConfig.S3RECURSIVE):
             # directory download
-            s3bucket, s3dir = s3.parse_bucket_uri(OtcConfig.SUBCOM_P1)            
+            s3bucket, s3dir = s3.parse_bucket_uri(OtcConfig.SUBCOM_P1)
             utils_s3.download_file(Bucket=s3bucket, Prefix=s3dir, File=OtcConfig.SUBCOM_P2)
         elif( str(OtcConfig.SUBCOM_P2).startswith("s3://") and OtcConfig.S3RECURSIVE):
             # directory upload
             s3bucket, s3dir = s3.parse_bucket_uri(OtcConfig.SUBCOM_P2)                        
-            utils_s3.upload_dir(Local=OtcConfig.SUBCOM_P1,Bucket=s3bucket, Prefix=s3dir )         
+            utils_s3.upload_dir(Local=OtcConfig.SUBCOM_P1,Bucket=s3bucket, Prefix=s3dir, Encryption=OtcConfig.S3ENCRYPTED)
         elif( str(OtcConfig.SUBCOM_P1).startswith("s3://") ):
-            # file upload 
+            # file download
             s3bucket, s3dir = s3.parse_bucket_uri(OtcConfig.SUBCOM_P1)            
             utils_s3.download_file(Bucket=s3bucket, Prefix=s3dir, File=OtcConfig.SUBCOM_P2)
         elif( str(OtcConfig.SUBCOM_P2).startswith("s3://") ):
-            # file download
+            # file upload
             s3bucket, s3dir = s3.parse_bucket_uri(OtcConfig.SUBCOM_P2)            
-            utils_s3.upload_file(File=OtcConfig.SUBCOM_P1,Bucket=s3bucket, Prefix=s3dir )
+            utils_s3.upload_file(File=OtcConfig.SUBCOM_P1,Bucket=s3bucket, Prefix=s3dir, Encryption=OtcConfig.S3ENCRYPTED)
